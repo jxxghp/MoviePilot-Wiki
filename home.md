@@ -2,13 +2,15 @@
 title: 开始
 description: 
 published: 1
-date: 2024-05-30T05:36:37.421Z
+date: 2024-05-30T06:42:23.296Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
 ---
 
-> This documentation site is running on Wiki.js!
+> MoviePilot 基于 NAStool 部分代码重新设计，聚焦自动化核心需求，减少问题同时更易于扩展和维护。
+项目地址：https://github.com/jxxghp/MoviePilot
+发布频道：https://t.me/moviepilot_channel
 {.is-success}
 
 # 开始
@@ -31,7 +33,7 @@ Wiki.js is quick and easy to install. You should be up and running in no time.
 
 # 开发者
 
-Wiki.js is fully extensible for maximum customization.
+欢迎共同开发MoviePilot！
 
 - [:book: Getting Started *How to setup a dev environment for Wiki.js.*](/dev)
 - [:closed_book: Modules *Learn how to create a module.*](/dev/modules)
@@ -41,10 +43,7 @@ Wiki.js is fully extensible for maximum customization.
 
 # 贡献
 
-- [:question: Ask a Question *We're here to help.*](https://github.com/Requarks/wiki/discussions)
-- [:fire: Report a Bug *Help us squash those pesky bugs.*](https://github.com/Requarks/wiki/discussions)
-- [:bulb: Suggest a New Feature *We need your ideas!*](https://requests.requarks.io/wiki)
-- [:moneybag: Donate *Make a small donation or become a sponsor of this wonderful project!*](https://js.wiki/donate)
+- [:question: 提问交流 *访问Telegram交流群，请尊重他人、文明礼貌交流。*](https://t.me/moviepilot_official)
+- [:fire: Bug 反馈 *提交问题前请仔细阅读问题反馈说明。*](https://github.com/jxxghp/MoviePilot/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=%5B错误报告%5D%3A+请在此处简单描述你的问题)
+- [:bulb: 功能建议 *欢迎提交好的想法和思路，共同改进MoviePilot。*](https://github.com/jxxghp/MoviePilot/issues/new?assignees=&labels=feature+request&projects=&template=feature_request.yml&title=%5BFeature+Request%5D%3A+)
 {.links-list}
-
-![Wiki.js](https://static.requarks.io/logo/wikijs-butterfly.svg){.align-abstopright}
