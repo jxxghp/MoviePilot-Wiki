@@ -1,11 +1,11 @@
 ---
-title: 配置参考
+title: 安装指引
 description: 
 published: 1
-date: 2024-05-30T06:44:02.199Z
+date: 2024-05-30T10:20:00.212Z
 tags: 
 editor: markdown
-dateCreated: 2024-05-30T04:38:01.345Z
+dateCreated: 2024-05-30T09:48:38.889Z
 ---
 
-# 配置参考
+# 安装指引
