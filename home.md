@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-05-31T00:22:28.794Z
+date: 2024-05-31T00:24:00.809Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -13,7 +13,7 @@ dateCreated: 2024-05-30T04:38:01.345Z
 发布频道：https://t.me/moviepilot_channel
 {.is-success}
 
-# 开始
+# 安装
 
 MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配置。
 
