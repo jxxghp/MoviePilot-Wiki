@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-05-30T06:44:02.199Z
+date: 2024-05-31T00:22:28.794Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -15,19 +15,22 @@ dateCreated: 2024-05-30T04:38:01.345Z
 
 # 开始
 
-Wiki.js is quick and easy to install. You should be up and running in no time.
+MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配置。
 
-- [Requirements *Server and database prerequisites.*](/install/requirements)
-- [Installation Guide *Detailed installation instructions for all platforms.*](/install)
+- [环境准备 *安装MoviePilot前，需要完成一些准备工作。*](/ready)
+- [安装指引 *从头开始搭建和配置好MoviePilot。*](/install)
 {.links-list}
 
 # 用户指南
 
-- [The Basics *New to Wiki.js? Learn how to use it and create your first page.*](/guide/intro)
-- [Folder Structure & Tags *Learn how to categorize your pages for an easier browsing experience.*](/guide/structure)
-- [Manage Pages *How to create, edit and manage your pages.*](/guide/pages)
-- [Using Editors *Learn how to use the various editors.*](/editors)
-- [Using Assets *How to upload and manage assets such as images and documents.*](/guide/assets)
+- [基础 *了解用户认证、目录结构、优先级等基本概念。*](/basic)
+- [站点 *正确维护好站点信息是使用MoviePilot自动化管理媒体库的前提。*](/site)
+- [搜索 *如何搜索媒体信息以及资源。*](/search)
+- [下载 *如何手动下载资源。*](/download)
+- [订阅 *通过订阅实现电影、电视剧自动检索下载和追更。*](/subscribe)
+- [文件整理 *自动化整理文件到媒体库，同时刮削好元数据。*](/reorganize)
+- [进阶 *自定义重命名格式、插件等高阶使用方法。*](/advanced)
+- [故障排除 *常见问题及解决方案。*](/troubleshooting)
 {.links-list}
 
 
@@ -35,9 +38,8 @@ Wiki.js is quick and easy to install. You should be up and running in no time.
 
 欢迎共同开发MoviePilot！
 
-- [:book: Getting Started *How to setup a dev environment for Wiki.js.*](/dev)
-- [:closed_book: Modules *Learn how to create a module.*](/dev/modules)
-- [:art: Themes *Learn how to create your own theme.*](/dev/themes)
+- [:closed_book: 插件开发 *通过开发插件扩展MoviePilot的功能。*](/plugindev)
+- [:art: 主题风格 *通过开发CSS脚本实现主题风格自定义。*](/themedev)
 {.links-list}
 
 
