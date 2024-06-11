@@ -2,7 +2,7 @@
 title: 基础
 description: 
 published: 1
-date: 2024-06-11T06:16:21.293Z
+date: 2024-06-11T06:39:25.498Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:38.779Z
@@ -15,6 +15,8 @@ dateCreated: 2024-05-30T09:47:38.779Z
 - 可以通过搜索关键字 `超级管理员` 快速定位密码位置。
 
 ![password.gif](/password.gif)
+> 管理员用户不要使用弱密码！如非必要不要暴露到公网。如被盗取管理账号权限，将会导致站点Cookie等敏感数据泄露！
+{.is-danger}
 
 # 用户认证
 
