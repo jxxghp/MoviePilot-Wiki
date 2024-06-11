@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-11T06:05:41.154Z
+date: 2024-06-11T06:12:41.619Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -135,3 +135,4 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - 日志文件路径为`/config`对应映射目录下`logs/moviepilot.log`文件。
 - 可以通过搜索关键字 `超级管理员` 快速定位密码位置。
 
+![password.gif](/password.gif)
