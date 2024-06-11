@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T02:54:05.804Z
+date: 2024-06-11T03:00:05.196Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -18,6 +18,37 @@ MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取�
 ### 防域名污染与中转加速
 - 更换TheMovieDb的Api地址为`api.tmdb.org`、开启`DOH`、本地修改`hosts`文件协持`api.themoviedb.org`域名地址为可访问IP、使用`Cloudflare Workers`搭建代理中转等，综合使用以上方式调优TheMovieDb的网络访问，涉及调整系统设定的参考 [配置参考](/configuration) 章节。
 - 使用Github中断加速服务器来加快Github文件下载请求，具体可参考 [配置参考](/configuration) 章节。
+
+#### Cloudflare Workers 参考代码：
+```javascript
+
+async function handleRequest(request) {
+  // 从请求URL中获取 API查询参数
+  const url = new URL(request.url)
+  const searchParams = url.searchParams
+
+  // 设置代理API请求的URL地址
+  const apiUrl = `https://api.themoviedb.org/${url.pathname}?${searchParams.toString()}`
+
+  // 设置API请求的headers
+  const headers = new Headers(request.headers)
+  headers.set('Host', 'api.themoviedb.org')
+  
+  // 创建API请求
+  const response = await fetch(apiUrl, {
+    method: request.method,
+    headers: headers
+  })
+
+  // 返回API响应
+  return response
+}
+
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+```
+
 
 # 站点
 MoviePilot包括两大部分功能：`文件整理刮削`、`资源订阅下载`，其中`资源订阅下载`功能需要有可用的`PT站点`，**同时这些站点中需要有一个可用于认证**，关于用户认证请参考 [基础](/basic) 章节的相关说明。
