@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-06-11T15:26:53.203Z
+date: 2024-06-11T15:56:15.724Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -28,7 +28,7 @@ MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配
 
 # 用户指南
 
-- [基础 *了解用户认证、目录结构、优先级等基本概念。*](/basic)
+- [基础 *了解初始密码、用户认证、优先级等基本概念。*](/basic)
 - [站点 *如何正确维护站点信息。*](/site)
 - [搜索 *如何搜索媒体信息以及资源。*](/search)
 - [下载 *如何手动下载资源。*](/download)
