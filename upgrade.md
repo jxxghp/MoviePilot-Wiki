@@ -2,7 +2,7 @@
 title: 升级
 description: 
 published: 1
-date: 2024-06-11T05:43:01.235Z
+date: 2024-06-11T05:44:27.857Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
@@ -20,6 +20,8 @@ dateCreated: 2024-05-30T09:56:06.097Z
 
 ### Docker <i class="mdi mdi-docker"></i>
 
+
+
 #### 重启自动升级
 
 根据 [配置参考](/configuration) 设置环境变量`MOVIEPILOT_AUTO_UPDATE`为`true`或`release`，开启重启自动升级。此时只需要重启docker容器，或者在WEB管理界面中选择重启菜单（参考 [安装指引](docker.sock) 映射了`docker.sock`的前提下），即可自动重启升级到已发布的最新版本。
@@ -28,6 +30,8 @@ dateCreated: 2024-05-30T09:56:06.097Z
 - `true`/`release`：自动升级到已发布的最新版本。
 - `false`：不开启重启自动升级。
 - `dev`：自动升级到未发布的最新代码（仅限开发人员使用）。
+
+
 
 #### 手动升级
 
@@ -41,7 +45,8 @@ docker-compose up --force-recreate -d
 ```bash
 docker pull jxxghp/movie-pilot:latest
 ```
-不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到重置按钮；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
+
+不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到`重置`选项；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
 
 
 ### Synology套件 <i class="mdi mdi-synology"></i>
