@@ -2,7 +2,7 @@
 title: 安装指引
 description: 了解基础搭建操作
 published: 1
-date: 2024-06-11T13:48:26.690Z
+date: 2024-06-11T23:07:29.747Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -26,6 +26,10 @@ docker run -itd \
     -e 'PGID=0' \
     -e 'UMASK=000' \
     -e 'TZ=Asia/Shanghai' \
+    -e 'AUTH_SITE=iyuu' \
+    -e 'IYUU_SIGN=xxxx' \
+    -e 'SUPERUSER=admin' \
+    -e 'API_TOKEN=moviepilot' \
     --log-driver "json-file" \
     --log-opt "max-size=5m" \
     --restart always \
@@ -60,6 +64,10 @@ services:
             - 'PGID=0'
             - 'UMASK=000'
             - 'TZ=Asia/Shanghai'
+            - 'AUTH_SITE=iyuu'
+            - 'IYUU_SIGN=xxxx'
+            - 'SUPERUSER=admin'
+            - 'API_TOKEN=moviepilot'
         logging:
             driver: json-file
             options:
@@ -77,10 +85,11 @@ networks:
    1. 下载目录和媒体库目录分别属于两个不同的磁盘
    2. 下载目录和媒体库目录属于同一磁盘，但在两个不同的分区/存储空间/存储池中
    3. 下载目录和媒体库目录分别作为两个目录路径映射到docker容器中
-- `/moviepilot/config`为配置文件、数据库文件、日志文件、缓存文件使用的文件目录，`/moviepilot/core`为浏览器内核下载保存目录（**避免容器重置后重新下载浏览器内核**），需根据实际情况调整。
+- `/moviepilot/config`为配置文件、数据库文件、日志文件、缓存文件使用的文件目录，该目录将会存储所有设置和数据，需根据实际情况调整。
+- `/moviepilot/core`为浏览器内核下载保存目录（**避免容器重置后重新下载浏览器内核**），需根据实际情况调整。
 - `/var/run/docker.sock`用于内建重启时使用，建议映射。
-- 默认使用`3000`为WEB服务端口，`3001`为Api服务端口。
-- **以上示例仅包含环境基础配置，还需要根据 [配置参考](/configuration) 补充环境变量才能正常使用。**
+- 默认使用`3000`为WEB服务端口，`3001`为Api服务端口，可根据实际情况调整。
+- `AUTH_SITE`、`SUPERUSER`、`API_TOKEN`等其它变量请根据 [配置参考](/configuration) 说明调整和补充，上述为最基础配置，实际可以根据需要补充其它变量。
 
 # Windows
 
