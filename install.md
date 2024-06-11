@@ -2,7 +2,7 @@
 title: 安装指引
 description: 了解基础搭建操作
 published: 1
-date: 2024-06-11T13:39:54.101Z
+date: 2024-06-11T13:48:26.690Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -114,3 +114,23 @@ git clone https://github.com/jxxghp/MoviePilot
 4. 执行命令：`pip install -r requirements.txt` 安装依赖
 5. 执行命令：`PYTHONPATH=. python app/main.py` 启动主服务
 6. 据前端项目 [MoviePilot-Frontend](https://github.com/jxxghp/MoviePilot-Frontend) 说明，启动前端服务
+
+# 反向代理
+如需开启域名访问MoviePilot，则需要搭建反向代理服务。以`nginx`为例，需要添加以下配置项，否则可能会导致部分功能无法访问（`ip:port`修改为实际值）：
+```nginx
+location / {
+    proxy_pass http://ip:port;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+反向代理使用SSL时，还需要开启http2，否则会导致日志加载时间过长或不可用：
+```nginx
+server {
+    listen 443 ssl;
+    http2 on;
+    # ...
+}
+```
