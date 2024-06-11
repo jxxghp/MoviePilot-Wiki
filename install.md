@@ -2,7 +2,7 @@
 title: 安装指引
 description: 完成安装搭建工作
 published: 1
-date: 2024-06-11T03:45:26.714Z
+date: 2024-06-11T03:49:34.904Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -86,8 +86,12 @@ Windows环境下提供两种安装方式，推荐使用`安装版本`。
 项目在编译时，将Python以及相关的代码打包到一个exe文件中使用，点击 [此处](https://github.com/jxxghp/MoviePilot/releases) 下载exe文件，双击运行后会自动生成`config`配置文件目录，以及`nginx`前端资源目录，正常运行后会操作系统任务栏会生成MoviePilot图标，输入`localhost:3000`可访问后端管理WEB。
 - 如运行后无法正常解压，请使用**管理员权限**运行。
 - 如被杀毒软拦截，则需要将运行目录加入**白名单**放行，因打包方式的原因有的杀毒软件会识判为病毒。
-- 根据  [配置参考](/configuration)  ,在 `Windows 系统属性 -> 高级设置 -> 环境变量`中添加认证等环境变量。
+- **还需根据  [配置参考](/configuration)  ,在 `Windows 系统属性 -> 高级设置 -> 环境变量`中添加认证等环境变量。**
 - 由于该版本是预编译后再打包的方式，在功能上存在一定的限制，比如不支持`内建重启`、除`内置插件库`外不支持安装其它第三方插件库插件等。
 
 ### 安装版本
 由 [Windows-MoviePilot](https://github.com/developer-wlj/Windows-MoviePilot) 项目提供，参考项目说明使用。
+
+
+# Synology套件
+DSM7 添加套件源：https://spk7.imnks.com/ ，安装后通过`MoviePilot配置`入口，根据  [配置参考](/configuration) 进行配置使用。
