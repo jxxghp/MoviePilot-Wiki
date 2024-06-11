@@ -2,24 +2,36 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T02:29:10.257Z
+date: 2024-06-11T02:51:32.878Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
 ---
 
 # 网络
-MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取和匹配媒体元数据，通过访问 [Github](https://github.com) 来执行程序升级、安装插件等。有顺畅连接上述网址的网络环境是能流畅使用本软件的前提，否则可能会遇到各种各样的问题。**推荐使用前两种方式**，网络质量更加稳定。
+MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取和匹配媒体元数据，通过访问 [Github](https://github.com) 来执行程序升级、安装插件等。有顺畅连接上述网址的网络环境是能流畅使用本软件的前提，否则可能会遇到各种各样的问题。
+
+**推荐使用前两种方式**，网络质量更加稳定。
 
 ### 单独代理
-搭建代理服务，并将代理地址填入MoviePilot的环境变量中，软件会自动对需要使用代码的请求使用代理服务器。具体可参考 [安装指引](/install) 章节。
+搭建代理服务，并将代理地址填入MoviePilot的环境变量中，软件会自动对需要使用代理的请求使用代理服务器。具体可参考 [安装指引](/install) 章节。
 ### 全局代理
 将MoviePilot所在的网络接入代理，通过分流规则将软件的网络请求通过代理发出，同时剔除站点相关的网络请求。
 ### 防域名污染与中转加速
-- 更换TheMovieDb的Api地址为`api.tmdb.org`、开启`DOH`、本地修改`hosts`文件协持`api.themoviedb.org`域名地址为可访问IP、使用`Cloudflare Workers`搭建代理中转，综合使用以上方式调优TheMovieDb的网络访问。
-- 使用Github加速来加快Github文件下载请求。具体可参考 [安装指引](/install) 章节。
+- 更换TheMovieDb的Api地址为`api.tmdb.org`、开启`DOH`、本地修改`hosts`文件协持`api.themoviedb.org`域名地址为可访问IP、使用`Cloudflare Workers`搭建代理中转等，综合使用以上方式调优TheMovieDb的网络访问，涉及调整系统设定的参考 [安装指引](/install) 章节。
+- 使用Github中断加速服务器来加快Github文件下载请求，具体可参考 [安装指引](/install) 章节。
 
 # 站点
-
+MoviePilot包括两大部分功能：`文件整理刮削`、`资源订阅下载`，其中`资源订阅下载`功能需要有可用的`PT站点`，同时这些站点中需要有一个可用于认证，关于用户认证请参考 [基础](/basic) 章节的相关说明。
 
 # 配套软件
+MoviePilot只是`媒体库自动化管理`的一环，需要通过调用`下载器`来完成资源的下载，需要通过`媒体服务器`来管理和展示媒体资源，**同时通过媒体服务器Api来查询库存情况控制重复下载**。安装前需要先完成配合软件的安装。
+
+### 下载器
+- **Qbittorrent**：版本要求 >= `4.3.9`
+- **Transmission**：版本要求 >= `3.0`
+
+### 媒体服务器
+- **Emby**：建议版本 >= `4.8.0.45`
+- **Jellyfin**：推荐使用`latest`分支
+- **Plex**：无特定版本要求
