@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-11T04:46:38.419Z
+date: 2024-06-11T06:05:41.154Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -129,3 +129,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
   {{title}}{% if year %} ({{year}}){% endif %}/Season {{season}}/{{title}} - {{season_episode}}{% if part %}-{{part}}{% endif %}{% if episode %} - 第 {{episode}} 集{% endif %}{{fileExt}}
   ```
   
+# 管理员用户初始密码
+为了确保安全，系统安装后第一次启动时将生成随机复杂密码，**需要从第一次启动的后台日志文件或终端日志中获取管理员用户初始密码才能登录系统**。
+
+- 日志文件路径为`/config`对应映射目录下`logs/moviepilot.log`文件。
+- 可以通过搜索关键字 `超级管理员` 快速定位密码位置。
+
