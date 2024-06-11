@@ -2,7 +2,7 @@
 title: 主题风格
 description: 开发自定义CSS个性化主题
 published: 1
-date: 2024-06-11T14:10:36.742Z
+date: 2024-06-11T14:11:03.472Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:54:41.319Z
@@ -10,7 +10,7 @@ dateCreated: 2024-05-30T09:54:41.319Z
 
 # 主题风格
 
-1. 参考以下代码，自定义CSS脚本：
+1. 参考以下代码，开发个性化CSS脚本：
 ```css
 html {
     background-image: url(https://api.dujin.org/bing/1920.php);
