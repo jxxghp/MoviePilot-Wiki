@@ -2,7 +2,7 @@
 title: 基础
 description: 
 published: 1
-date: 2024-06-11T06:39:25.498Z
+date: 2024-06-11T06:43:34.019Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:38.779Z
@@ -19,7 +19,9 @@ dateCreated: 2024-05-30T09:47:38.779Z
 {.is-danger}
 
 # 用户认证
+**为了控制用户数量避免大规范泛滥使用**，MoviePilot引入了PT用户认证机制，你需要有认证站点范围内的账号才能使用软件的资源搜索、订阅及下载功能，出此下策与利益无关，属NAStool一路走来，吸取失败经验的无奈之举。
 
+用户认证需要通过环境变量设置认证站点及相关参数，参考 [配置参考](/configuration) 中 `AUTH_SITE` 的配置说明。
 
 # 媒体识别
 
