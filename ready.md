@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T13:51:52.954Z
+date: 2024-06-11T13:52:11.755Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -50,7 +50,7 @@ addEventListener('fetch', event => {
 ```
 
 # 操作系统
-部分功能基于文件系统监控实现（如`目录监控`等），监控的文件较多时，往往会因为操作系统默认允许的文件句柄数太小导致报错，需在**宿主机**操作系统上（不是docker容器内）执行以下命令并重启生效：
+部分功能基于文件系统监控实现（如`目录监控`等），监控的文件较多时，往往会因为操作系统默认允许的文件句柄数太小导致报错，相关功能失败，需在**宿主机**操作系统上（不是docker容器内）执行以下命令并重启生效：
 ```shell
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf
