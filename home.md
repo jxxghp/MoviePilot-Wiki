@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-06-11T15:23:25.661Z
+date: 2024-06-11T15:26:53.203Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -32,7 +32,7 @@ MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配
 - [站点 *如何正确维护站点信息。*](/site)
 - [搜索 *如何搜索媒体信息以及资源。*](/search)
 - [下载 *如何手动下载资源。*](/download)
-- [订阅 *通过订阅实现电影、电视剧自动检索下载和追更。*](/subscribe)
+- [订阅 *通过订阅实现自动检索下载和追更。*](/subscribe)
 - [文件整理 *自动化整理文件到媒体库，同时刮削好元数据。*](/reorganize)
 - [通知 *设置消息通知渠道以及远程控制。*](/notification)
 - [进阶 *自定义重命名格式、词表、插件等高阶使用方法。*](/advanced)
