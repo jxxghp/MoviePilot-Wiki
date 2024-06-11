@@ -2,7 +2,7 @@
 title: 安装指引
 description: 完成安装搭建工作
 published: 1
-date: 2024-06-11T03:22:31.214Z
+date: 2024-06-11T03:29:13.294Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -72,5 +72,10 @@ networks:
     name: moviepilot
 ```
 
+**相关说明：**
+- `/moviepilot/config`为配置文件、数据库文件、日志文件、缓存文件使用的文件目录，`/moviepilot/core`为浏览器内核下载保存目录，需根据实际情况调整。
+- `/var/run/docker.sock`用于内建重启时使用，建议映射。
+- 默认使用`3000`为WEB服务端口，`3001`为Api服务端口。
+- **以上仅为环境基础配置，还需要根据 [配置参考](/configuration) 补充环境变量。**
 
-其中`/moviepilot/config`为配置文件、数据库文件、日志文件、缓存文件使用的文件目录，`/moviepilot/core`为浏览器内核下载保存目录，需根据实际情况调整。`/var/run/docker.sock`用于内建重启时使用，建议映射。默认使用3000为WEB服务端口，3001为Api服务端口。
+# Windows
