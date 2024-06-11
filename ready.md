@@ -2,14 +2,14 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T04:52:08.921Z
+date: 2024-06-11T05:22:44.588Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
 ---
 
 # 网络
-MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取和匹配媒体元数据，通过访问 [Github](https://github.com) 来执行程序升级、安装插件等。有顺畅连接上述网址的网络环境是能流畅使用本软件的前提，否则可能会遇到各种各样的问题。**推荐使用前两种方式**，网络质量更加稳定。
+MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取和匹配媒体元数据，通过访问 [Github](https://github.com) 来执行程序升级、安装插件等。有顺畅连接上述网址的网络环境是能流畅使用本软件的前提。**推荐使用前两种方式**，网络质量更加稳定。
 
 ### 单独代理
 搭建代理服务，并将代理地址填入MoviePilot的环境变量中，软件会自动对需要使用代理的请求使用代理服务器。具体可参考 [配置参考](/configuration) 章节设置代理服务器变量。
