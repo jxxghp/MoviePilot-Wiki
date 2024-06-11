@@ -1,11 +1,15 @@
 ---
 title: 插件开发
-description: 
+description: 开发插件为MoviePilot添加功能
 published: 1
-date: 2024-05-30T06:44:02.199Z
+date: 2024-06-11T14:06:04.939Z
 tags: 
 editor: markdown
-dateCreated: 2024-05-30T04:38:01.345Z
+dateCreated: 2024-05-30T09:48:59.557Z
 ---
 
-#  插件开发
+#  插件开发步骤
+1. fork官方插件代码仓库：https://github.com/jxxghp/MoviePilot-Plugins
+2. 参考 [开发指引](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/README.md) 以及其它已有插件代码，完成插件开发。
+3. 删除插件仓库中其它已有插件。
+4. 将插件仓库地址提供给用户，配置到插件市场变量中。
