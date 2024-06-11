@@ -2,14 +2,14 @@
 title: 开始
 description: 
 published: 1
-date: 2024-06-11T22:44:00.561Z
+date: 2024-06-11T23:14:33.544Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
 ---
 
 > MoviePilot 基于 NAStool 部分代码重新设计，聚焦自动化核心需求，减少问题同时更易于扩展和维护。
-项目地址：https://github.com/jxxghp/MoviePilot
+项目地址：https://github.com/jxxghp/MoviePilot 、https://github.com/jxxghp/MoviePilot-Frontend 、https://github.com/jxxghp/MoviePilot-Plugins 、https://github.com/jxxghp/MoviePilot-Resources
 发布频道：https://t.me/moviepilot_channel
 {.is-success}
 
