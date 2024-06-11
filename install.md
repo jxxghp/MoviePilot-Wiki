@@ -2,7 +2,7 @@
 title: 安装指引
 description: 完成安装搭建工作
 published: 1
-date: 2024-06-11T03:49:34.904Z
+date: 2024-06-11T03:51:45.130Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -95,3 +95,5 @@ Windows环境下提供两种安装方式，推荐使用`安装版本`。
 
 # Synology套件
 DSM7 添加套件源：https://spk7.imnks.com/ ，安装后通过`MoviePilot配置`入口，根据  [配置参考](/configuration) 进行配置使用。
+
+该套件由套件源作者维护，如有问题需要向套件源维护方寻求帮助。
