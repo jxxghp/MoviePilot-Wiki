@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-11T06:14:33.679Z
+date: 2024-06-11T13:27:12.665Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -128,3 +128,6 @@ dateCreated: 2024-05-30T09:48:02.073Z
   ```
   {{title}}{% if year %} ({{year}}){% endif %}/Season {{season}}/{{title}} - {{season_episode}}{% if part %}-{{part}}{% endif %}{% if episode %} - 第 {{episode}} 集{% endif %}{{fileExt}}
   ```
+  
+# 对外服务路径
+
