@@ -1,8 +1,8 @@
 ---
 title: 升级
-description: 
+description: 自动升级新版本
 published: 1
-date: 2024-06-11T05:44:27.857Z
+date: 2024-06-11T05:45:46.391Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
