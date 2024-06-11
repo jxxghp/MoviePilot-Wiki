@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-05-31T12:43:25.293Z
+date: 2024-06-11T06:45:39.843Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -12,6 +12,9 @@ dateCreated: 2024-05-30T04:38:01.345Z
 项目地址：https://github.com/jxxghp/MoviePilot
 发布频道：https://t.me/moviepilot_channel
 {.is-success}
+
+> 请务在**任何国内平台**发布或引用此wiki任何相关内容，请尽量避免在国内公共场合提及`MoviePilot`全称，如确实有需要请使用简称：`MP`。
+{.is-danger}
 
 # 安装
 
