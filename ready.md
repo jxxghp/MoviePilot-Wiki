@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T03:06:28.189Z
+date: 2024-06-11T04:18:59.503Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -12,7 +12,7 @@ dateCreated: 2024-05-30T06:48:30.890Z
 MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取和匹配媒体元数据，通过访问 [Github](https://github.com) 来执行程序升级、安装插件等。有顺畅连接上述网址的网络环境是能流畅使用本软件的前提，否则可能会遇到各种各样的问题。**推荐使用前两种方式**，网络质量更加稳定。
 
 ### 单独代理
-搭建代理服务，并将代理地址填入MoviePilot的环境变量中，软件会自动对需要使用代理的请求使用代理服务器。具体可参考 [安装指引](/install) 章节。
+搭建代理服务，并将代理地址填入MoviePilot的环境变量中，软件会自动对需要使用代理的请求使用代理服务器。具体可参考 [配置参考](/configuration) 章节设置代理服务器变量。
 ### 全局代理
 将MoviePilot所在的网络接入代理，通过分流规则将软件的网络请求通过代理发出，同时剔除站点相关的网络请求。
 ### 防域名污染与中转加速
@@ -66,5 +66,5 @@ MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器
 - **Plex**：无特定版本要求
 
 ### CookieCloud
-- **CookieCloud服务端**：可选,MoviePilot已经内置了CookieCloud服务端，如需独立安装可参考 [easychen/CookieCloud](https://github.com/easychen/CookieCloud) 说明
-- **CookieCloud浏览器插件**：不管是使用CookieCloud独立服务器还是使用内置服务，都需要安装浏览器插件，访问 [此处](https://github.com/easychen/CookieCloud/releases) 下载安装到浏览器。
+- **CookieCloud服务端**：可选，MoviePilot已经内置了CookieCloud服务端，如需独立安装可参考 [easychen/CookieCloud](https://github.com/easychen/CookieCloud) 说明
+- **CookieCloud浏览器插件**：不管是使用CookieCloud独立服务端还是使用内置服务，都需要安装浏览器插件，访问 [此处](https://github.com/easychen/CookieCloud/releases) 下载安装到浏览器。
