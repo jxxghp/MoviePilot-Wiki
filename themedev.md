@@ -2,7 +2,7 @@
 title: 主题风格
 description: 开发自定义CSS个性化主题
 published: 1
-date: 2024-06-11T14:10:21.198Z
+date: 2024-06-11T14:10:36.742Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:54:41.319Z
@@ -108,4 +108,4 @@ body, #app, .v-application {
 ```
 
 2. 点击MoviePilot右上角主题切换图标选择`自定义`，并填入以上CSS，保存后刷新测试效果。
-3. 如因CSS错误导致UI混乱，无取消自定义CSS时，通过浏览器开发者工具，将`head`中生成的`<style>`标签移除，重新进入自定义主题后清空保存即可。
+3. 如因CSS错误导致UI混乱，无法取消自定义CSS时，通过浏览器开发者工具，将`head`中生成的`<style>`标签移除，重新进入自定义主题后清空保存即可。
