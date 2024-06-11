@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T05:22:44.588Z
+date: 2024-06-11T05:56:07.489Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -75,3 +75,8 @@ MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器
 docker run -d --restart=always --name="portainer" -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock 6053537/portainer-ce
 
 ```
+
+### Overseerr/Jellyseerr
+如果你希望将MoviePilot的自动化媒体管理能力开放给多个人使用，同时具有用户提交订阅申请与集中审批的功能，可以安装 `Overseerr`/`Jellyseerr`来配合实现更好的选片和申请审批使用体验。MoviePilot通过模拟`Radarr `和`Sonarr `的Api实现无缝集成，参考下图：
+
+![seerr.png](/seerr.png)
