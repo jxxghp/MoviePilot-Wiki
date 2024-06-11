@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T13:52:11.755Z
+date: 2024-06-11T22:47:42.157Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -17,7 +17,7 @@ MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取�
 将MoviePilot所在的网络接入代理，通过分流规则将软件的网络请求通过代理发出，同时剔除站点相关的网络请求。
 ### 防域名污染与中转加速
 - 更换TheMovieDb的Api地址为`api.tmdb.org`、开启`DOH`、本地修改`hosts`文件协持`api.themoviedb.org`域名地址为可访问IP、使用`Cloudflare Workers`搭建代理中转等，综合使用以上方式调优TheMovieDb的网络访问，涉及调整系统设定的参考 [配置参考](/configuration) 章节。
-- 使用Github中断加速服务器来加快Github文件下载请求，具体可参考 [配置参考](/configuration) 章节。
+- 使用Github中转加速服务器来加快Github文件下载请求，具体可参考 [配置参考](/configuration) 章节。
 
 #### Cloudflare Workers 参考代码：
 ```javascript
