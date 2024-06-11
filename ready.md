@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T04:18:59.503Z
+date: 2024-06-11T04:52:08.921Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -68,3 +68,10 @@ MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器
 ### CookieCloud
 - **CookieCloud服务端**：可选，MoviePilot已经内置了CookieCloud服务端，如需独立安装可参考 [easychen/CookieCloud](https://github.com/easychen/CookieCloud) 说明
 - **CookieCloud浏览器插件**：不管是使用CookieCloud独立服务端还是使用内置服务，都需要安装浏览器插件，访问 [此处](https://github.com/easychen/CookieCloud/releases) 下载安装到浏览器。
+
+### Docker管理器
+如果你计划使用docker来部署MoviePilot，请确认你的环境是否可以方便地编辑容器配置，否则建议安装 [portainer](https://github.com/portainer/portainer) 来简化容器操作。
+```shell
+docker run -d --restart=always --name="portainer" -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock 6053537/portainer-ce
+
+```
