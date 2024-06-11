@@ -1,8 +1,8 @@
 ---
 title: 安装指引
-description: 完成安装搭建工作
+description: 了解基础搭建操作
 published: 1
-date: 2024-06-11T04:32:29.587Z
+date: 2024-06-11T04:53:27.245Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
