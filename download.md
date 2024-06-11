@@ -2,10 +2,14 @@
 title: 下载
 description: 
 published: 1
-date: 2024-05-30T06:44:02.199Z
+date: 2024-06-11T15:45:32.352Z
 tags: 
 editor: markdown
-dateCreated: 2024-05-30T04:38:01.345Z
+dateCreated: 2024-05-30T09:48:22.298Z
 ---
 
-# 下载
+# 下载目录
+
+# 手动下载
+
+# 远程下载
