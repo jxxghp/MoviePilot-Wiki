@@ -2,7 +2,7 @@
 title: 安装指引
 description: 完成安装搭建工作
 published: 1
-date: 2024-06-11T04:25:33.108Z
+date: 2024-06-11T04:32:29.587Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -101,3 +101,16 @@ Windows环境下提供两种安装方式，推荐使用`安装版本`。
 DSM7 添加套件源：https://spk7.imnks.com/ ，安装后通过`MoviePilot配置`入口，根据  [配置参考](/configuration) 进行配置使用。
 
 该套件由套件源作者维护，如有问题需要向套件源维护方寻求帮助。
+
+
+# 源代码运行
+MoviePilot项目已拆分为多个项目，使用源码运行时需要手动将相关项目文件进行整合：
+1. 使用`git clone`或者下载源代码包的方式下载主项目 [MoviePilot](https://github.com/jxxghp/MoviePilot) 文件到本地。
+```shell
+git clone https://github.com/jxxghp/MoviePilot
+```
+2. 将工程 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) `plugins`目录下的所有文件复制到`app/plugins`目录，`icons`目录下的所有文件复制到前端项目的`public/plugin_icon`目录下
+3. 将工程 [MoviePilot-Resources](https://github.com/jxxghp/MoviePilot-Resources) resources目录下的所有文件复制到`app/helper`目录
+4. 执行命令：`pip install -r requirements.txt` 安装依赖
+5. 执行命令：`PYTHONPATH=. python app/main.py` 启动主服务
+6. 据前端项目 [MoviePilot-Frontend](https://github.com/jxxghp/MoviePilot-Frontend) 说明，启动前端服务
