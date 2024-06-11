@@ -2,11 +2,13 @@
 title: 通知
 description: 多种方式接收消息通知
 published: 1
-date: 2024-06-11T13:44:35.129Z
+date: 2024-06-11T23:45:40.657Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
 ---
+
+# 系统通知
 
 # 微信
 ### 消息回调
