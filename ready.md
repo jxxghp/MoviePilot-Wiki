@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T05:57:42.429Z
+date: 2024-06-11T13:51:39.681Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -49,6 +49,13 @@ addEventListener('fetch', event => {
 })
 ```
 
+# 操作系统
+部分插件功能基于文件系统监控实现（如`目录监控`等），监控的文件较多时，往往会因为操作系统默认允许的文件句柄数太小导致报错，需在**宿主机**操作系统上（不是docker容器内）执行以下命令并重启生效：
+```shell
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+```
 
 # 站点
 MoviePilot包括两大部分功能：`文件整理刮削`、`资源订阅下载`，其中`资源订阅下载`功能需要有可用的`PT站点`，**同时这些站点中需要有一个可用于认证**，关于用户认证请参考 [基础](/basic) 章节的相关说明。
