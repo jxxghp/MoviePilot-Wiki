@@ -2,7 +2,7 @@
 title: 升级
 description: 自动升级新版本
 published: 1
-date: 2024-06-11T05:45:46.391Z
+date: 2024-06-11T13:12:41.687Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
@@ -49,7 +49,7 @@ docker pull jxxghp/movie-pilot:latest
 不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到`重置`选项；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
 
 
-### Synology套件 <i class="mdi mdi-synology"></i>
+### Synology套件 <i class="mdi mdi-linux"></i>
 
 在软件源中安装新版本即可。
 
