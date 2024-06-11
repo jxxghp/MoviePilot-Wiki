@@ -2,7 +2,7 @@
 title: 升级
 description: 
 published: 1
-date: 2024-06-11T05:16:54.416Z
+date: 2024-06-11T05:39:40.409Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
@@ -20,100 +20,35 @@ dateCreated: 2024-05-30T09:56:06.097Z
 
 ### Docker <i class="mdi mdi-docker"></i>
 
-#### Standalone Container
+#### 重启自动升级
 
-Upgrading is simply a matter of recreating the container with the latest image version:
+根据 [配置参考](/configuration) 设置环境变量`MOVIEPILOT_AUTO_UPDATE`为`true`或`release`，开启重启自动升级。此时只需要重启docker容器，或者在WEB管理界面中选择重启菜单（参考 [安装指引](docker.sock) 映射了`docker.sock`的前提下），即可自动重启升级到已发布的最新版本。
 
-```bash
-# Stop and remove container named "wiki"
-docker stop wiki
-docker rm wiki
+`MOVIEPILOT_AUTO_UPDATE` 配置值说明：
+- `true`/`release`：自动升级到已发布的最新版本。
+- `false`：不开启重启自动升级。
+- `dev`：自动升级到未发布的最新代码（仅限开发人员使用）。
 
-# Pull latest image of Wiki.js
-docker pull ghcr.io/requarks/wiki:2
+#### 手动升级
 
-# Create new container of Wiki.js based on latest image
-docker run -d -p 8080:3000 --name wiki --restart unless-stopped -e "DB_TYPE=mysql" -e "DB_HOST=db" -e "DB_PORT=3306" -e "DB_USER=wikijs" -e "DB_PASS=wikijsrocks" -e "DB_NAME=wiki" ghcr.io/requarks/wiki:2
-```
-
-Check out the [Docker installation guide](/install/docker) for all the possible options when creating a Wiki.js container.
-
-#### Docker Compose
-
-The following commands will pull the latest image and recreate the containers defined in the docker-compose file:
+- 使用docker-compose时，使用以下命令更新到最新境像:
 
 ```bash
-docker-compose pull wiki
+docker-compose pull jxxghp/movie-pilot:latest
 docker-compose up --force-recreate -d
 ```
+- 手动更新镜像到最新版本，**更新完成后需要重置容器才能应用最新镜像**。
+```bash
+docker pull jxxghp/movie-pilot:latest
+```
+不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到重置按钮；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
 
-### Linux / macOS <i class="mdi mdi-ubuntu"></i>
 
-> The commands below assume an installation within a subfolder named `wiki`.
-{.is-info}
+### Synology套件 <i class="mdi mdi-ubuntu"></i>
 
-1) Stop the running Wiki.js instance
-2) Make a backup of your `config.yml` file.
-  ```bash
-  cp wiki/config.yml ~/config.yml.bak
-  ```
-3) Delete the application folder.
-  ```bash
-  rm -rf wiki/*
-  ```
-4) Download the latest version of Wiki.js.
-  ```bash
-  wget https://github.com/Requarks/wiki/releases/latest/download/wiki-js.tar.gz
-  ```
-5) Extract the package
-  ```bash
-  tar xzf wiki-js.tar.gz -C ./wiki
-  cd wiki
-  ```
-6) Restore your config.yml back to its original location.
-  ```bash
-  cp ~/config.yml.bak ./config.yml
-  ```
-7) Start Wiki.js
-  ```bash
-  node server
-  ```
+在软件源中安装新版本即可。
 
 ### Windows <i class="mdi mdi-microsoft-windows"></i>
+- 使用可执行文件版本的，删除旧版本`exe可执行文件`以及`nginx`目录（`config`目录不能删除），访问 [此处](https://github.com/jxxghp/MoviePilot/releases) 下载最新版本可执行文件到原运行目录，双击运行即可。
 
-> The commands below assume an installation at folder location `C:\wiki`.
-{.is-info}
-
-1. Open a **Powershell** prompt in administrator mode.
-1. Make a backup of `config.yml` file.
-  ```powershell
-  Copy-Item "C:\wiki\config.yml" -Destination "C:\config.yml.bak"
-  ```
-3. Delete the application folder contents.
-  ```powershell
-  Clear-Content "C:\wiki\*"
-  ```
-4. If you are using **Windows 7 / Windows Server 2008 R2 or older**, you must run the following command. *(otherwise skip this step)*
-  ```powershell
-  [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-  ```
-5. Download the latest version of Wiki.js:
-  ```powershell
-  Invoke-WebRequest -Uri "https://github.com/Requarks/wiki/releases/latest/download/wiki-js-windows.tar.gz" -OutFile "wiki-js.tar.gz"
-  ```
-
-4. Extract the package to the final destination of your choice:
-  ```powershell
-  tar xzf wiki-js.tar.gz -C "C:\wiki"
-  cd C:\wiki
-  ```
-  > The **tar** utility is only available on Windows 10. On earlier versions, you'll need a 3rd-party utility like [7-zip](https://www.7-zip.org/) to extract the file.
-  {.is-warning}
-5. Copy your `config.yml` backup file back to it's original location.
-  ```powershell
-  Copy-Item "C:\config.yml.bak" -Destination "C:\wiki\config.yml"
-  ```
-6. Run Wiki.js
-  ```powershell
-  node server
-  ```
+- 使用 [Windows-MoviePilot](https://github.com/developer-wlj/Windows-MoviePilot) 安装版本的，参考项目说明升级。
