@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-06-11T15:56:15.724Z
+date: 2024-06-11T22:32:57.501Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -35,6 +35,7 @@ MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配
 - [订阅 *通过订阅实现自动检索下载和追更。*](/subscribe)
 - [文件整理 *自动化整理文件到媒体库，同时刮削好元数据。*](/reorganize)
 - [通知 *设置消息通知渠道以及远程控制。*](/notification)
+- [插件 *使用丰富的插件功能。*](/plugin)
 - [进阶 *自定义重命名格式、词表、插件等高阶使用方法。*](/advanced)
 - [故障排除 *常见问题及解决方案。*](/troubleshooting)
 {.links-list}
