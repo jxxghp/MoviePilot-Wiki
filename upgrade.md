@@ -2,7 +2,7 @@
 title: 升级
 description: 自动升级新版本
 published: 1
-date: 2024-06-11T14:50:11.599Z
+date: 2024-06-11T23:12:24.334Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
@@ -24,14 +24,14 @@ dateCreated: 2024-05-30T09:56:06.097Z
 
 #### 重启自动升级
 
-根据 [配置参考](/configuration) 设置环境变量`MOVIEPILOT_AUTO_UPDATE`为`true`或`release`，开启重启自动升级。此时只需要重启docker容器，或者在WEB管理界面中选择重启菜单（参考 [安装指引](docker.sock) 映射了`docker.sock`的前提下），即可自动重启升级到已发布的最新版本。
+根据 [配置参考](/configuration) 设置环境变量`MOVIEPILOT_AUTO_UPDATE`为`true`或`release`，`AUTO_UPDATE_RESOURCE`为`true`，开启重启自动升级以及资源包自动更新。此时只需要重启docker容器，或者在WEB管理界面中选择重启菜单（参考 [安装指引](docker.sock) 映射了`docker.sock`的前提下），即可自动重启升级到已发布的最新版本。
 
-`MOVIEPILOT_AUTO_UPDATE` 配置值说明：
+`MOVIEPILOT_AUTO_UPDATE` 配置说明：
 - `true`/`release`：自动升级到已发布的最新版本。
 - `false`：不开启重启自动升级。
 - `dev`：自动升级到未发布的最新代码（仅限开发人员使用）。
 
-
+`AUTO_UPDATE_RESOURCE`配置说明：当该值为`true`时，会自动检测 [资源包项目](https://github.com/jxxghp/MoviePilot-Resources) 是否有更新，如有则会自动下载升级相应的资源文件，独立于`MOVIEPILOT_AUTO_UPDATE`生效，应用于不想升级主程序版本，但想让站点索引及站点认证数据保持最新的场景。当后续主程序功能建设稳定后，更新频度会大幅降低，此时可能只更新资源包但不更新主程序，建议打开此开关。
 
 #### 手动升级
 
