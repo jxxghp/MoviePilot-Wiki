@@ -2,14 +2,14 @@
 title: 发行说明
 description: 需要关注的重要版本变更
 published: 1
-date: 2024-06-11T05:12:13.485Z
+date: 2024-06-11T05:47:04.660Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:17.992Z
 ---
 
-访问 [此处](https://github.com/jxxghp/MoviePilot/releases) 了解所有的版本更新日志，此页面只针对历史上的重大变更做一些说明，在进行升级前请了解这些信息并做好准备。
-
+> 访问 [此处](https://github.com/jxxghp/MoviePilot/releases) 了解所有的版本更新日志，此页面只针对历史上的重大变更做一些说明，在进行升级前请了解这些信息并做好准备。
+{.is-success}
 
 # v1.9.4
 - 优化了硬链接的处理逻辑，兼容极空间的同时**跨盘不再会自动变成复制**了，**如果你原来的目录映射不符合硬链接的条件，升级到此版本后会直接报错`-1`。**
