@@ -2,7 +2,7 @@
 title: 环境准备
 description: 安装前需要准备的一些内容
 published: 1
-date: 2024-06-11T03:00:05.196Z
+date: 2024-06-11T03:06:28.189Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
@@ -54,7 +54,7 @@ addEventListener('fetch', event => {
 MoviePilot包括两大部分功能：`文件整理刮削`、`资源订阅下载`，其中`资源订阅下载`功能需要有可用的`PT站点`，**同时这些站点中需要有一个可用于认证**，关于用户认证请参考 [基础](/basic) 章节的相关说明。
 
 # 配套软件
-MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器`来完成资源的下载，需要通过`媒体服务器`来管理和展示媒体资源，**同时通过媒体服务器Api来查询库存情况控制重复下载**。安装前需要先完成配套软件的安装。
+MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器`来完成资源的下载，需要通过`媒体服务器`来管理和展示媒体资源，**同时通过媒体服务器Api来查询库存情况控制重复下载**，通过`CookieCloud`来快速同步站点Cookie和新增站点。安装前需要先完成配套软件的安装。
 
 ### 下载器
 - **Qbittorrent**：版本要求 >= `4.3.9`
@@ -64,3 +64,7 @@ MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器
 - **Emby**：建议版本 >= `4.8.0.45`
 - **Jellyfin**：推荐使用`latest`分支
 - **Plex**：无特定版本要求
+
+### CookieCloud
+- **CookieCloud服务端**：可选,MoviePilot已经内置了CookieCloud服务端，如需独立安装可参考 [easychen/CookieCloud](https://github.com/easychen/CookieCloud) 说明
+- **CookieCloud浏览器插件**：不管是使用CookieCloud独立服务器还是使用内置服务，都需要安装浏览器插件，访问 [此处](https://github.com/easychen/CookieCloud/releases) 下载安装到浏览器。
