@@ -1,8 +1,8 @@
 ---
 title: 搜索
-description: 
+description: 如何搜索媒体信息以及资源
 published: 1
-date: 2024-06-12T09:06:43.911Z
+date: 2024-06-12T09:08:02.899Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:50:20.987Z
