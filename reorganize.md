@@ -2,7 +2,7 @@
 title: 文件整理
 description: 媒体库目录和文件整理方式
 published: 1
-date: 2024-06-12T09:30:26.013Z
+date: 2024-06-12T10:18:55.896Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:35.138Z
@@ -17,7 +17,7 @@ dateCreated: 2024-05-30T09:49:35.138Z
 更多参见 [进阶](/advanced) 多目录支持与分类章节。
 
 # 自动整理
-### 必要设置
+MoviePilot通过监测下载器中的下载任务状态来实现自动整理已下载的文件。
 
 ### 下载器监控
 
