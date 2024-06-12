@@ -2,7 +2,7 @@
 title: 订阅
 description: 通过订阅实现自动检索下载和追更
 published: 1
-date: 2024-06-12T09:13:23.359Z
+date: 2024-06-12T09:33:24.946Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:54:10.581Z
@@ -28,3 +28,4 @@ dateCreated: 2024-05-30T09:54:10.581Z
 
 # 远程订阅
 
+完成`微信/Telegram/Slack/SynologyChat/VoceChat`任一渠道的通知配置后，MoviePilot就具备了远程交互订阅能力，可以通过消息客户端发送电影、电视剧名称添加订阅。
