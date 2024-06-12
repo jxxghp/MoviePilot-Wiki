@@ -1,8 +1,8 @@
 ---
 title: 文件整理
-description: 自动整理下载文件到媒体库
+description: 媒体库目录和文件整理方式
 published: 1
-date: 2024-06-12T09:24:33.019Z
+date: 2024-06-12T09:25:21.409Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:35.138Z
