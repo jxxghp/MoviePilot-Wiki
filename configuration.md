@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-12T09:16:47.578Z
+date: 2024-06-12T10:51:35.021Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -128,7 +128,14 @@ dateCreated: 2024-05-30T09:48:02.073Z
   ```
   {{title}}{% if year %} ({{year}}){% endif %}/Season {{season}}/{{title}} - {{season_episode}}{% if part %}-{{part}}{% endif %}{% if episode %} - 第 {{episode}} 集{% endif %}{{fileExt}}
   ```
-  
+---
+- **PLUGIN_MARKET：** 插件市场仓库地址，仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看[MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins)项目的fork，或者查看频道置顶了解更多第三方插件仓库，目前已有 `130+` 插件。 
+  默认已内置以下插件库：
+  1. https://github.com/jxxghp/MoviePilot-Plugins
+  2. https://github.com/thsrite/MoviePilot-Plugins
+  3. https://github.com/honue/MoviePilot-Plugins
+  4. https://github.com/InfinityPacer/MoviePilot-Plugins
+
 # 对外服务路径
 MoviePilot通过对外提供Api的方式实现消息接入、Webhook等功能，以下是涉及可能需要在其它软件中配置的回调地址。
 - **消息接收服务**：`/api/v1/message/?token=moviepilot`，微信、SynologyChat、VoceChat的消息回调地址，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值。
