@@ -1,8 +1,8 @@
 ---
 title: 站点
-description: 维护站点信息
+description: 如何正确维护站点信息
 published: 1
-date: 2024-06-12T05:41:16.419Z
+date: 2024-06-12T09:10:00.298Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:53:35.779Z
