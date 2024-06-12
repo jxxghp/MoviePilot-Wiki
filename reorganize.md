@@ -2,13 +2,15 @@
 title: 文件整理
 description: 自动整理下载文件到媒体库
 published: 1
-date: 2024-06-12T05:40:26.002Z
+date: 2024-06-12T09:24:33.019Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:35.138Z
 ---
 
 # 媒体库目录
+
+在`设定 -> 目录 -> 媒体库目录`中添加目录配置，更多参见 [进阶](/advanced) 多目录支持与分类章节。
 
 # 自动整理
 ### 必要设置
