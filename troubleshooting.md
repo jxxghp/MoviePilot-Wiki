@@ -2,7 +2,7 @@
 title: 故障排除
 description: 常见问题及解决方案
 published: 1
-date: 2024-06-12T05:28:26.639Z
+date: 2024-06-12T05:34:32.692Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:55:21.946Z
@@ -21,3 +21,14 @@ dateCreated: 2024-05-30T09:55:21.946Z
 
 - 重置容器或者是重新创建一个新容器。
 - 配置代理变量`PROXY_HOST`或者全局接入代理网络，加速自动更新的下载速度，避免超时引起的更新失败。
+
+
+# 目录监控不自动整理文件
+1. 启动日志报与`inotify`相关的错误时，在宿主机上（不是docker容器里）执行以下命令，并重启宿主机：
+```shell
+echo fs.inotify.max_user_watches=5242880 | sudo tee -a /etc/sysctl.conf
+echo fs.inotify.max_user_instances=5242880 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+```
+2、挂载`网盘`、`Windows向Linux的SMB共享`、`NFS共享`等不支持事件触发的目录实时监控，打开目录监控的`兼容模式`可解决问题，但兼容模式下性能较低，可能会频繁读取磁盘。
+3、`设定 -> 连接 -> 下载器` 中开启`下载文件自动整理`，通过监控下载器完成文件自动整理，不使用目录监控。
