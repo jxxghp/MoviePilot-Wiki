@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-12T12:47:15.133Z
+date: 2024-06-12T14:26:30.476Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -24,7 +24,7 @@ dateCreated: 2024-05-30T09:47:08.061Z
 **新版目录的设置示例：**
 
 ```
-* 假设根目录为：/video，存量的会自动更新不需要手工维护。
+* 假设根目录为：/video
 
 1、需要一二级自动分类
 
