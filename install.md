@@ -1,8 +1,8 @@
 ---
 title: 安装指引
-description: 了解基础搭建操作
+description: 如何安装MoviePilot
 published: 1
-date: 2024-06-11T23:07:29.747Z
+date: 2024-06-12T05:56:51.785Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
