@@ -1,8 +1,8 @@
 ---
 title: 环境准备
-description: 安装前需要准备的一些内容
+description: 安装前的准备工作
 published: 1
-date: 2024-06-11T22:48:59.775Z
+date: 2024-06-12T05:56:20.475Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
