@@ -2,7 +2,7 @@
 title: 站点
 description: 
 published: 1
-date: 2024-06-12T03:45:56.421Z
+date: 2024-06-12T04:35:44.039Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:53:35.779Z
@@ -20,7 +20,13 @@ dateCreated: 2024-05-30T09:53:35.779Z
 
 
 # 手动添加站点
-
+如果你的站点比较少，可以通过手动添加站点的方式逐个添加到系统中，点击`站点管理`右下角`+`图标添加站点。
+- `站点地址`：
+- `RSS地址`：
+- `超时时间`：
+- `请求头（Authorization）`：
+- `令牌（API Key）`：
+- `站点User-Agent`：
 
 
 # 快速添加站点
