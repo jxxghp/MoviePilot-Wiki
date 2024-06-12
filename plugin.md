@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2024-06-12T12:44:06.208Z
+date: 2024-06-12T14:23:27.763Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -27,7 +27,7 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 # 插件安装/升级
 
 插件市场、插件安装/升级等需要多次访问Github，需要保障良好的网络连接才能顺畅安装和使用插件。
-- 配置`GITHUB_TOKEN`可以提升Github Api的访问次数限制，避免触发触流。
+- 配置`GITHUB_TOKEN`可以提升Github Api的访问次数限制，避免触发限流。
 - 配置`GITHUB_PROXY`可以加速Github插件文件的下载。
 - 配置`代理服务器`或者将MoviePilot接入代理网络可以大大提升Github的连通性。
 
