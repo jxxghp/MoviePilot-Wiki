@@ -1,8 +1,8 @@
 ---
 title: 通知
-description: 多种方式接收消息通知
+description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-06-11T23:45:40.657Z
+date: 2024-06-12T09:25:52.330Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
