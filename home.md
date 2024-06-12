@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-06-11T23:15:32.875Z
+date: 2024-06-12T05:20:04.308Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -16,7 +16,7 @@ dateCreated: 2024-05-30T04:38:01.345Z
 > 此Wiki与 https://github.com/jxxghp/MoviePilot-Wiki 保持同步。
 {.is-success}
 
-> 请务在**任何国内平台**发布或引用此wiki任何相关内容，请尽量避免在国内公共场合提及`MoviePilot`全称，如确实有需要请使用简称：`MP`。
+> 请勿在**任何国内平台**发布或引用此wiki任何相关内容，请尽量避免在国内公共场合提及`MoviePilot`全称，如确实有需要请使用简称：`MP`。
 {.is-danger}
 
 # 安装
