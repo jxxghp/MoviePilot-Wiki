@@ -1,8 +1,8 @@
 ---
 title: 订阅
-description: 
+description: 通过订阅实现自动检索下载和追更
 published: 1
-date: 2024-06-11T22:29:00.582Z
+date: 2024-06-12T09:13:23.359Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:54:10.581Z
@@ -15,6 +15,8 @@ dateCreated: 2024-05-30T09:54:10.581Z
 # 订阅过滤规则
 
 # 订阅优先级规则
+
+参见 [进阶](/advanced) 优先级章节说明。
 
 # 洗版
 
