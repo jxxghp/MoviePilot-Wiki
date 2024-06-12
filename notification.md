@@ -2,11 +2,12 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-06-12T11:25:12.715Z
+date: 2024-06-12T11:32:53.105Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
 ---
+
 
 # 系统通知
 
@@ -76,3 +77,11 @@ location  /cgi-bin/menu/create {
 - VoceChat机器人Webhook地址设置为：`http://ip:port/api/v1/message/?token=moviepilot`，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值，`ip:port`为实际MoviePilot的IP地址和端口。
 
 # WebPush
+
+WebPush基于PWA实现让网页应用能像App客户端一样发送消息通知，**实现客户端级的消息通知使用体验**，开启WebPush需要满足以下条件：
+- 使用域名访问MoviePilot，并设置启动好`SSL`。
+- 将MoviePilot网页发送到桌面图标，完成PWA应用安装。
+- 在桌面图标启动，完成登录，在提示窗口中点击允许发送消息权限。
+- 如果为IOS，需要`16.4`以上版本。
+
+建议将插件、站点等消息通过WebPush发送，其余媒体类消息则通知到微信等客户端，实现管理员消息通知和普通使用用户通知分离。
