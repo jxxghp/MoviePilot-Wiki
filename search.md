@@ -2,7 +2,7 @@
 title: 搜索
 description: 如何搜索媒体信息以及资源
 published: 1
-date: 2024-06-12T09:08:02.899Z
+date: 2024-06-12T09:17:31.462Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:50:20.987Z
@@ -32,4 +32,10 @@ WEB管理页面点击搜索图标或者按 `ctrl+K`/`command+k` 弹出聚合搜�
 
 # 搜索优先级
 
-参见 [进阶](/advanced) 章节说明。
+参见 [进阶](/advanced) 优先级章节说明。
+
+# 远程搜索
+
+完成`微信/Telegram/Slack/SynologyChat/VoceChat`任一渠道的通知配置后，MoviePilot就具备了远程交互能力，可以通过消息客户端发送电影、电视剧名称搜索和下载。
+
+通过维护环境变量`AUTO_DOWNLOAD_USER`来设定远程搜索时是自动择优下载还是发送资源列表让用户选择。
