@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2024-06-12T11:04:21.503Z
+date: 2024-06-12T12:44:06.208Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -13,13 +13,13 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 插件市场仓库地址仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) 项目的fork，或者查看频道置顶了解更多第三方插件仓库。
 
-**MoviePilot目前已有 `130+` 插件，默认已内置以下插件库：**
+**默认已内置以下插件库：**
   1. https://github.com/jxxghp/MoviePilot-Plugins
   2. https://github.com/thsrite/MoviePilot-Plugins
   3. https://github.com/honue/MoviePilot-Plugins
   4. https://github.com/InfinityPacer/MoviePilot-Plugins
   
-**完整的插件仓库地址配置：**
+**MoviePilot目前已有 `130+` 插件，完整的插件仓库地址配置：**
 ```
 https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePilot-Plugins/,https://github.com/honue/MoviePilot-Plugins/,https://github.com/InfinityPacer/MoviePilot-Plugins/,https://github.com/dandkong/MoviePilot-Plugins/,https://github.com/Aqr-K/MoviePilot-Plugins/,https://github.com/AnjoyLi/MoviePilot-Plugins/,https://github.com/WithdewHua/MoviePilot-Plugins/,https://github.com/HankunYu/MoviePilot-Plugins/,https://github.com/baozaodetudou/MoviePilot-Plugins/,https://github.com/almus2zhang/MoviePilot-Plugins/,https://github.com/Pixel-LH/MoviePilot-Plugins/,https://github.com/lightolly/MoviePilot-Plugins/,https://github.com/suraxiuxiu/MoviePilot-Plugins/,https://github.com/gxterry/MoviePilot-Plugins/,https://github.com/hotlcc/MoviePilot-Plugins-Third/
 ```
@@ -39,6 +39,7 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 
 # 常用插件介绍
 
+- `配置中心`：针对未开放WEB UI的可通过配置文件配置的变量提供图形化配置界面。
 - `站点自动签到`：自动完成站点签到或者模断登录站点，避免长时间未登录被封禁。
 - `站点数据统计`：统计和展示站点的上传量、下载量、分享率、保种量等数据。
 - `豆瓣想看`：豆瓣加入想看后自动订阅搜索和下载。
