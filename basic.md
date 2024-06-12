@@ -1,8 +1,8 @@
 ---
 title: 基础
-description: 
+description: 初始密码、用户认证等基础内容
 published: 1
-date: 2024-06-12T00:56:44.813Z
+date: 2024-06-12T09:09:25.211Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:38.779Z
