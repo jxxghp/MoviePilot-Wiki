@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-06-13T02:54:39.931Z
+date: 2024-06-13T04:52:57.062Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -137,3 +137,5 @@ server {
     # ...
 }
 ```
+
+**代理服务连接超时时间应尽量长⼀些，比如10分钟，避免代理服务器强制中断请求。**
