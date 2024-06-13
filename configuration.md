@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-12T10:51:35.021Z
+date: 2024-06-13T00:32:13.994Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -82,50 +82,15 @@ dateCreated: 2024-05-30T09:48:02.073Z
 ---
 - **OCR_HOST：** OCR识别服务器地址，格式：`http(s)://ip:port`，用于识别站点验证码实现自动登录获取Cookie等，不配置默认使用内建服务器`https://movie-pilot.org`，可使用 [这个镜像](https://hub.docker.com/r/jxxghp/moviepilot-ocr) 自行搭建。
 ---
-- **MOVIE_RENAME_FORMAT：** 电影重命名格式，基于jinjia2语法
-
-  `MOVIE_RENAME_FORMAT`支持的配置项：
-
-  > `title`： TMDB/豆瓣中的标题  
-  > `en_title`： TMDB中的英文标题 （暂不支持豆瓣）
-  > `original_title`： TMDB/豆瓣中的原语种标题  
-  > `name`： 从文件名中识别的名称（同时存在中英文时，优先使用中文）
-  > `en_name`：从文件名中识别的英文名称（可能为空）
-  > `original_name`： 原文件名（包括文件外缀）  
-  > `year`： 年份  
-  > `resourceType`：资源类型  
-  > `effect`：特效  
-  > `edition`： 版本（资源类型+特效）  
-  > `videoFormat`： 分辨率  
-  > `releaseGroup`： 制作组/字幕组  
-  > `customization`： 自定义占位符  
-  > `videoCodec`： 视频编码  
-  > `audioCodec`： 音频编码  
-  > `tmdbid`： TMDB ID（非TMDB识别源时为空）  
-  > `imdbid`： IMDB ID（可能为空）  
-  > `doubanid`：豆瓣ID（非豆瓣识别源时为空）  
-  > `part`：段/节  
-  > `fileExt`：文件扩展名
-  > `customization`：自定义占位符
+- **MOVIE_RENAME_FORMAT：** 电影重命名格式，默认内置了以下命名格式，如需自定义可参考 [进阶](/advanced) 自定义重命名格式章节说明。
   
-  `MOVIE_RENAME_FORMAT`默认配置格式：
-  
-  ```
+  ```jinja2
   {{title}}{% if year %} ({{year}}){% endif %}/{{title}}{% if year %} ({{year}}){% endif %}{% if part %}-{{part}}{% endif %}{% if videoFormat %} - {{videoFormat}}{% endif %}{{fileExt}}
   ```
 
-- **TV_RENAME_FORMAT：** 电视剧重命名格式，基于jinjia2语法
-
-  `TV_RENAME_FORMAT`额外支持的配置项：
+- **TV_RENAME_FORMAT：** 电视剧重命名格式，默认内置了以下命名格式，如需自定义可参考 [进阶](/advanced) 自定义重命名格式章节说明。
   
-  > `season`： 季号  
-  > `episode`： 集号  
-  > `season_episode`： 季集 SxxExx  
-  > `episode_title`： 集标题
-  
-  `TV_RENAME_FORMAT`默认配置格式：
-  
-  ```
+  ```jinja2
   {{title}}{% if year %} ({{year}}){% endif %}/Season {{season}}/{{title}} - {{season_episode}}{% if part %}-{{part}}{% endif %}{% if episode %} - 第 {{episode}} 集{% endif %}{{fileExt}}
   ```
 ---
