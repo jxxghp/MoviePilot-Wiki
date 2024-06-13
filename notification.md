@@ -2,7 +2,7 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-06-12T11:35:51.068Z
+date: 2024-06-13T03:22:32.951Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
@@ -47,6 +47,8 @@ location  /cgi-bin/menu/create {
     proxy_pass https://qyapi.weixin.qq.com;
 }
 ```
+
+也可以使用这个项目直接搭建：[wxchat-Docker](https://github.com/DDS-Derek/wxchat-Docker)
 
 ### 管理员白名单
 设置后，只有在`管理员白名单`的用户才可以使用微信应用号的菜单功能。
