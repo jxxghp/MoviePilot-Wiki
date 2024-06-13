@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-13T00:29:34.461Z
+date: 2024-06-13T00:35:28.140Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -18,7 +18,7 @@ dateCreated: 2024-05-30T09:47:08.061Z
 MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内容可参考 [模板引擎Jinja2语法介绍](https://wsgzao.github.io/post/jinja/)。
 
 **可根据以下可配置项说明，参考默认的格式配置，调整命名格式：**
-- 以`/`分隔多级目录，可调整目录文件和文件名格式。
+- 以`/`分隔多级目录，可调整目录名和文件名格式。
 - 在使用一个变量前，建议增加`if`判定语句，变量不为空时才拼装。
 
 **`MOVIE_RENAME_FORMAT`支持的配置项：**
