@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-06-12T05:56:51.785Z
+date: 2024-06-13T02:54:39.931Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -30,8 +30,6 @@ docker run -itd \
     -e 'IYUU_SIGN=xxxx' \
     -e 'SUPERUSER=admin' \
     -e 'API_TOKEN=moviepilot' \
-    --log-driver "json-file" \
-    --log-opt "max-size=5m" \
     --restart always \
     jxxghp/moviepilot:latest
 ```
@@ -68,10 +66,6 @@ services:
             - 'IYUU_SIGN=xxxx'
             - 'SUPERUSER=admin'
             - 'API_TOKEN=moviepilot'
-        logging:
-            driver: json-file
-            options:
-                max-size: 5m
         restart: always
         image: jxxghp/moviepilot:latest
 
