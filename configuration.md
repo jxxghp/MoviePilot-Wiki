@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-13T00:32:13.994Z
+date: 2024-06-13T00:33:43.250Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -29,7 +29,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 
     > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`
     
-    各认证站点对应参数配置如下：
+    **各认证站点对应参数配置如下：**
   
     |      站点      |                          参数                           |
     |:------------:|:-----------------------------------------------------:|
