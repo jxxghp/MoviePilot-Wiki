@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-13T00:18:07.807Z
+date: 2024-06-13T00:29:34.461Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -14,6 +14,42 @@ dateCreated: 2024-05-30T09:47:08.061Z
 
 
 # 自定义重命名
+
+MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内容可参考 [模板引擎Jinja2语法介绍](https://wsgzao.github.io/post/jinja/)。
+
+**可根据以下可配置项说明，参考默认的格式配置，调整命名格式：**
+- 以`/`分隔多级目录，可调整目录文件和文件名格式。
+- 在使用一个变量前，建议增加`if`判定语句，变量不为空时才拼装。
+
+**`MOVIE_RENAME_FORMAT`支持的配置项：**
+
+  > `title`： TMDB/豆瓣中的标题  
+  > `en_title`： TMDB中的英文标题 （暂不支持豆瓣）
+  > `original_title`： TMDB/豆瓣中的原语种标题  
+  > `name`： 从文件名中识别的名称（同时存在中英文时，优先使用中文）
+  > `en_name`：从文件名中识别的英文名称（可能为空）
+  > `original_name`： 原文件名（包括文件外缀）  
+  > `year`： 年份  
+  > `resourceType`：资源类型  
+  > `effect`：特效  
+  > `edition`： 版本（资源类型+特效）  
+  > `videoFormat`： 分辨率  
+  > `releaseGroup`： 制作组/字幕组  
+  > `customization`： 自定义占位符  
+  > `videoCodec`： 视频编码  
+  > `audioCodec`： 音频编码  
+  > `tmdbid`： TMDB ID（非TMDB识别源时为空）  
+  > `imdbid`： IMDB ID（可能为空）  
+  > `doubanid`：豆瓣ID（非豆瓣识别源时为空）  
+  > `part`：段/节  
+  > `fileExt`：文件扩展名
+  > `customization`：自定义占位符
+  
+**`TV_RENAME_FORMAT`额外支持的配置项：**
+  > `season`： 季号  
+  > `episode`： 集号  
+  > `season_episode`： 季集 SxxExx  
+  > `episode_title`： 集标题
 
 # 多目录支持与分类
 
