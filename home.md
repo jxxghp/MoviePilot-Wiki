@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-06-13T03:04:20.699Z
+date: 2024-06-13T03:39:39.898Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -53,9 +53,16 @@ MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配
 {.links-list}
 
 
-# 贡献
+# 参与
 
 - [:question: 提问交流 *访问Telegram交流群，请尊重他人、文明礼貌交流。*](https://t.me/moviepilot_official)
 - [:fire: Bug 反馈 *提交问题前请仔细阅读问题反馈说明。*](https://github.com/jxxghp/MoviePilot/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=%5B错误报告%5D%3A+请在此处简单描述你的问题)
 - [:bulb: 功能建议 *欢迎提交好的想法和思路，共同改进MoviePilot。*](https://github.com/jxxghp/MoviePilot/issues/new?assignees=&labels=feature+request&projects=&template=feature_request.yml&title=%5BFeature+Request%5D%3A+)
 {.links-list}
+
+# 功能预览
+
+![dashboard.png](/dashboard.png)
+![discover.png](/discover.png)
+![subscribe.png](/subscribe.png)
+![plugin.png](/plugin.png)
