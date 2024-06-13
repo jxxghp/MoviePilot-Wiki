@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-13T01:01:04.209Z
+date: 2024-06-13T01:05:25.406Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -25,7 +25,12 @@ dateCreated: 2024-05-30T09:47:08.061Z
 - `集偏移`：定位待识别文本中的`集数位置`，并对识别出来的集数做运算，以解决识别出来的的集数与TMDB实际不一致的问题。`前后定位词`之间的所有数字（包括中文小写，不包括中文大写）视为集数，`偏移集数`支持运算，例如集数加1：`EP+1`；集数翻倍：`2*EP`；集数翻倍-1：`2*EP-1`（`EP`代表原集数）。
 
 ## 示例
+以下链接中有相关的示例，可通过`共享识别词`插件自动更新到本地使用：
+- https://movie-pilot.org/etherpad/p/MoviePilot_TV_Words
+- https://movie-pilot.org/etherpad/p/MoviePilot_Anime_Words
 
+> 以上链接为大家自觉共享维护使用，请勿添加未充分识别测试的内容，请不要恶意破坏！
+{.is-warning}
 
 # 自定义重命名
 
