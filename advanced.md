@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-13T01:29:33.092Z
+date: 2024-06-13T01:30:52.601Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -25,6 +25,7 @@ dateCreated: 2024-05-30T09:47:08.061Z
 ```
 ![filterrule.png](/filterrule.png)
 
+其中：`中文字幕`规则只针对非国产电影和剧集生效。
 
 ## 分享
 点击优先级右上角按钮，选择`分享`，可将优先级规则复制到剪切板，选择`导入`可以快速导入别人分享的优先级规则。
