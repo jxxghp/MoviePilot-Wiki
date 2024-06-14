@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-14T09:05:24.895Z
+date: 2024-06-14T09:06:44.176Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -23,7 +23,8 @@ dateCreated: 2024-05-30T09:47:08.061Z
 ```
  SPECSUB & !BLU & !DOLBY & 1080P > CNSUB & !BLU & !DOLBY & 1080P > SPECSUB & BLU & !DOLBY & 4K > CNSUB & !BLU & !DOLBY & 4K  
 ```
-![filterrule.png](/filterrule.png)
+
+![subscribe_rule.png](/subscribe_rule.png)
 
 其中`中文字幕`规则只针对非国产电影和剧集生效。
 
