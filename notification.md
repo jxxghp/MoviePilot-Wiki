@@ -2,7 +2,7 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-06-13T03:22:32.951Z
+date: 2024-06-15T13:25:55.218Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
@@ -31,7 +31,7 @@ dateCreated: 2024-05-31T12:38:49.255Z
 
 ### 微信消息回调
 - 在微信企业应用`接收消息`设置页面生成`Token`和`EncodingAESKey`并填入`设定->通知->微信`对应项，并**保存**。
-- 在微信企业应用`接收消息`页面输入此地址：`http(s)://DOMAIN:PORT//api/v1/message/`（DOMAIN、PORT替换为本工具的外网访问地址及端口，**需要有公网IP域名并做好端口转发**），能正常保存即设置成功。
+- 在微信企业应用`接收消息`页面输入此地址：`http(s)://DOMAIN:PORT/api/v1/message/`（DOMAIN、PORT替换为本工具的外网访问地址及端口，**需要有公网IP域名并做好端口转发**），能正常保存即设置成功。
 - 会自动生成微信控制菜单，无需手动维护。
 
 ### 消息代理服务器
