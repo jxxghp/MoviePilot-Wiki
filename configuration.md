@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-06-26T01:41:36.874Z
+date: 2024-06-26T04:44:03.201Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -50,7 +50,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
     |    hdkyl     |        `HDKYL_UID`：用户ID<br/>`HDKYL_PASSKEY`：密钥        |
     |   qingwa    |      `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥      |
     |   discfan    |      `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥      |
-    |   haidan    |      `HAIDAN_UID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥      |
+    |   haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥      |
 
 # 环境变量 / 配置文件
 
