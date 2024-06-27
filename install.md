@@ -21,7 +21,7 @@ docker run -itd \
     -v /moviepilot/core:/moviepilot/.cache/ms-playwright \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
     -e 'NGINX_PORT=3000' \
-    -e 'PORT=3001'
+    -e 'PORT=3001' \
     -e 'PUID=0' \
     -e 'PGID=0' \
     -e 'UMASK=000' \
