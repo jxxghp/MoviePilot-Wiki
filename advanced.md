@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-06-14T09:06:44.176Z
+date: 2024-07-01T02:47:48.589Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -90,6 +90,7 @@ MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内�
   
 **`TV_RENAME_FORMAT`额外支持的配置项：**
   > `season`： 季号  
+  > `season_year`：季年份
   > `episode`： 集号  
   > `season_episode`： 季集 SxxExx  
   > `episode_title`： 集标题
