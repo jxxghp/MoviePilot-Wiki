@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-07-05T04:28:54.931Z
+date: 2024-07-11T00:06:56.084Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -27,7 +27,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - **MOVIEPILOT_AUTO_UPDATE：** 重启时自动更新，`true`/`release`/`dev`/`false`，默认`release`，需要能正常连接Github **注意：如果出现网络问题可以配置`PROXY_HOST`**
 - **❗AUTH_SITE：** **认证站点**（认证通过后才能使用站点相关功能），支持配置多个认证站点，使用`,`分隔，如：`iyuu,hhclub`，会依次执行认证操作，直到有一个站点认证成功。  
 
-    > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`/`haidan`
+    > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`/`haidan`/`rousi`
     
     **各认证站点对应参数配置如下：**
   
@@ -51,6 +51,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
     |   qingwa    |      `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥      |
     |   discfan    |      `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥      |
     |   haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥      |
+    |   rousi    |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥      |
 
 # 环境变量 / 配置文件
 
