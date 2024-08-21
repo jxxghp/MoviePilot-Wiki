@@ -52,7 +52,31 @@ location  /cgi-bin/menu/create {
 
 感谢 [@snnh](https://github.com/snnh) 提供的教程：[使用腾讯云cdn实现企业微信反向代理](/tencent_cdn_qywx)
 
+或者使用 TCP 中转服务器来实现，以 socat 为例，使用 docker compose 搭建中转服务器
 
+```yml
+version: "3.5"
+services:
+  wxqyapi-relay:
+      image: alpine/socat
+      container_name: wxqyapi-relay
+      command: "TCP-LISTEN:9090,fork,reuseaddr TCP:qyapi.weixin.qq.com:443"
+      expose:
+        - "9090"
+      ports:
+        - "443:9090"
+      restart: unless-stopped
+```
+
+然后添加 hosts 将 qyapi.weixin.qq.com 指向该服务即可
+
+```hosts
+ip_of_your_server qyapi.weixin.qq.com
+```
+
+如果 socat 服务不能使用 443 端口，需要配置 WECHAT_PROXY，比如 socat 监听的 8543 端口，需要设置 `WECHAT_PROXY=https://qyapi.weixin.qq.com:8543` 并同时配置 hosts
+
+TCP 中转服务也可以通过 Nginx 实现，通常 socat 用不了 443 端口都是因为 443 被 Nginx 占用了，方法参考 <https://atpx.com/blog/nginx-tcp-proxy-forward-client-ip/>
 
 ### 管理员白名单
 设置后，只有在`管理员白名单`的用户才可以使用微信应用号的菜单功能。
