@@ -1,3 +1,13 @@
+---
+title: 腾讯云cdn实现企业微信反向代理
+description: 
+published: 1
+date: 2024-08-21T04:38:01.394Z
+tags: 
+editor: markdown
+dateCreated: 2024-08-21T04:36:55.554Z
+---
+
 # **使用腾讯云cdn实现企业微信反向代理**
 ## 0. 准备工作
 1. 申请腾讯云账号，并开通cdn服务
