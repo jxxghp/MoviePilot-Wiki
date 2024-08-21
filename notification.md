@@ -2,7 +2,7 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-08-21T04:30:40.305Z
+date: 2024-08-21T04:39:35.803Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
@@ -48,9 +48,11 @@ location  /cgi-bin/menu/create {
 }
 ```
 
-也可以使用这个项目直接搭建：[wxchat-Docker](https://github.com/DDS-Derek/wxchat-Docker)
+可以使用这个项目直接搭建：[wxchat-Docker](https://github.com/DDS-Derek/wxchat-Docker)
 
-[使用腾讯云cdn实现企业微信反向代理](/tencent_cdn_qywx)
+感谢 [@snnh](https://github.com/snnh) 提供的教程：[使用腾讯云cdn实现企业微信反向代理](/tencent_cdn_qywx)
+
+
 
 ### 管理员白名单
 设置后，只有在`管理员白名单`的用户才可以使用微信应用号的菜单功能。
