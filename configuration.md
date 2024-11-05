@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-05T11:31:22.811Z
+date: 2024-11-05T11:32:29.952Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -112,7 +112,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 # 对外服务路径
 MoviePilot通过对外提供Api的方式实现消息接入、Webhook等功能，以下是涉及可能需要在其它软件中配置的回调地址。
 
-> **V2版本变化说明** <br> v2.0.0+ 版本后`API_TOKEN`需要设置16位或以上的复杂字符串，如未设置将自动生成，如已设置但不符合复杂度要求也会重新生成，通过查看首次启动日志获取自动生成的`API_TOKEN`。
+> **V2版本变化说明** <br> v2.0.0+ 版本后`API_TOKEN`需要设置**16位或以上的复杂字符串**，如未设置将自动生成，如已设置但不符合复杂度要求也会重新生成，通过查看首次启动日志获取自动生成的`API_TOKEN`。
 {.is-info}
 
 - **消息接收服务**：`/api/v1/message/?token=moviepilot`，微信、SynologyChat、VoceChat的消息回调地址，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值。
