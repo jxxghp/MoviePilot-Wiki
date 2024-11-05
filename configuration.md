@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-07-11T00:06:56.084Z
+date: 2024-11-05T11:27:46.332Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -56,6 +56,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 # 环境变量 / 配置文件
 
 配置文件名：`app.env`，放配置文件根目录，点击 [此处](https://raw.githubusercontent.com/jxxghp/MoviePilot/main/config/app.env) 可下载模板。
+
+> **V2版本变化说明**：V2版本中以下所有变量均可以通过前端界面设置，无需手动编辑配置文件。
+{.is-info}
 
 - **❗SUPERUSER：** 超级管理员用户名，默认`admin`，安装后使用该用户登录后台管理界面，**注意：启动一次后再次修改该值不会生效，除非删除数据库文件！**
 - **❗API_TOKEN：** API密钥，默认`moviepilot`，在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值，建议修改为复杂字符串
