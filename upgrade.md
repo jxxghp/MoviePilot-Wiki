@@ -2,7 +2,7 @@
 title: 升级
 description: 自动升级新版本
 published: 1
-date: 2024-06-11T23:12:40.298Z
+date: 2024-11-05T11:35:48.960Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
@@ -24,6 +24,9 @@ dateCreated: 2024-05-30T09:56:06.097Z
 
 #### 重启自动升级
 
+> **注意：** V1版本重启不会自动升级到V2版本。V1版本升级到V2版本需要重新配置，无法复用旧版本的配置文件、数据库文件等。
+{.is-warning}
+
 根据 [配置参考](/configuration) 设置环境变量`MOVIEPILOT_AUTO_UPDATE`为`true`或`release`，`AUTO_UPDATE_RESOURCE`为`true`，开启重启自动升级以及资源包自动更新。此时只需要重启docker容器，或者在WEB管理界面中选择重启菜单（参考 [安装指引](docker.sock) 映射了`docker.sock`的前提下），即可自动重启升级到已发布的最新版本。
 
 `MOVIEPILOT_AUTO_UPDATE` 配置说明：
@@ -38,12 +41,12 @@ dateCreated: 2024-05-30T09:56:06.097Z
 - 使用docker-compose时，使用以下命令更新到最新境像:
 
 ```bash
-docker-compose pull jxxghp/movie-pilot:latest
+docker-compose pull jxxghp/moviepilot-v2:latest
 docker-compose up --force-recreate -d
 ```
 - 手动更新镜像到最新版本，**更新完成后需要重置容器才能应用最新镜像**。
 ```bash
-docker pull jxxghp/movie-pilot:latest
+docker pull jxxghp/moviepilot-v2:latest
 ```
 
 不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到`重置`选项；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
