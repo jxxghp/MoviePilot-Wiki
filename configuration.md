@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-05T11:37:55.458Z
+date: 2024-11-05T11:40:57.119Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -58,7 +58,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 {.is-info}
 
 - **❗SUPERUSER：** 超级管理员用户名，默认`admin`，安装后使用该用户登录后台管理界面，**注意：启动一次后再次修改该值不会生效，除非删除数据库文件！**
-- **❗API_TOKEN：** API密钥，默认`moviepilot`，在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值，建议修改为复杂字符串
+- **❗API_TOKEN：** API密钥，V1版本默认为`moviepilot`，**V2版本需要手动配置为大于等于16个字符的复杂字符串** （如配置不符合要求将会强制重新生成，可在首次启动的启动日志或env配置文件中查看最新的值） 。在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值。
 - **BIG_MEMORY_MODE：** 大内存模式，默认为`false`，开启后会增加缓存数量，占用更多的内存，但响应速度会更快
 - **DOH_ENABLE：** DNS over HTTPS开关，`true`/`false`，默认`true`，开启后会使用DOH对设定域名进行解析，以减少被DNS污染的情况，提升网络连通性
 - **DOH_DOMAINS：** DOH域名清单，多个使用`,`分隔，默认为：
