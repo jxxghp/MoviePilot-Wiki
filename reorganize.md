@@ -2,7 +2,7 @@
 title: 文件整理
 description: 媒体库目录和文件整理方式
 published: 1
-date: 2024-11-05T12:20:31.152Z
+date: 2024-11-05T12:21:13.905Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:35.138Z
@@ -11,8 +11,6 @@ dateCreated: 2024-05-30T09:49:35.138Z
 # 自动整理 {.tabset}
 
 
-> 如果使用`Qbittorrent`做为下载器，可在 QB设置->下载完成时运行外部程序 处填入：curl "http://localhost:3000/api/v1/transfer/now?token=moviepilot" ，实现无需等待轮循下载完成后立即整理入库（地址、端口和token按实际调整，curl也可更换为wget）。
-{.is-info}
 
 ## V1版本
 
@@ -33,6 +31,11 @@ MoviePilot V2版本支持按目录设定是否通过下载器监控整理或者�
 - 下载器监控自动整理间隔为 `5分钟`，设定中所有启用的下载器且设定了对应目录时都会自动整理。
 - 目录监控为实时。请避免对网盘目录使用目录监控，容易触发大量API请求导致被流控。
 
+
+
+
+> 如果使用`Qbittorrent`做为下载器，可在 QB设置->下载完成时运行外部程序 处填入：curl "http://localhost:3000/api/v1/transfer/now?token=moviepilot" ，实现无需等待轮循下载完成后立即整理入库（地址、端口和token按实际调整，curl也可更换为wget）。
+{.is-info}
 
 
 # 文件整理方式
