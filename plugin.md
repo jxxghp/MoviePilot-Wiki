@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2024-08-03T08:13:06.285Z
+date: 2024-11-05T12:10:00.980Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -74,5 +74,8 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 - `ChatGPT`：使用ChatGPT增强资源识别。
 - `IYUU自动辅种`：无需安装IYUUAutoSeed客户端实现自动辅种。
 - `MoviePilot更新推送`：自动更新MoviePilot到最新版本。
+
+> 插件适配V2版本需要插件开发者进行兼容改造或者在插件代码中声明支持V2，如发现V1版本中的插件在V2版本的插件市场中不显示，需联系插件开发者修改支持。
+{.is-info}
 
 更多精彩，插件市场等你发现！
