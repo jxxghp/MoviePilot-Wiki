@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-05T11:28:18.676Z
+date: 2024-11-05T11:31:22.811Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -57,7 +57,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 
 配置文件名：`app.env`，放配置文件根目录，点击 [此处](https://raw.githubusercontent.com/jxxghp/MoviePilot/main/config/app.env) 可下载模板。
 
-> **V2版本变化说明**：v2.0.0+ 版本后以下所有变量均可以通过前端界面设置，无需手动编辑配置文件。
+> **V2版本变化说明** <br> v2.0.0+ 版本后以下所有变量均可以通过前端界面设置，无需手动编辑配置文件。
 {.is-info}
 
 - **❗SUPERUSER：** 超级管理员用户名，默认`admin`，安装后使用该用户登录后台管理界面，**注意：启动一次后再次修改该值不会生效，除非删除数据库文件！**
@@ -111,6 +111,10 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 
 # 对外服务路径
 MoviePilot通过对外提供Api的方式实现消息接入、Webhook等功能，以下是涉及可能需要在其它软件中配置的回调地址。
+
+> **V2版本变化说明** <br> v2.0.0+ 版本后`API_TOKEN`需要设置16位或以上的复杂字符串，如未设置将自动生成，如已设置但不符合复杂度要求也会重新生成，通过查看首次启动日志获取自动生成的`API_TOKEN`。
+{.is-info}
+
 - **消息接收服务**：`/api/v1/message/?token=moviepilot`，微信、SynologyChat、VoceChat的消息回调地址，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值。
 - **Webhook服务**：`/api/v1/webhook?token=moviepilot`，Emby、Jellyfin、Plex等Webhook回调地址，用于接入Webhook请求并传递到MoviePilot内部使用，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值。
 - **下载文件立即整理**：`/api/v1/transfer/now?token=moviepilot`，下载文件自动整理默认轮循下载器间隔为5分钟，如果是使用qbittorrent，可在 `QB设置`->`下载完成时运行外部程序` 处填入：`curl "http://localhost:3000/api/v1/transfer/now?token=moviepilot" `，实现无需等待轮循下载完成后立即整理入库（地址、端口和token按实际调整，curl也可更换为wget）。
