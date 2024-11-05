@@ -2,7 +2,7 @@
 title: 下载
 description: 下载目录和手动下载
 published: 1
-date: 2024-06-13T02:58:07.793Z
+date: 2024-11-05T11:56:36.663Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:22.298Z
@@ -25,4 +25,4 @@ dateCreated: 2024-05-30T09:48:22.298Z
 
 完成`微信/Telegram/Slack/SynologyChat/VoceChat`任一渠道的通知配置后，MoviePilot就具备了远程交互下载能力，可以通过消息客户端发送电影、电视剧名称搜索和下载。
 
-通过维护环境变量`AUTO_DOWNLOAD_USER`来设定远程搜索时是自动择优下载还是发送资源列表让用户选择。
+V1版本通过维护变量`AUTO_DOWNLOAD_USER`来设定远程搜索时是自动择优下载还是发送资源列表让用户选择，V2版本可以直接在界面中调整设置。
