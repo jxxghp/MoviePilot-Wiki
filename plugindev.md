@@ -2,7 +2,7 @@
 title: 插件开发
 description: 开发插件为MoviePilot添加功能
 published: 1
-date: 2024-06-13T04:24:02.968Z
+date: 2024-11-05T12:16:21.407Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:59.557Z
@@ -15,3 +15,6 @@ dateCreated: 2024-05-30T09:48:59.557Z
 4. 将插件仓库地址提供给用户，配置到插件市场变量中。
 
 当然，你也可以PR到官方插件仓库，以便更多人知晓和使用：https://github.com/jxxghp/MoviePilot-Plugins
+
+> 插件支持V2版本请看 [这里](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V2_Plugin_Development.md)
+{.is-success}
