@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-06-13T04:52:57.062Z
+date: 2024-11-05T11:23:59.849Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -10,7 +10,10 @@ dateCreated: 2024-05-30T09:48:38.889Z
 
 # Docker
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
-### docker-cli
+
+## docker-cli {.tabset}
+
+### V1版本
 ```shell
 docker run -itd \
     --name moviepilot \
@@ -33,7 +36,34 @@ docker run -itd \
     --restart always \
     jxxghp/moviepilot:latest
 ```
-### docker-compose
+
+### V2版本
+```shell
+docker run -itd \
+    --name moviepilot-v2 \
+    --hostname moviepilot-v2 \
+    -p 3000:3000 \
+    -v /media:/media \
+    -v /moviepilot-v2/config:/config \
+    -v /moviepilot-v2/core:/moviepilot/.cache/ms-playwright \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -e 'NGINX_PORT=3000' \
+    -e 'PORT=3001' \
+    -e 'PUID=0' \
+    -e 'PGID=0' \
+    -e 'UMASK=000' \
+    -e 'TZ=Asia/Shanghai' \
+    -e 'AUTH_SITE=iyuu' \
+    -e 'IYUU_SIGN=xxxx' \
+    -e 'SUPERUSER=admin' \
+    -e 'API_TOKEN=大于16位的复杂字符串' \
+    --restart always \
+    jxxghp/moviepilot-v2:latest
+```
+
+## docker-compose  {.tabset}
+
+### V1版本
 ```shell
 version: '3.3'
 
@@ -68,6 +98,47 @@ services:
             - 'API_TOKEN=moviepilot'
         restart: always
         image: jxxghp/moviepilot:latest
+
+networks:
+  moviepilot:
+    name: moviepilot
+```
+
+### V2版本
+```shell
+version: '3.3'
+
+services:
+
+    moviepilot:
+        stdin_open: true
+        tty: true
+        container_name: moviepilot-v2
+        hostname: moviepilot-v2
+        networks:
+            - moviepilot
+        ports:
+            - target: 3000
+              published: 3000
+              protocol: tcp
+        volumes:
+            - '/media:/media'
+            - '/moviepilot-v2/config:/config'
+            - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+        environment:
+            - 'NGINX_PORT=3000'
+            - 'PORT=3001'
+            - 'PUID=0'
+            - 'PGID=0'
+            - 'UMASK=000'
+            - 'TZ=Asia/Shanghai'
+            - 'AUTH_SITE=iyuu'
+            - 'IYUU_SIGN=xxxx'
+            - 'SUPERUSER=admin'
+            - 'API_TOKEN=大于16位的复杂字符串'
+        restart: always
+        image: jxxghp/moviepilot-v2:latest
 
 networks:
   moviepilot:
