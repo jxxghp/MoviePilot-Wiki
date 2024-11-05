@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-11-05T11:23:59.849Z
+date: 2024-11-05T23:38:54.301Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -169,6 +169,8 @@ Windows环境下提供两种安装方式，推荐使用`安装版本`。
 
 ### 安装版本
 由 [Windows-MoviePilot](https://github.com/developer-wlj/Windows-MoviePilot) 项目提供，参考项目说明使用。
+
+V2版本：https://github.com/developer-wlj/Windows-MoviePilot/tree/v2
 
 
 # Synology套件
