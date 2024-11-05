@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-05T11:40:57.119Z
+date: 2024-11-05T11:45:29.167Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -15,6 +15,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 {.is-info}
 
 # 环境变量
+
+认证站点和认证参数等个别参数需要通过环境变量设置，才能正常使用MoviePilot，没有❗标识的可以不用设置。
+
 - **❗NGINX_PORT：** WEB服务端口，默认`3000`，可自行修改，不能与API服务端口冲突
 - **❗PORT：** API服务端口，默认`3001`，可自行修改，不能与WEB服务端口冲突
 - **PUID**：运行程序用户的`uid`，默认`0`
@@ -50,9 +53,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
     |   haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥      |
     |   rousi    |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥      |
 
-# 环境变量 / 配置文件
+# 配置文件
 
-配置文件名：`app.env`，放配置文件根目录，点击 [此处](https://raw.githubusercontent.com/jxxghp/MoviePilot/main/config/app.env) 可下载模板。
+V1版本有些进阶配置参数需要通过配置文件进行配置（不配置会自动使用默认值），配置文件名：`app.env`，放配置文件根目录，点击 [此处](https://raw.githubusercontent.com/jxxghp/MoviePilot/main/config/app.env) 可下载模板。
 
 > **V2版本变化说明** <br> v2.0.0+ 版本后以下所有变量均可以通过前端界面设置，无需手动编辑配置文件。
 {.is-info}
