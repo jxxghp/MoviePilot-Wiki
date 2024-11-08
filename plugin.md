@@ -2,14 +2,14 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2024-11-05T12:10:33.190Z
+date: 2024-11-08T05:28:36.170Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
 ---
 
 # 插件市场
-通过在变量`PLUGIN_MARKET`中添加第三方插件仓库地址后，即可在插件市场中看到对应的插件。
+通过在变量`PLUGIN_MARKET`中添加第三方插件仓库地址后（v2版本点击插件页面图标维护），即可在插件市场中看到对应的插件。
 
 插件市场仓库地址仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) 项目的fork，或者查看频道置顶了解更多第三方插件仓库。
 
