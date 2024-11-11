@@ -2,7 +2,7 @@
 title: 文件整理
 description: 媒体库目录和文件整理方式
 published: 1
-date: 2024-11-05T12:21:51.645Z
+date: 2024-11-11T03:01:35.983Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:35.138Z
@@ -45,7 +45,7 @@ MoviePilot V2版本支持按目录设定是否通过下载器监控整理或者�
 - **软链接**：类似于快捷方式，原文件删除后软链接即会失效；使用软链接时的原文件路径需要与生成软链接时的原文件路径保持一致，否则无法使用，也就是在docker环境下，映射前后的目录路径需要一致。
 - **复制**：复制一份副本，多占用一份空间。
 - **移动**：移动文件存储位置，会影响原文件做种。
-- **Rclone复制**：使用Rclone复制本地文件到网盘，需要自行映射rclone配置目录到容器中（`/nt/.config/rclone`）或在容器内使用`rclone config`完成rclone配置，网盘配置名称必须为：`MP`，可自行通过Docker添加环境变量传递参数优化传输，参考：https://rclone.org/docs/#environment-variables 。
+- **Rclone复制**：使用Rclone复制本地文件到网盘，需要自行映射rclone配置目录到容器中（`/moviepilot/.config/rclone`）或在容器内使用`rclone config`完成rclone配置，网盘配置名称必须为：`MP`，可自行通过Docker添加环境变量传递参数优化传输，参考：https://rclone.org/docs/#environment-variables 。
 - **Rclone移动**：使用Rclone移动本地文件到网盘，其余与Rclone复制一致。
 
 
