@@ -2,7 +2,7 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-11-06T00:20:44.168Z
+date: 2024-11-11T02:39:10.898Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
@@ -13,6 +13,8 @@ dateCreated: 2024-05-31T12:38:49.255Z
 
 系统运行状态以及发生错误时，会通过系统通知进行提醒，可登录WEB管理界面，在右上角消息提醒中心进行查看。
 
+> **V2版本变化说明** <br> v2.0.0+ 版本后`API_TOKEN`需要设置**16位或以上的复杂字符串** ，如果同一类型的消息配置了多个，回调请求地址中还需要加上 **&source=配置名称** 参数，其中配置名称建议使用英文，如果配置名称为中文或存在特殊字符（如空格），部分平台（如企业微信）可能需要进行URL编码。为了方便识别和管理，建议统一在所有回调地址中添加`source`参数，以确保各配置间的区分和调用更加清晰。
+{.is-info}
 
 # 通知隔离
 
@@ -35,7 +37,7 @@ V2版本支持消息通知按用户隔离，**需要在用户个人信息中维�
 
 ### 微信消息回调
 - 在微信企业应用`接收消息`设置页面生成`Token`和`EncodingAESKey`并填入`设定->通知->微信`对应项，并**保存**。
-- 在微信企业应用`接收消息`页面输入此地址：`http(s)://DOMAIN:PORT/api/v1/message/`（DOMAIN、PORT替换为本工具的外网访问地址及端口，**需要有公网IP域名并做好端口转发**），能正常保存即设置成功。
+- 在微信企业应用`接收消息`页面输入此地址：`http(s)://DOMAIN:PORT/api/v1/message/?token=moviepilot`（其中`moviepilot`修改为实际配置中实际的`API_TOKEN`的值，DOMAIN、PORT替换为本工具的外网访问地址及端口，**需要有公网IP域名并做好端口转发**），能正常保存即设置成功。
 - 会自动生成微信控制菜单，无需手动维护。
 
 ### 消息代理服务器
@@ -107,14 +109,14 @@ TCP 中转服务也可以通过 Nginx 实现，通常 socat 用不了 443 端口
 # SynologyChat
 
 - 群晖中安装`Synology Chat`。
-- `整合->机器人`中创建机器人，机器人勾选`启用整合`，取消`在聊天机器人列表中隐藏`，`传出URL`设置为`http://ip:port/api/v1/message/?token=moviepilot`，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值，`ip:port`为实际MoviePilot的IP地址和端口。记录`机器人传入URL`和`令牌`。
+- `整合->机器人`中创建机器人，机器人勾选`启用整合`，取消`在聊天机器人列表中隐藏`，`传出URL`设置为`http://ip:port/api/v1/message/?token=moviepilot`，其中`moviepilot`修改为实际配置中实际的`API_TOKEN`的值，`ip:port`为实际MoviePilot的IP地址和端口。记录`机器人传入URL`和`令牌`。
 - 将`机器人传入URL`和`令牌`填入MoviePilot相关设置项，保存。
 - Synology Chat界面中左侧机器人，点`+`号，添加机器人聊天。
 
 # VoceChat
 
 - 参考 https://doc.voce.chat 搭建VoceChat服务，创建机器人，获取`机器人密钥`和`频道ID`连同`服务地址`填入对应设置项，保存。
-- VoceChat机器人Webhook地址设置为：`http://ip:port/api/v1/message/?token=moviepilot`，其中`moviepilot`修改为环境变量中实际的`API_TOKEN`的值，`ip:port`为实际MoviePilot的IP地址和端口。
+- VoceChat机器人Webhook地址设置为：`http://ip:port/api/v1/message/?token=moviepilot`，其中`moviepilot`修改为实际配置中实际的`API_TOKEN`的值，`ip:port`为实际MoviePilot的IP地址和端口。
 
 # WebPush
 
