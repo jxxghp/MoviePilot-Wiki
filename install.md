@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-11-07T01:43:12.757Z
+date: 2024-11-11T02:30:17.540Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -56,7 +56,7 @@ docker run -itd \
     -e 'AUTH_SITE=iyuu' \
     -e 'IYUU_SIGN=xxxx' \
     -e 'SUPERUSER=admin' \
-    -e 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串' \
+    # -e 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串' \
     --restart always \
     jxxghp/moviepilot-v2:latest
 ```
@@ -136,7 +136,7 @@ services:
             - 'AUTH_SITE=iyuu'
             - 'IYUU_SIGN=xxxx'
             - 'SUPERUSER=admin'
-            - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
+            # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
         restart: always
         image: jxxghp/moviepilot-v2:latest
 
