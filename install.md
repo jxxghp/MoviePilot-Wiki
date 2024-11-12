@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-11-11T02:30:17.540Z
+date: 2024-11-12T14:43:03.101Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -12,30 +12,6 @@ dateCreated: 2024-05-30T09:48:38.889Z
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
 
 ## docker-cli {.tabset}
-
-### V1版本
-```shell
-docker run -itd \
-    --name moviepilot \
-    --hostname moviepilot \
-    -p 3000:3000 \
-    -v /media:/media \
-    -v /moviepilot/config:/config \
-    -v /moviepilot/core:/moviepilot/.cache/ms-playwright \
-    -v /var/run/docker.sock:/var/run/docker.sock:ro \
-    -e 'NGINX_PORT=3000' \
-    -e 'PORT=3001' \
-    -e 'PUID=0' \
-    -e 'PGID=0' \
-    -e 'UMASK=000' \
-    -e 'TZ=Asia/Shanghai' \
-    -e 'AUTH_SITE=iyuu' \
-    -e 'IYUU_SIGN=xxxx' \
-    -e 'SUPERUSER=admin' \
-    -e 'API_TOKEN=建议大于16位的复杂字符串' \
-    --restart always \
-    jxxghp/moviepilot:latest
-```
 
 ### V2版本
 ```shell
@@ -61,48 +37,31 @@ docker run -itd \
     jxxghp/moviepilot-v2:latest
 ```
 
-## docker-compose  {.tabset}
-
 ### V1版本
 ```shell
-version: '3.3'
-
-services:
-
-    moviepilot:
-        stdin_open: true
-        tty: true
-        container_name: moviepilot
-        hostname: moviepilot
-        networks:
-            - moviepilot
-        ports:
-            - target: 3000
-              published: 3000
-              protocol: tcp
-        volumes:
-            - '/media:/media'
-            - '/moviepilot/config:/config'
-            - '/moviepilot/core:/moviepilot/.cache/ms-playwright'
-            - '/var/run/docker.sock:/var/run/docker.sock:ro'
-        environment:
-            - 'NGINX_PORT=3000'
-            - 'PORT=3001'
-            - 'PUID=0'
-            - 'PGID=0'
-            - 'UMASK=000'
-            - 'TZ=Asia/Shanghai'
-            - 'AUTH_SITE=iyuu'
-            - 'IYUU_SIGN=xxxx'
-            - 'SUPERUSER=admin'
-            - 'API_TOKEN=建议大于16位的复杂字符串'
-        restart: always
-        image: jxxghp/moviepilot:latest
-
-networks:
-  moviepilot:
-    name: moviepilot
+docker run -itd \
+    --name moviepilot \
+    --hostname moviepilot \
+    -p 3000:3000 \
+    -v /media:/media \
+    -v /moviepilot/config:/config \
+    -v /moviepilot/core:/moviepilot/.cache/ms-playwright \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -e 'NGINX_PORT=3000' \
+    -e 'PORT=3001' \
+    -e 'PUID=0' \
+    -e 'PGID=0' \
+    -e 'UMASK=000' \
+    -e 'TZ=Asia/Shanghai' \
+    -e 'AUTH_SITE=iyuu' \
+    -e 'IYUU_SIGN=xxxx' \
+    -e 'SUPERUSER=admin' \
+    -e 'API_TOKEN=建议大于16位的复杂字符串' \
+    --restart always \
+    jxxghp/moviepilot:latest
 ```
+
+## docker-compose  {.tabset}
 
 ### V2版本
 ```shell
@@ -145,6 +104,47 @@ networks:
     name: moviepilot
 ```
 
+### V1版本
+```shell
+version: '3.3'
+
+services:
+
+    moviepilot:
+        stdin_open: true
+        tty: true
+        container_name: moviepilot
+        hostname: moviepilot
+        networks:
+            - moviepilot
+        ports:
+            - target: 3000
+              published: 3000
+              protocol: tcp
+        volumes:
+            - '/media:/media'
+            - '/moviepilot/config:/config'
+            - '/moviepilot/core:/moviepilot/.cache/ms-playwright'
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+        environment:
+            - 'NGINX_PORT=3000'
+            - 'PORT=3001'
+            - 'PUID=0'
+            - 'PGID=0'
+            - 'UMASK=000'
+            - 'TZ=Asia/Shanghai'
+            - 'AUTH_SITE=iyuu'
+            - 'IYUU_SIGN=xxxx'
+            - 'SUPERUSER=admin'
+            - 'API_TOKEN=建议大于16位的复杂字符串'
+        restart: always
+        image: jxxghp/moviepilot:latest
+
+networks:
+  moviepilot:
+    name: moviepilot
+```
+
 **相关说明：**
 - `/media`为媒体文件目录，根据实际情况调整，需要注意的是，**如果你计划使用`硬链接`来整理文件，那么`文件下载目录`和整理后的`媒体库目录`只能映射一个根目录不能分开映射，否则将会导致跨盘无法硬链接。** 这是由docker的目录映射机制决定的，下面这些情况都会导致跨盘无法硬链接：
    1. 下载目录和媒体库目录分别属于两个不同的磁盘
@@ -181,15 +181,15 @@ DSM7 添加套件源：https://spk7.imnks.com/ ，安装后通过`MoviePilot配�
 
 # 源代码运行
 MoviePilot项目已拆分为多个项目，使用源码运行时需要手动将相关项目文件进行整合：
-1. 使用`git clone`或者下载源代码包的方式下载主项目 [MoviePilot](https://github.com/jxxghp/MoviePilot) 文件到本地。
+1. 使用`git clone`或者下载源代码包等方式下载主项目 [MoviePilot](https://github.com/jxxghp/MoviePilot) 文件到本地。
 ```shell
 git clone https://github.com/jxxghp/MoviePilot
 ```
 2. 将工程 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) `plugins`目录下的所有文件复制到`app/plugins`目录，`icons`目录下的所有文件复制到前端项目的`public/plugin_icon`目录下
 3. 将工程 [MoviePilot-Resources](https://github.com/jxxghp/MoviePilot-Resources) resources目录下的所有文件复制到`app/helper`目录
 4. 执行命令：`pip install -r requirements.txt` 安装依赖
-5. 执行命令：`PYTHONPATH=. python app/main.py` 启动主服务
-6. 据前端项目 [MoviePilot-Frontend](https://github.com/jxxghp/MoviePilot-Frontend) 说明，启动前端服务
+5. 执行命令：`PYTHONPATH=. python app/main.py` 启动主服务（部分IDE提供一键启动、调试功能，请先设置工作目录为/app，并绑定好/config/app.env）
+6. 根据前端项目 [MoviePilot-Frontend](https://github.com/jxxghp/MoviePilot-Frontend) 说明，启动前端服务
 
 # 反向代理
 如需开启域名访问MoviePilot，则需要搭建反向代理服务。以`nginx`为例，需要添加以下配置项，否则可能会导致部分功能无法访问（`ip:port`修改为实际值）：
