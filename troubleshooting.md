@@ -2,7 +2,7 @@
 title: 故障排除
 description: 常见问题及解决方案
 published: 1
-date: 2024-11-12T14:59:13.343Z
+date: 2024-11-12T15:00:56.423Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:55:21.946Z
@@ -33,4 +33,4 @@ sudo sysctl -p
 2、挂载`网盘`、`Windows向Linux的SMB共享`、`NFS共享`等不支持事件触发的目录实时监控，打开目录监控的`兼容模式`可解决问题，但兼容模式下性能较低，可能会频繁读取磁盘。
 3、`设定 -> 连接 -> 下载器` 中开启`下载文件自动整理`，通过监控下载器完成文件自动整理，不使用目录监控。
 
-### 更多问题解决方法，请访问Telegram 的 [MoviePilot Wiki](https://t.me/Moviepilot_Wiki) 频道或 [MoviePilot交流群](https://t.me/moviepilot_official)获取。
+### 更多问题解决方法，请访问Telegram 的 [MoviePilot Wiki频道](https://t.me/Moviepilot_Wiki) 或 [MoviePilot交流群](https://t.me/moviepilot_official)获取。
