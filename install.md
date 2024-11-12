@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-11-12T14:43:03.101Z
+date: 2024-11-12T14:45:11.450Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -188,7 +188,7 @@ git clone https://github.com/jxxghp/MoviePilot
 2. 将工程 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) `plugins`目录下的所有文件复制到`app/plugins`目录，`icons`目录下的所有文件复制到前端项目的`public/plugin_icon`目录下
 3. 将工程 [MoviePilot-Resources](https://github.com/jxxghp/MoviePilot-Resources) resources目录下的所有文件复制到`app/helper`目录
 4. 执行命令：`pip install -r requirements.txt` 安装依赖
-5. 执行命令：`PYTHONPATH=. python app/main.py` 启动主服务（部分IDE提供一键启动、调试功能，请先设置工作目录为/app，并绑定好/config/app.env）
+5. 执行命令：`PYTHONPATH=. python app/main.py` 启动主服务（部分IDE提供一键启动、调试功能，请先设置工作目录为/app，并将环境变量文件设置为/config/app.env）
 6. 根据前端项目 [MoviePilot-Frontend](https://github.com/jxxghp/MoviePilot-Frontend) 说明，启动前端服务
 
 # 反向代理
