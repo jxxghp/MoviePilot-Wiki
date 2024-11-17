@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-17T04:57:05.894Z
+date: 2024-11-17T06:34:24.160Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -30,29 +30,29 @@ dateCreated: 2024-05-30T09:48:02.073Z
     > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`/`haidan`/`rousi`/`sunny`
     
     **各认证站点对应参数配置如下：**
-  
-    |      站点      |                          参数                           |
-    |:------------:|:-----------------------------------------------------:|
-    |     iyuu     |                 `IYUU_SIGN`：IYUU登录令牌                  |
-    |    hhclub    |     `HHCLUB_USERNAME`：用户名<br/>`HHCLUB_PASSKEY`：密钥     |
-    |  audiences   |    `AUDIENCES_UID`：用户ID<br/>`AUDIENCES_PASSKEY`：密钥    |
-    |   hddolby    |      `HDDOLBY_ID`：用户ID<br/>`HDDOLBY_PASSKEY`：密钥       |
-    |     zmpt     |         `ZMPT_UID`：用户ID<br/>`ZMPT_PASSKEY`：密钥         |
-    |   freefarm   |     `FREEFARM_UID`：用户ID<br/>`FREEFARM_PASSKEY`：密钥     |
-    |    hdfans    |       `HDFANS_UID`：用户ID<br/>`HDFANS_PASSKEY`：密钥       |
-    | wintersakura | `WINTERSAKURA_UID`：用户ID<br/>`WINTERSAKURA_PASSKEY`：密钥 |
-    |    leaves    |       `LEAVES_UID`：用户ID<br/>`LEAVES_PASSKEY`：密钥       |
-    |     ptba     |         `PTBA_UID`：用户ID<br/>`PTBA_PASSKEY`：密钥         |
-    |   icc2022    |      `ICC2022_UID`：用户ID<br/>`ICC2022_PASSKEY`：密钥      |
-    |   xingtan    |      `XINGTAN_UID`：用户ID<br/>`XINGTAN_PASSKEY`：密钥      |
-    |   ptvicomo   |     `PTVICOMO_UID`：用户ID<br/>`PTVICOMO_PASSKEY`：密钥     |
-    |    agsvpt    |       `AGSVPT_UID`：用户ID<br/>`AGSVPT_PASSKEY`：密钥       |
-    |    hdkyl     |        `HDKYL_UID`：用户ID<br/>`HDKYL_PASSKEY`：密钥        |
-    |   qingwa    |      `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥      |
-    |   discfan    |      `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥      |
-    |   haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥      |
-    |   rousi    |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥      |
-    |   sunny    |      `SUNNY_UID`：用户ID<br/>`SUNNY_PASSKEY`：密钥      |
+
+|   站点名 |      AUTH_SITE      |                          环境变量                           |
+|:-----------------:|:------------:|:-----------------------------------------------------:|
+|       IYUU        |     iyuu     |                 `IYUU_SIGN`：IYUU登录令牌                  |
+|      HHClub       |    hhclub    |     `HHCLUB_USERNAME`：用户名<br/>`HHCLUB_PASSKEY`：密钥     |
+|     Audiences     |  audiences   |    `AUDIENCES_UID`：用户ID<br/>`AUDIENCES_PASSKEY`：密钥    |
+|     HDDolby       |   hddolby    |      `HDDOLBY_ID`：用户ID<br/>`HDDOLBY_PASSKEY`：密钥       |
+|       ZMPT        |     zmpt     |         `ZMPT_UID`：用户ID<br/>`ZMPT_PASSKEY`：密钥         |
+|     FreeFarm      |   freefarm   |     `FREEFARM_UID`：用户ID<br/>`FREEFARM_PASSKEY`：密钥     |
+|      HDFans       |    hdfans    |       `HDFANS_UID`：用户ID<br/>`HDFANS_PASSKEY`：密钥       |
+|   WinterSakura    | wintersakura | `WINTERSAKURA_UID`：用户ID<br/>`WINTERSAKURA_PASSKEY`：密钥 |
+|      Leaves       |    leaves    |       `LEAVES_UID`：用户ID<br/>`LEAVES_PASSKEY`：密钥       |
+|       PTBA        |     ptba     |         `PTBA_UID`：用户ID<br/>`PTBA_PASSKEY`：密钥         |
+|      ICC2022      |   icc2022    |      `ICC2022_UID`：用户ID<br/>`ICC2022_PASSKEY`：密钥      |
+|     XingTan       |   xingtan    |      `XINGTAN_UID`：用户ID<br/>`XINGTAN_PASSKEY`：密钥      |
+|     PTVicomo      |   ptvicomo   |     `PTVICOMO_UID`：用户ID<br/>`PTVICOMO_PASSKEY`：密钥     |
+|      AGSVPT       |    agsvpt    |       `AGSVPT_UID`：用户ID<br/>`AGSVPT_PASSKEY`：密钥       |
+|       HDKYL       |    hdkyl     |        `HDKYL_UID`：用户ID<br/>`HDKYL_PASSKEY`：密钥        |
+|      QingWa       |    qingwa    |      `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥        |
+|     DiscFan       |    discfan   |      `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥      |
+|      HaiDan       |    haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥        |
+|      RouSi        |    rousi     |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥         |
+|      Sunny        |    sunny     |      `SUNNY_UID`：用户ID<br/>`SUNNY_PASSKEY`：密钥         |
 
 # 配置文件
 
