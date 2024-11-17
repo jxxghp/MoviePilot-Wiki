@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-17T06:34:24.160Z
+date: 2024-11-17T06:39:37.212Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -34,24 +34,24 @@ dateCreated: 2024-05-30T09:48:02.073Z
 |   站点名 |      AUTH_SITE      |                          环境变量                           |
 |:-----------------:|:------------:|:-----------------------------------------------------:|
 |       IYUU        |     iyuu     |                 `IYUU_SIGN`：IYUU登录令牌                  |
-|      HHClub       |    hhclub    |     `HHCLUB_USERNAME`：用户名<br/>`HHCLUB_PASSKEY`：密钥     |
-|     Audiences     |  audiences   |    `AUDIENCES_UID`：用户ID<br/>`AUDIENCES_PASSKEY`：密钥    |
-|     HDDolby       |   hddolby    |      `HDDOLBY_ID`：用户ID<br/>`HDDOLBY_PASSKEY`：密钥       |
-|       ZMPT        |     zmpt     |         `ZMPT_UID`：用户ID<br/>`ZMPT_PASSKEY`：密钥         |
-|     FreeFarm      |   freefarm   |     `FREEFARM_UID`：用户ID<br/>`FREEFARM_PASSKEY`：密钥     |
-|      HDFans       |    hdfans    |       `HDFANS_UID`：用户ID<br/>`HDFANS_PASSKEY`：密钥       |
-|   WinterSakura    | wintersakura | `WINTERSAKURA_UID`：用户ID<br/>`WINTERSAKURA_PASSKEY`：密钥 |
-|      Leaves       |    leaves    |       `LEAVES_UID`：用户ID<br/>`LEAVES_PASSKEY`：密钥       |
-|       PTBA        |     ptba     |         `PTBA_UID`：用户ID<br/>`PTBA_PASSKEY`：密钥         |
-|      ICC2022      |   icc2022    |      `ICC2022_UID`：用户ID<br/>`ICC2022_PASSKEY`：密钥      |
-|     XingTan       |   xingtan    |      `XINGTAN_UID`：用户ID<br/>`XINGTAN_PASSKEY`：密钥      |
-|     PTVicomo      |   ptvicomo   |     `PTVICOMO_UID`：用户ID<br/>`PTVICOMO_PASSKEY`：密钥     |
+|      憨憨       |    hhclub    |     `HHCLUB_USERNAME`：用户名<br/>`HHCLUB_PASSKEY`：密钥     |
+|     观众     |  audiences   |    `AUDIENCES_UID`：用户ID<br/>`AUDIENCES_PASSKEY`：密钥    |
+|     高清杜比       |   hddolby    |      `HDDOLBY_ID`：用户ID<br/>`HDDOLBY_PASSKEY`：密钥       |
+|       织梦        |     zmpt     |         `ZMPT_UID`：用户ID<br/>`ZMPT_PASSKEY`：密钥         |
+|     自由农场      |   freefarm   |     `FREEFARM_UID`：用户ID<br/>`FREEFARM_PASSKEY`：密钥     |
+|      红豆饭       |    hdfans    |       `HDFANS_UID`：用户ID<br/>`HDFANS_PASSKEY`：密钥       |
+|   冬樱    | wintersakura | `WINTERSAKURA_UID`：用户ID<br/>`WINTERSAKURA_PASSKEY`：密钥 |
+|      红叶PT       |    leaves    |       `LEAVES_UID`：用户ID<br/>`LEAVES_PASSKEY`：密钥       |
+|       1PTBA        |     ptba     |         `PTBA_UID`：用户ID<br/>`PTBA_PASSKEY`：密钥         |
+|      冰淇淋      |   icc2022    |      `ICC2022_UID`：用户ID<br/>`ICC2022_PASSKEY`：密钥      |
+|     杏坛       |   xingtan    |      `XINGTAN_UID`：用户ID<br/>`XINGTAN_PASSKEY`：密钥      |
+|     象站      |   ptvicomo   |     `PTVICOMO_UID`：用户ID<br/>`PTVICOMO_PASSKEY`：密钥     |
 |      AGSVPT       |    agsvpt    |       `AGSVPT_UID`：用户ID<br/>`AGSVPT_PASSKEY`：密钥       |
-|       HDKYL       |    hdkyl     |        `HDKYL_UID`：用户ID<br/>`HDKYL_PASSKEY`：密钥        |
-|      QingWa       |    qingwa    |      `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥        |
-|     DiscFan       |    discfan   |      `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥      |
-|      HaiDan       |    haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥        |
-|      RouSi        |    rousi     |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥         |
+|       麒麟       |    hdkyl     |        `HDKYL_UID`：用户ID<br/>`HDKYL_PASSKEY`：密钥        |
+|      青蛙       |    qingwa    |      `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥        |
+|     蝶粉       |    discfan   |      `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥      |
+|      海胆之家       |    haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥        |
+|      Rousi        |    rousi     |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥         |
 |      Sunny        |    sunny     |      `SUNNY_UID`：用户ID<br/>`SUNNY_PASSKEY`：密钥         |
 
 # 配置文件
