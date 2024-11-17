@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-17T04:55:09.286Z
+date: 2024-11-17T04:57:05.894Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
