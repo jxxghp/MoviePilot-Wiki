@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-17T06:39:37.212Z
+date: 2024-11-29T01:56:08.873Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -65,6 +65,7 @@ V1版本有些进阶配置参数需要通过配置文件进行配置（不配置
 - **❗API_TOKEN：** API密钥，V1版本默认为`moviepilot`，**V2版本需要配置为大于等于16个字符的复杂字符串** （如配置不符合要求将会强制重新生成，可在后台日志、env配置文件或系统设定中查看最新的值） 。在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值。
 - **BIG_MEMORY_MODE：** 大内存模式，默认为`false`，开启后会增加缓存数量，占用更多的内存，但响应速度会更快
 - **DB_WAL_ENABLE：** V2新增配置项，WAL模式，默认为`false`，可提升读写并发性能，但可能在异常情况下增加数据丢失风险，可尝试开启以减少DB锁定错误
+- **ENCODING_DETECTION_PERFORMANCE_MODE：** V2新增配置项，编码探测性能模式，默认为`true`，优先提升探测效率，但可能降低编码探测的准确性
 - **DOH_ENABLE：** DNS over HTTPS开关，`true`/`false`，默认`true`，开启后会使用DOH对设定域名进行解析，以减少被DNS污染的情况，提升网络连通性
 - **DOH_DOMAINS：** DOH域名清单，多个使用`,`分隔，默认为：
 ```
