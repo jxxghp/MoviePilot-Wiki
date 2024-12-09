@@ -96,10 +96,11 @@ MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内�
   
 **`TV_RENAME_FORMAT`额外支持的配置项：**
   > `season`： 季号  
-  > `season_year`：季年份
+  > `season_year`：季年份  
   > `episode`： 集号  
   > `season_episode`： 季集 SxxExx  
-  > `episode_title`： 集标题
+  > `episode_title`： 集标题  
+  > `episode_date`： 集播出日期
 
 # 多目录支持与分类
 
