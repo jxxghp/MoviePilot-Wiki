@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-11-29T01:56:08.873Z
+date: 2024-12-12T09:26:24.371Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -23,9 +23,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - **PUID**：运行程序用户的`uid`，默认`0`
 - **PGID**：运行程序用户的`gid`，默认`0`
 - **UMASK**：掩码权限，默认`000`，可以考虑设置为`022`
-- **PROXY_HOST：** 网络代理，访问themoviedb或者重启更新需要使用代理访问，格式为`http(s)://ip:port`、`socks5://user:pass@host:port`
+- **PROXY_HOST：** 网络代理，访问themoviedb或者重启更新需要使用代理访问，格式为`http(s)://ip:port`、`socks5://user:pass@host:port`、`socks5h://user:pass@host:port`
 - **MOVIEPILOT_AUTO_UPDATE：** 重启时自动更新，`true`/`release`/`dev`/`false`，默认`release`，需要能正常连接Github **注意：如果出现网络问题可以配置`PROXY_HOST`**
-- **❗AUTH_SITE：** **认证站点**（认证通过后才能使用站点相关功能），支持配置多个认证站点，使用`,`分隔，如：`iyuu,hhclub`，会依次执行认证操作，直到有一个站点认证成功。  
+- **❗AUTH_SITE：** **认证站点**（认证通过后才能使用站点相关功能），支持配置多个认证站点，使用`,`分隔，如：`iyuu,hhclub`，会依次执行认证操作，直到有一个站点认证成功。  `v2.0.7及以上版本，该项转为可选，已支持通过UI进行用户认证`
 
     > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`/`haidan`/`rousi`/`sunny`
     
@@ -105,7 +105,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
   {{title}}{% if year %} ({{year}}){% endif %}/Season {{season}}/{{title}} - {{season_episode}}{% if part %}-{{part}}{% endif %}{% if episode %} - 第 {{episode}} 集{% endif %}{{fileExt}}
   ```
 ---
-- **PLUGIN_MARKET：** 插件市场仓库地址，仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看[MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins)项目的fork，或者查看频道置顶了解更多第三方插件仓库，目前已有 `130+` 插件。 
+- **PLUGIN_MARKET：** 插件市场仓库地址，仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看[MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins)项目的fork，或者查看频道置顶了解更多第三方插件仓库。
   默认已内置以下插件库：
   1. https://github.com/jxxghp/MoviePilot-Plugins
   2. https://github.com/thsrite/MoviePilot-Plugins
