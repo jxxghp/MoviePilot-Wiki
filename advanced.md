@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2024-11-05T12:15:00.171Z
+date: 2024-12-24T11:50:14.847Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -84,7 +84,6 @@ MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内�
   > `edition`： 版本（资源类型+特效）  
   > `videoFormat`： 分辨率  
   > `releaseGroup`： 制作组/字幕组  
-  > `customization`： 自定义占位符  
   > `videoCodec`： 视频编码  
   > `audioCodec`： 音频编码  
   > `tmdbid`： TMDB ID（非TMDB识别源时为空）  
