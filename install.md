@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-12-26T13:34:51.865Z
+date: 2024-12-26T13:36:03.908Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -117,7 +117,7 @@ services:
     container_name: moviepilot-v2  # 容器的名称
     hostname: moviepilot-v2  # 容器主机名
     
-		# 网关设置
+    # 网关设置
     network_mode: host  # 内置的网关
     # networks:  # 自定义网关
     #  - moviepilot  
