@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-11-12T14:45:11.450Z
+date: 2024-12-26T12:57:03.719Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -66,42 +66,57 @@ docker run -itd \
 ### V2版本
 ```shell
 version: '3.3'
-
 services:
-
-    moviepilot:
-        stdin_open: true
-        tty: true
-        container_name: moviepilot-v2
-        hostname: moviepilot-v2
-        networks:
-            - moviepilot
-        ports:
-            - target: 3000
-              published: 3000
-              protocol: tcp
-        volumes:
-            - '/media:/media'
-            - '/moviepilot-v2/config:/config'
-            - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'
-            - '/var/run/docker.sock:/var/run/docker.sock:ro'
-        environment:
-            - 'NGINX_PORT=3000'
-            - 'PORT=3001'
-            - 'PUID=0'
-            - 'PGID=0'
-            - 'UMASK=000'
-            - 'TZ=Asia/Shanghai'
-            - 'AUTH_SITE=iyuu'
-            - 'IYUU_SIGN=xxxx'
-            - 'SUPERUSER=admin'
-            # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
-        restart: always
-        image: jxxghp/moviepilot-v2:latest
-
-networks:
   moviepilot:
-    name: moviepilot
+    stdin_open: true  # 是否打开标准输入流（交互模式），为 true 时容器可以保持运行并与用户交互
+    tty: true  # 是否分配伪终端，使容器的终端行为更像一个真实的终端
+    container_name: moviepilot-v2  # 容器的名称
+    hostname: moviepilot-v2  # 容器主机名
+    
+		# 网关设置
+    networks:
+      - moviepilot  # 自定义网关，
+   	# network_mode: bridge  # 使用内置的网关。
+    
+    # 端口映射，当network_mode的值为 host 时，将失效
+    ports:
+    	# 前端 UI 显示
+      - target: 3000  # 容器内部端口设置为 3000
+        published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
+        protocol: tcp  # TCP 协议，可选udp
+      - target: 3000  # 容器内部端口设置为 3000
+        published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
+        protocol: tcp  # TCP 协议，可选udp
+
+		# 目录映射：宿主机目录:容器内目录
+    volumes:
+      - '/media:/media'  # 媒体库或下载库路径
+      - '/moviepilot-v2/config:/config'  # moviepilot 的配置文件存放路径
+      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'  # 浏览器内核存放路径
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'  # 用于获取宿主机的docker管理权，一般用于UI页面重启或自动更新
+      
+    # 环境变量：- '变量名=值‘
+    environment:
+      - 'NGINX_PORT=3000'  # UI页面的内部监听端口
+      - 'PORT=3001'  # API接口的内部监听端口
+      - 'PUID=0'  # 设置应用运行时的用户 ID 为 0（root 用户）
+      - 'PGID=0'  # 设置应用运行时的组 ID 为 0（root 组）
+      - 'UMASK=000'  # 文件创建时的默认权限掩码，000 表示不限制权限
+      - 'TZ=Asia/Shanghai'  # 设置时区为上海（Asia/Shanghai）
+      # - 'AUTH_SITE=iyuu'  # 设置认证站点，v2.0.7+版本以后可不设置，直接通过 UI 配置
+      # - 'IYUU_SIGN=xxxx'  # 单个站点密钥，配合 AUTH_SITE 使用
+      - 'SUPERUSER=admin'  # 设置超级用户为 admin
+      # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
+      
+    # 重启模式
+    restart: always  # 容器如果停止或崩溃，始终重新启动
+    image: jxxghp/moviepilot-v2:latest
+    
+# 当使用内置网关时，可不启用
+networks:
+  moviepilot:  # 定义一个名为 moviepilot 的自定义网络
+    name: moviepilot  # 网络的名称
+
 ```
 
 ### V1版本
