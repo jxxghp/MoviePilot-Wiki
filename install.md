@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-12-26T13:36:03.908Z
+date: 2024-12-26T13:38:13.292Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -128,6 +128,7 @@ services:
       # - target: 3000  # 容器内部端口设置为 3000
       #   published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
       #   protocol: tcp  # TCP 协议，可选udp
+      # API 接口
       # - target: 3001  # 容器内部端口设置为 3001
       #   published: 3001  # 映射到宿主机的 3001 端口，允许外部访问
       #   protocol: tcp  # TCP 协议，可选udp
