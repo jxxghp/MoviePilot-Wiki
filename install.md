@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-12-26T13:40:03.833Z
+date: 2024-12-26T14:01:59.741Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -10,6 +10,7 @@ dateCreated: 2024-05-30T09:48:38.889Z
 
 # Docker
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
+使用 `docker run -itd` 命令安装时，请去除其中的 `#` 开头的注释行，以防报错。
 
 ## docker-cli {.tabset}
 
@@ -18,7 +19,10 @@ MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`
 docker run -itd \
     --name moviepilot-v2 \
     --hostname moviepilot-v2 \
-    -p 3000:3000 \
+    --network host \
+    # --network bridge \
+    # -p 3000:3000 \
+    # -p 3001:3001 \
     -v /media:/media \
     -v /moviepilot-v2/config:/config \
     -v /moviepilot-v2/core:/moviepilot/.cache/ms-playwright \
@@ -29,8 +33,8 @@ docker run -itd \
     -e 'PGID=0' \
     -e 'UMASK=000' \
     -e 'TZ=Asia/Shanghai' \
-    -e 'AUTH_SITE=iyuu' \
-    -e 'IYUU_SIGN=xxxx' \
+    # -e 'AUTH_SITE=v2.0.7+版本以后可不设置，直接通过 UI 配置' \
+    # -e 'IYUU_SIGN=xxxx' \
     -e 'SUPERUSER=admin' \
     # -e 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串' \
     --restart always \
