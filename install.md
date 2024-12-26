@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-12-26T13:38:13.292Z
+date: 2024-12-26T13:40:03.833Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -77,9 +77,9 @@ services:
     # networks:
     # - moviepilot
 
-    ports:
-      - '3000:3000'
-      - '3001:3001'
+    # ports:
+    #  - '3000:3000'
+    #  - '3001:3001'
         
     volumes:
       - '/media:/media'
