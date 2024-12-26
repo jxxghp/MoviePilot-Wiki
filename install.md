@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-12-26T12:57:03.719Z
+date: 2024-12-26T13:31:04.528Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -63,7 +63,55 @@ docker run -itd \
 
 ## docker-compose  {.tabset}
 
-### V2版本
+### V2-纯净版
+```shell
+version: '3.3'
+services:
+  moviepilot:
+    stdin_open: true
+    tty: true
+    container_name: moviepilot-v2
+    hostname: moviepilot-v2
+    
+    network_mode: host
+    # networks:
+    # - moviepilot
+
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 3000
+        published: 3000
+        protocol: tcp
+        
+    volumes:
+      - '/media:/media'
+      - '/moviepilot-v2/config:/config'
+      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      
+    environment:
+      - 'NGINX_PORT=3000'
+      - 'PORT=3001'
+      - 'PUID=0'
+      - 'PGID=0'
+      - 'UMASK=000'
+      - 'TZ=Asia/Shanghai'
+      # - 'AUTH_SITE=iyuu'  # v2.0.7+版本以后，可不设置，直接通过 UI 配置
+      # - 'IYUU_SIGN=xxxx'  
+      - 'SUPERUSER=admin'  # 设置超级用户
+      # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
+
+    restart: always
+    image: jxxghp/moviepilot-v2:latest
+    
+# networks:
+#   moviepilot:
+#     name: moviepilot
+```
+
+### V2-小白版
 ```shell
 version: '3.3'
 services:
@@ -74,21 +122,21 @@ services:
     hostname: moviepilot-v2  # 容器主机名
     
 		# 网关设置
-    networks:
-      - moviepilot  # 自定义网关，
-   	# network_mode: bridge  # 使用内置的网关。
-    
-    # 端口映射，当network_mode的值为 host 时，将失效
-    ports:
-    	# 前端 UI 显示
-      - target: 3000  # 容器内部端口设置为 3000
-        published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
-        protocol: tcp  # TCP 协议，可选udp
-      - target: 3000  # 容器内部端口设置为 3000
-        published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
-        protocol: tcp  # TCP 协议，可选udp
+    network_mode: host  # 内置的网关
+    # networks:  # 自定义网关
+    #  - moviepilot  
 
-		# 目录映射：宿主机目录:容器内目录
+    # 端口映射，当network_mode的值为 host 时，将失效
+    # ports:
+    	# 前端 UI 显示
+      # - target: 3000  # 容器内部端口设置为 3000
+      #   published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
+      #   protocol: tcp  # TCP 协议，可选udp
+      # - target: 3001  # 容器内部端口设置为 3001
+      #   published: 3001  # 映射到宿主机的 3001 端口，允许外部访问
+      #   protocol: tcp  # TCP 协议，可选udp
+
+    # 目录映射：宿主机目录:容器内目录
     volumes:
       - '/media:/media'  # 媒体库或下载库路径
       - '/moviepilot-v2/config:/config'  # moviepilot 的配置文件存放路径
@@ -108,14 +156,15 @@ services:
       - 'SUPERUSER=admin'  # 设置超级用户为 admin
       # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
       
-    # 重启模式
-    restart: always  # 容器如果停止或崩溃，始终重新启动
+    # 重启模式: 
+    restart: always  # 始终重启
     image: jxxghp/moviepilot-v2:latest
     
 # 当使用内置网关时，可不启用
-networks:
-  moviepilot:  # 定义一个名为 moviepilot 的自定义网络
-    name: moviepilot  # 网络的名称
+# networks:
+#   moviepilot:  # 定义一个名为 moviepilot 的自定义网络
+#     name: moviepilot  # 网络的名称
+
 
 ```
 
