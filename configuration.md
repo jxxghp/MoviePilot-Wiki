@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-12-26T23:51:18.071Z
+date: 2024-12-27T03:38:57.729Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -31,7 +31,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
     > v2.0.7及以上版本，已支持通过UI进行用户认证：点击用户头像 -> 用户认证，无需配置环境变量。
     {.is-success}
 
-    > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`/`haidan`/`rousi`/`sunny`
+    > 配置`AUTH_SITE`后，需要根据下表配置对应站点的认证参数。`AUTH_SITE`认证站点支持：`iyuu`/`hhclub`/`audiences`/`hddolby`/`zmpt`/`freefarm`/`hdfans`/`wintersakura`/`leaves`/`ptba` /`icc2022`/`xingtan`/`ptvicomo`/`agsvpt`/`hdkyl`/`qingwa`/`discfan`/`haidan`/`rousi`/`sunny`/`ptcafe`
     
     **各认证站点对应参数配置如下：**
 
@@ -57,6 +57,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 |      海胆之家       |    haidan    |      `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥        |
 |      Rousi        |    rousi     |      `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥         |
 |      Sunny        |    sunny     |      `SUNNY_UID`：用户ID<br/>`SUNNY_PASSKEY`：密钥         |
+|      咖啡        |    ptcafe     |      `PTCAFE_UID`：用户ID<br/>`PTCAFE_PASSKEY`：密钥         |
 
 # 配置文件
 
