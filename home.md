@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2024-12-26T23:52:40.243Z
+date: 2024-12-27T00:03:12.273Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -25,7 +25,7 @@ MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配
 
 - [环境准备 *安装前的准备工作。*](/ready)
 - [安装指引 *如何安装MoviePilot。*](/install)
-- [配置说明 *一些配置项的说明（主要为V1版本使用）。*](/configure)
+- [配置说明 *一些配置项的说明（主要为V1版本使用）。*](/configuration)
 - [升级 *如何自动更新升级版本。*](/upgrade)
 - [发行说明 *重大版本更新记录。*](/release)
 {.links-list}
