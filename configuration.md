@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2024-12-31T05:27:11.186Z
+date: 2025-01-06T02:50:30.748Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -59,6 +59,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 |      Sunny        |    sunny     |      `SUNNY_UID`：用户ID<br/>`SUNNY_PASSKEY`：密钥         |
 |      咖啡        |    ptcafe     |      `PTCAFE_UID`：用户ID<br/>`PTCAFE_PASSKEY`：密钥         |
 |      PTZone        |    ptzone     |      `PTZONE_UID`：用户ID<br/>`PTZONE_PASSKEY`：密钥         |
+|      库非        |    kufei     |      `KUFEI_UID`：用户ID<br/>`KUFEI_PASSKEY`：密钥         |
 
 # 配置文件
 
