@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-01-06T02:50:30.748Z
+date: 2025-01-09T10:56:31.120Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -60,6 +60,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 |      咖啡        |    ptcafe     |      `PTCAFE_UID`：用户ID<br/>`PTCAFE_PASSKEY`：密钥         |
 |      PTZone        |    ptzone     |      `PTZONE_UID`：用户ID<br/>`PTZONE_PASSKEY`：密钥         |
 |      库非        |    kufei     |      `KUFEI_UID`：用户ID<br/>`KUFEI_PASSKEY`：密钥         |
+|      YemaPT        |    yamept     |      `YEMAPT_UID`：用户ID<br/>`YEMAPT_AUTH`：密钥<br/>注意：需v2.2.0或以上版本         |
 
 # 配置文件
 
