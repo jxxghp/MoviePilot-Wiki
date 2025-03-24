@@ -2,7 +2,7 @@
 title: 插件开发
 description: 开发插件为MoviePilot添加功能
 published: 1
-date: 2025-03-24T23:18:04.894Z
+date: 2025-03-24T23:20:14.634Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:59.557Z
@@ -10,7 +10,7 @@ dateCreated: 2024-05-30T09:48:59.557Z
 
 #  插件开发步骤
 ## 1. 插件开发
-1. clone 主项目 https://github.com/jxxghp/MoviePilot 到本地IDE环境，设置好python编译器和安装好依赖，复制资源包项目 https://github.com/jxxghp/MoviePilot-Resources 文件到本地 `app/helper` 目录，设置启动环境变量 `PLUGIN_AUTO_RELOAD=true` 开启插件热加载。
+1. clone 主项目 https://github.com/jxxghp/MoviePilot 到本地IDE环境，设置好python编译器和安装好依赖，复制资源包项目 https://github.com/jxxghp/MoviePilot-Resources 对应平台的库文件和bin文件到本地 `app/helper` 目录，设置启动环境变量 `PLUGIN_AUTO_RELOAD=true` 可开启插件热加载。
 2. 在 `app/plugins` 目录下创建插件目录和编写代码，参考 [开发指引](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/README.md) 以及其它已有插件代码，完成插件开发。
 3. clone 前端项目 https://github.com/jxxghp/MoviePilot-Frontend 到本地，参考项目主页说明安装好环境，启动本地前后端MoviePilot程序，进入 插件 -> 插件市场 中可以看到本地插件，可进行安装，在IDE中打断点进行调试，修改代码后自动重新加载生效。
 
