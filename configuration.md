@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-04-17T11:29:23.463Z
+date: 2025-04-17T11:30:57.653Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -78,10 +78,10 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - **CACHE_REDIS_MAXMEMORY：** V2新增配置项，`Redis` 缓存最大内存限制，为 `0` 时不限制，未配置时，如开启大内存模式时为 `1024mb`，未开启时为 `256mb`
 
 ## HTTPS访问
-- **ENABLE_SSL：** 是否启动https访问，`true`/`false`，启用后需要设置完整相关参数，否则无法正常访问后台
+- **ENABLE_SSL：** 是否启动https访问，`true`/`false`，启用后需要设置完整相关参数，否则无法正常访问后台，**仅支持Docker环境**
 - **SSL_DOMAIN：** SSL域名，用于申请证书，需要与实际的后台访问域名一致
-- **SSL_EMAIL：** SSL证书申请使用的邮箱
-- **AUTO_ISSUE_CERT：** 是否自动签发证书，`true`/`false`，启用后会自动安装acme.sh签发证书并定时更新，仅支持DNS认证方式，需要设置完成的DNS认证相关参数；不启用时，需要手动准备SSL证书，以文件名：`/config/certs/latest/fullchain.pem`、`/config/certs/latest/privkey.pem` 存放
+- **SSL_EMAIL：** SSL证书申请使用的邮箱地址
+- **AUTO_ISSUE_CERT：** 是否自动签发证书，`true`/`false`，启用后会自动安装acme.sh签发证书并定时更新，仅支持DNS认证方式，需要同时以`ACME_ENV_`开关设置好DNS认证相关参数；不启用时，需要手动准备SSL证书文件，以文件名：`/config/certs/latest/fullchain.pem`、`/config/certs/latest/privkey.pem` 存放
 - **DNS_PROVIDER：** acme.sh DNS认证方式，相关参数设置参考：[wiki](https://github.com/acmesh-official/acme.sh/wiki/说明)
 - **ACME_ENV_xx:** acme.sh对应的DNS认证方式的相关参数，参数必须以`ACME_ENV_`开头才会被正常使用，比如 `ACME_ENV_CF_Token`
 
