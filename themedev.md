@@ -18,9 +18,27 @@ html {
     background-size: cover;
     height: 100%;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* 允许滚动 */
+}
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+}
 body {
     background: none !important;
-    backdrop-filter: blur(4px);
 }
 body, #app, .v-application {
     height: 100% !important;
