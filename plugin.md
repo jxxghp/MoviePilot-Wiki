@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2025-05-14T07:06:30.939Z
+date: 2025-05-15T04:41:46.184Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -24,6 +24,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
   4. https://github.com/InfinityPacer/MoviePilot-Plugins
   5. https://github.com/DDS-Derek/MoviePilot-Plugins
   6. https://github.com/madrays/MoviePilot-Plugins
+  7. ... 会定期更新
   
 **MoviePilot目前已有：**
 - **v1.0+：`200+` 个插件**
