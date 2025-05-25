@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-05-25T03:11:26.007Z
+date: 2025-05-25T06:58:34.515Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -76,6 +76,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - **CACHE_BACKEND_TYPE：** V2新增配置项，缓存类型，支持 `cachetools` 和 `redis`，默认使用 `cachetools`
 - **CACHE_BACKEND_URL：** V2新增配置项，缓存连接字符串，仅外部缓存（如 Redis）需要，格式为`redis://:password@host:port`
 - **CACHE_REDIS_MAXMEMORY：** V2新增配置项，`Redis` 缓存最大内存限制，为 `0` 时不限制，未配置时，如开启大内存模式时为 `1024mb`，未开启时为 `256mb`
+- **DOCKER_CLIENT_API：** 使用Docker环境部署时用于实现内建重启功能，默认为：`tcp://127.0.0.1:38379`，官方docker境像无需单独配置
 
 ## HTTPS访问
 - **ENABLE_SSL：** 是否启动https访问，`true`/`false`，启用后需要设置完整相关参数，否则无法正常访问后台，**仅支持Docker环境**
