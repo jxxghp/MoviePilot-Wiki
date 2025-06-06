@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-05-25T06:58:34.515Z
+date: 2025-06-06T011:30:00.315Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -145,6 +145,12 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
   2. https://github.com/thsrite/MoviePilot-Plugins
   3. https://github.com/honue/MoviePilot-Plugins
   4. https://github.com/InfinityPacer/MoviePilot-Plugins
+---
+- **EPISODE_INTERSECTION_MIN_CONFIDENCE：** 文件剧集与缺失剧集的交集最小比例阈值。用于过滤包含过多无关剧集的文件，默认值为 0.05，可设置为 0 到 1 之间的浮点数。**@since** [v2.5.2](https://github.com/jxxghp/MoviePilot/releases/tag/v2.5.2)• [#4379](https://github.com/jxxghp/MoviePilot/pull/4379)
+    > 计算交集比例(`len(torrent_episodes & need_episodes) / len(torrent_episodes `) 低于这个阈值表明包含过多不需要的剧集;<br/>
+      如：规则过滤后，剩余文件剧集分别为 [4-10],[8-10],[9-10],[10],[10,11] 需要剧集为[10,11,12]，阈值设定为 **0.5**;<br/>
+      [6-10] => 0.2,[8-10] => 0.33,[9-10] => 0.5,[10] => 1,[10,11] => 1  过滤后并按交集比例及长度排序[10,11],[10],[9-10];<br/>
+      优先下载文件[10,11]
 
 # 对外服务路径
 MoviePilot通过对外提供Api的方式实现消息接入、Webhook等功能，以下是涉及可能需要在其它软件中配置的回调地址。
