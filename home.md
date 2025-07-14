@@ -2,13 +2,14 @@
 title: 开始
 description: 
 published: 1
-date: 2025-06-23T03:42:38.539Z
+date: 2025-07-14T03:18:16.803Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
 ---
 
 > MoviePilot 基于 NAStool 部分代码重新设计，聚焦自动化核心需求，减少问题同时更易于扩展和维护。
+**项目介绍：** https://movie-pilot.org
 **项目地址：** https://github.com/jxxghp/MoviePilot 、https://github.com/jxxghp/MoviePilot-Frontend 、https://github.com/jxxghp/MoviePilot-Plugins 、https://github.com/jxxghp/MoviePilot-Resources
 **发布频道：** https://t.me/moviepilot_channel
 {.is-success}
@@ -62,6 +63,8 @@ MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配
 {.links-list}
 
 # 功能预览
+
+> **https://movie-pilot.org**
 
 ![dashboard_new.png](/dashboard_new.png)
 ![plugin_new.png](/plugin_n.png)
