@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T10:54:07.516Z
+date: 2025-08-19T10:55:42.185Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -361,7 +361,7 @@ DB_POSTGRESQL_PASSWORD=moviepilot
 
 ## 5. 验证配置
 
-如何是先升级到了 v2.7.3+ 版本再切换数据库的，在PostgreSQL对应数据库中执行以下语句，并复启MP，以触发数据库升级：
+**如何是先升级到了 v2.7.3+ 版本再切换数据库的，在PostgreSQL对应数据库中执行以下语句，并复启MP，以触发数据库升级：**
 ```sql
 update alembic_version set version_num = 'd58298a0879f';
 ```
