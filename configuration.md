@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T06:44:00.526Z
+date: 2025-08-19T09:52:09.238Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -345,7 +345,7 @@ pgloader sqlite:////var/lib/postgresql/data/user.db postgresql://moviepilot:movi
 
 ## 4. 配置MoviePilot使用PostgreSQL
 
-在MoviePilot的环境变量或配置文件中设置以下参数：
+在MoviePilot的环境变量或配置文件中设置以下参数（请设置复杂密码，不要使用默认密码）：
 
 ```bash
 # 数据库类型
