@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T14:15:27.310Z
+date: 2025-08-19T14:34:01.737Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -302,9 +302,9 @@ docker run -d \
 > 请根据实际情况调整端口映射、数据卷路径和PostgreSQL版本。
 {.is-warning}
 
-## 2. 创建数据库和用户
+## 2. 创建用户权限
 
-进入PostgreSQL容器并创建MoviePilot所需的数据库和用户（请设置复杂密码，不要使用默认密码）：
+进入PostgreSQL容器设置用户权限：
 
 ```bash
 # 进入容器
@@ -327,7 +327,7 @@ ALTER USER moviepilot CREATEDB;
 
 ## 3. 数据迁移（可选）
 
-如果要从SQLite迁移到PostgreSQL，可以使用pgloader工具：
+如果要从SQLite迁移存量数据到PostgreSQL，可以使用pgloader工具，全新安装可忽略：
 
 
 1. 将MoviePilot的 `user.db` 文件放置到 PostgreSQL 的配置目录
