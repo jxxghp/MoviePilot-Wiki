@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T10:55:42.185Z
+date: 2025-08-19T11:26:44.928Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -292,7 +292,9 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 docker run -d \
   --name postgresql \
   -p 5432:5432 \
-  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=moviepilot \
+  -e POSTGRES_USER=moviepilot \
+  -e POSTGRES_PASSWORD=moviepilot \
   -v /volume1/docker/postgresql:/var/lib/postgresql/data \
   postgres
 ```
@@ -311,10 +313,6 @@ docker exec -it postgresql bash
 # 连接到PostgreSQL
 psql -U postgres
 
-# 创建MoviePilot用户和数据库
-CREATE USER moviepilot WITH PASSWORD 'moviepilot';
-CREATE DATABASE moviepilot;
-
 # 切换到moviepilot数据库
 \c moviepilot
 
@@ -331,9 +329,10 @@ ALTER USER moviepilot CREATEDB;
 
 如果要从SQLite迁移到PostgreSQL，可以使用pgloader工具：
 
+
+1. 将MoviePilot的 `user.db` 文件放置到 PostgreSQL 的配置目录
+2. 在PostgreSQL容器内执行
 ```bash
-# 1. 将MoviePilot的 user.db 文件放置到 PostgreSQL的配置目录
-# 2. 在PostgreSQL容器内执行
 apt update
 apt install pgloader
 
