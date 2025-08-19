@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T14:34:01.737Z
+date: 2025-08-19T23:05:21.861Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -313,9 +313,6 @@ docker exec -it postgresql bash
 # 连接到PostgreSQL
 psql -U moviepilot
 
-# 切换到moviepilot数据库
-\c moviepilot
-
 # 授予用户权限
 GRANT ALL PRIVILEGES ON SCHEMA public TO moviepilot;
 GRANT ALL PRIVILEGES ON DATABASE moviepilot TO moviepilot;
@@ -333,6 +330,8 @@ ALTER USER moviepilot CREATEDB;
 1. 将MoviePilot的 `user.db` 文件放置到 PostgreSQL 的配置目录
 2. 在PostgreSQL容器内执行
 ```bash
+# 进入容器
+# docker exec -it postgresql bash
 apt update
 apt install pgloader
 
@@ -362,6 +361,10 @@ DB_POSTGRESQL_PASSWORD=moviepilot
 
 **如果是先升级到了 v2.7.3+ 版本再切换数据库的，在PostgreSQL对应数据库中执行以下语句，并重启MP，以触发数据库升级：**
 ```sql
+# 进入容器
+# docker exec -it postgresql bash
+# 连接到PostgreSQL
+# psql -U moviepilot
 update alembic_version set version_num = 'd58298a0879f';
 ```
 
