@@ -146,6 +146,8 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **DB_POSTGRESQL_POOL_SIZE：** PostgreSQL 连接池大小，默认为 `20`
 - **DB_POSTGRESQL_MAX_OVERFLOW：** PostgreSQL 连接池溢出数量，默认为 `30`
 
+使用 postgresql 数据库时参考 [安装Postgresql](#安装Postgresql) 安装数据库环境。
+
 ## 安全认证配置
 - **SECRET_KEY：** 系统密钥，用于加密等安全操作，默认为随机生成的32位安全字符串
 - **RESOURCE_SECRET_KEY：** 资源密钥，用于资源访问控制，默认为随机生成的32位安全字符串
@@ -274,6 +276,91 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **ENCODING_DETECTION_PERFORMANCE_MODE：** 是否启用编码探测的性能模式，默认为 `true`，优先提升探测效率，但可能降低编码探测的准确性
 - **ENCODING_DETECTION_MIN_CONFIDENCE：** 编码探测的最低置信度阈值，默认为 `0.8`
 
+
+# 安装Postgresql
+
+> 使用PostgreSQL数据库可以提升MoviePilot的性能和并发处理能力，特别适合数据量较大的用户。以下提供Docker环境下的PostgreSQL安装和配置指南。
+{.is-info}
+
+## 1. 安装PostgreSQL容器
+
+使用Docker运行PostgreSQL容器：
+
+```bash
+docker run -d \
+  --name postgresql \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=postgres \
+  -v /volume1/docker/postgresql:/var/lib/postgresql/data \
+  postgres
+```
+
+> 请根据实际情况调整端口映射、数据卷路径和PostgreSQL版本。
+{.is-warning}
+
+## 2. 创建数据库和用户
+
+进入PostgreSQL容器并创建MoviePilot所需的数据库和用户：
+
+```bash
+# 进入容器
+docker exec -it postgresql bash
+
+# 更新包管理器并安装pgloader（用于数据迁移）
+apt update
+apt install pgloader
+
+# 连接到PostgreSQL
+psql -U postgres
+
+# 创建MoviePilot用户和数据库
+CREATE USER moviepilot WITH PASSWORD 'moviepilot';
+CREATE DATABASE moviepilot;
+GRANT ALL PRIVILEGES ON DATABASE moviepilot TO moviepilot;
+
+# 切换到moviepilot数据库
+\c moviepilot
+
+# 授予用户权限
+GRANT ALL PRIVILEGES ON SCHEMA public TO moviepilot;
+GRANT ALL PRIVILEGES ON DATABASE moviepilot TO moviepilot;
+ALTER USER moviepilot CREATEDB;
+
+# 退出psql
+\q
+```
+
+## 3. 数据迁移（可选）
+
+如果要从SQLite迁移到PostgreSQL，可以使用pgloader工具：
+
+```bash
+# 在PostgreSQL容器内执行
+pgloader sqlite:////var/lib/postgresql/data/user.db postgresql://moviepilot:moviepilot@localhost:5432/moviepilot
+```
+
+> 注意：数据迁移前请备份原有SQLite数据库文件。
+{.is-warning}
+
+## 4. 配置MoviePilot使用PostgreSQL
+
+在MoviePilot的环境变量或配置文件中设置以下参数：
+
+```bash
+# 数据库类型
+DB_TYPE=postgresql
+
+# PostgreSQL连接参数
+DB_POSTGRESQL_HOST=localhost
+DB_POSTGRESQL_PORT=5432
+DB_POSTGRESQL_DATABASE=moviepilot
+DB_POSTGRESQL_USERNAME=moviepilot
+DB_POSTGRESQL_PASSWORD=moviepilot
+```
+
+## 5. 验证配置
+
+重启MoviePilot后，检查日志确认PostgreSQL连接正常。
 
 # 对外服务路径
 MoviePilot通过对外提供Api的方式实现消息接入、Webhook等功能，以下是涉及可能需要在其它软件中配置的回调地址。
