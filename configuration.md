@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-07-17T12:23:54.069Z
+date: 2025-08-19T06:04:20.420Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -132,19 +132,21 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 ## 数据库配置
 - **DB_TYPE：** 数据库类型，支持 `sqlite` 和 `postgresql`（仅v2.7.3+），默认使用 `sqlite`
 - **DB_ECHO：** 是否在控制台输出 SQL 语句，默认关闭
+- **DB_TIMEOUT：** SQLite 的 busy_timeout 参数，默认为 `60` 秒
 - **DB_POOL_TYPE：** 数据库连接池类型，支持 `QueuePool` 和 `NullPool`，默认为 `QueuePool`
 - **DB_POOL_PRE_PING：** 是否在获取连接时进行预先 ping 操作，默认为 `true`
 - **DB_POOL_RECYCLE：** 数据库连接的回收时间（秒），默认为 `300`
 - **DB_POOL_TIMEOUT：** 数据库连接池获取连接的超时时间（秒），默认为 `30`
-- **DB_TIMEOUT：** SQLite 的 busy_timeout 参数，默认为 `60` 秒
+- **DB_POOL_SIZE：** SQLite 连接池大小，默认为 `30`
+- **DB_MAX_OVERFLOW：** SQLite 连接池溢出数量，默认为 `50`
 - **DB_WAL_ENABLE：** SQLite 是否启用 WAL 模式，默认为 `true`，可提升读写并发性能，但可能在异常情况下增加数据丢失风险
 - **DB_POSTGRESQL_HOST：** PostgreSQL 主机地址，默认为 `localhost`
 - **DB_POSTGRESQL_PORT：** PostgreSQL 端口，默认为 `5432`
 - **DB_POSTGRESQL_DATABASE：** PostgreSQL 数据库名，默认为 `moviepilot`
 - **DB_POSTGRESQL_USERNAME：** PostgreSQL 用户名，默认为 `moviepilot`
 - **DB_POSTGRESQL_PASSWORD：** PostgreSQL 密码，默认为 `moviepilot`
-- **DB_POSTGRESQL_POOL_SIZE：** PostgreSQL 连接池大小，默认为 `20`
-- **DB_POSTGRESQL_MAX_OVERFLOW：** PostgreSQL 连接池溢出数量，默认为 `30`
+- **DB_POSTGRESQL_POOL_SIZE：** PostgreSQL 连接池大小，默认为 `30`
+- **DB_POSTGRESQL_MAX_OVERFLOW：** PostgreSQL 连接池溢出数量，默认为 `50`
 
 使用 postgresql 数据库时参考 [安装Postgresql](#安装Postgresql) 安装数据库环境。
 
