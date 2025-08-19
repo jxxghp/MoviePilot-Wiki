@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T10:28:32.046Z
+date: 2025-08-19T10:40:46.712Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -332,8 +332,8 @@ ALTER USER moviepilot CREATEDB;
 如果要从SQLite迁移到PostgreSQL，可以使用pgloader工具：
 
 ```bash
-# 在PostgreSQL容器内执行
-# 更新包管理器并安装pgloader（用于数据迁移）
+# 1. 将MoviePilot的 user.db 文件放置到 PostgreSQL的配置目录
+# 2. 在PostgreSQL容器内执行
 apt update
 apt install pgloader
 
