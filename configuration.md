@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T09:52:09.238Z
+date: 2025-08-19T10:28:32.046Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -286,7 +286,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 
 ## 1. 安装PostgreSQL容器
 
-使用Docker运行PostgreSQL容器：
+使用Docker运行PostgreSQL容器（请设置复杂密码，不要使用默认密码）：
 
 ```bash
 docker run -d \
@@ -302,7 +302,7 @@ docker run -d \
 
 ## 2. 创建数据库和用户
 
-进入PostgreSQL容器并创建MoviePilot所需的数据库和用户：
+进入PostgreSQL容器并创建MoviePilot所需的数据库和用户（请设置复杂密码，不要使用默认密码）：
 
 ```bash
 # 进入容器
