@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T11:26:44.928Z
+date: 2025-08-19T11:55:57.827Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -311,7 +311,7 @@ docker run -d \
 docker exec -it postgresql bash
 
 # 连接到PostgreSQL
-psql -U postgres
+psql -U moviepilot
 
 # 切换到moviepilot数据库
 \c moviepilot
