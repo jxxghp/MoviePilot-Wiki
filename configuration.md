@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T06:15:37.160Z
+date: 2025-08-19T06:44:00.526Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -308,17 +308,12 @@ docker run -d \
 # 进入容器
 docker exec -it postgresql bash
 
-# 更新包管理器并安装pgloader（用于数据迁移）
-apt update
-apt install pgloader
-
 # 连接到PostgreSQL
 psql -U postgres
 
 # 创建MoviePilot用户和数据库
 CREATE USER moviepilot WITH PASSWORD 'moviepilot';
 CREATE DATABASE moviepilot;
-GRANT ALL PRIVILEGES ON DATABASE moviepilot TO moviepilot;
 
 # 切换到moviepilot数据库
 \c moviepilot
@@ -338,6 +333,10 @@ ALTER USER moviepilot CREATEDB;
 
 ```bash
 # 在PostgreSQL容器内执行
+# 更新包管理器并安装pgloader（用于数据迁移）
+apt update
+apt install pgloader
+
 pgloader sqlite:////var/lib/postgresql/data/user.db postgresql://moviepilot:moviepilot@localhost:5432/moviepilot
 ```
 
