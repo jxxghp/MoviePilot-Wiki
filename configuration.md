@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-20T12:02:55.353Z
+date: 2025-08-20T14:17:12.942Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -311,7 +311,7 @@ docker run \
 # 缓存类型，支持 cachetools 和 redis，默认使用 cachetools
 CACHE_BACKEND_TYPE=redis
 # 缓存连接字符串，仅Redis缓存需要
-CACHE_BACKEND_URL="redis://:password@localhost:6379"
+CACHE_BACKEND_URL="redis://localhost:6379"
 ```
 
 重启MoviePilot生效。
