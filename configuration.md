@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-20T00:20:28.018Z
+date: 2025-08-20T01:17:56.645Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -301,7 +301,7 @@ docker run \
   -d redis redis-server --appendonly yes
 ```
 
-## 配置MoviePilot使用Redis
+## 2. 配置MoviePilot使用Redis
 
 在MoviePilot的环境变量或配置文件中设置以下参数（建议设置复杂密码）：
 
@@ -311,6 +311,8 @@ CACHE_BACKEND_TYPE=redis
 # 缓存连接字符串，仅Redis缓存需要
 CACHE_BACKEND_URL="redis://:password@localhost:6379"
 ```
+
+重启MoviePilot生效。
 
 # 安装Postgresql
 
