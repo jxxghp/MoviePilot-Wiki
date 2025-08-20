@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-19T23:05:21.861Z
+date: 2025-08-20T00:20:28.018Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -123,11 +123,13 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 
 ## 缓存
 - **CACHE_BACKEND_TYPE：** V2新增配置项，缓存类型，支持 `cachetools` 和 `redis`，默认使用 `cachetools`
-- **CACHE_BACKEND_URL：** V2新增配置项，缓存连接字符串，仅外部缓存（如 Redis）需要，格式为`redis://:password@host:port`
+- **CACHE_BACKEND_URL：** V2新增配置项，缓存连接字符串，仅外部缓存（如 Redis）需要，格式为`redis://:password@host:port`，默认为`redis://localhost:6379`
 - **CACHE_REDIS_MAXMEMORY：** V2新增配置项，`Redis` 缓存最大内存限制，为 `0` 时不限制，未配置时，如开启大内存模式时为 `1024mb`，未开启时为 `256mb`
 - **BIG_MEMORY_MODE：** 大内存模式，默认为`false`，开启后会增加缓存数量，占用更多的内存，但响应速度会更快
 - **GLOBAL_IMAGE_CACHE：** 全局图片缓存，将媒体图片缓存到本地，默认为 `false`
 - **META_CACHE_EXPIRE：** 元数据识别缓存过期时间（小时），数字型，不配置或者配置为0时使用系统默认（大内存模式为7天，否则为3天），调大该值可减少themoviedb的访问次数
+
+使用 redis 作为缓存时时参考 [安装Redis](#安装Redis) 安装配置Redis环境。
 
 ## 数据库配置
 - **DB_TYPE：** 数据库类型，支持 `sqlite` 和 `postgresql`（仅v2.7.3+），默认使用 `sqlite`
@@ -148,7 +150,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **DB_POSTGRESQL_POOL_SIZE：** PostgreSQL 连接池大小，默认为 `30`
 - **DB_POSTGRESQL_MAX_OVERFLOW：** PostgreSQL 连接池溢出数量，默认为 `50`
 
-使用 postgresql 数据库时参考 [安装Postgresql](#安装Postgresql) 安装数据库环境。
+使用 PostgreSQL 数据库时参考 [安装Postgresql](#安装Postgresql) 安装配置数据库环境。
 
 ## 安全认证配置
 - **SECRET_KEY：** 系统密钥，用于加密等安全操作，默认为随机生成的32位安全字符串
@@ -278,6 +280,37 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **ENCODING_DETECTION_PERFORMANCE_MODE：** 是否启用编码探测的性能模式，默认为 `true`，优先提升探测效率，但可能降低编码探测的准确性
 - **ENCODING_DETECTION_MIN_CONFIDENCE：** 编码探测的最低置信度阈值，默认为 `0.8`
 
+
+# 安装Redis
+
+> 使用Redis缓存可以进一步减少MoviePilot主程序内存占用，同时会将本地文件缓存自动迁移到Redis中，以提升运行效率。以下提供Docker环境下的Redis安装和配置指南。
+{.is-info}
+
+## 1. 安装Redis容器
+
+**注意开启持久化，避免缓存数据重启后丢失**
+```bash
+# 创建持久化目录
+mkdir -p /volume1/docker/redis/data
+
+# 启动带持久化的Redis
+docker run \
+  --name my-redis \
+  -p 6379:6379 \
+  -v /volume1/docker/redis/data:/data \
+  -d redis redis-server --appendonly yes
+```
+
+## 配置MoviePilot使用Redis
+
+在MoviePilot的环境变量或配置文件中设置以下参数（建议设置复杂密码）：
+
+```bash
+# 缓存类型，支持 cachetools 和 redis，默认使用 cachetools
+CACHE_BACKEND_TYPE=redis
+# 缓存连接字符串，仅Redis缓存需要
+CACHE_BACKEND_URL="redis://:password@localhost:6379"
+```
 
 # 安装Postgresql
 
