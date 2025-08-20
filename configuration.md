@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-20T05:52:17.519Z
+date: 2025-08-20T12:02:55.353Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -290,7 +290,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 
 ## 1. 安装Redis容器
 
-**注意开启持久化，避免缓存数据重启后丢失**
+**根据需要决定是否开启持久化，不开时重启Redis后缓存数据会丢失，但不会影响程序正常运行**
 ```bash
 # 创建持久化目录
 mkdir -p /volume1/docker/redis/data
@@ -300,7 +300,7 @@ docker run \
   --name my-redis \
   -p 6379:6379 \
   -v /volume1/docker/redis/data:/data \
-  -d redis redis-server --appendonly yes
+  -d redis redis-server --save 600 1
 ```
 
 ## 2. 配置MoviePilot使用Redis
