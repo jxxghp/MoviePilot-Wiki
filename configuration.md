@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-20T01:17:56.645Z
+date: 2025-08-20T05:52:17.519Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -125,8 +125,9 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **CACHE_BACKEND_TYPE：** V2新增配置项，缓存类型，支持 `cachetools` 和 `redis`，默认使用 `cachetools`
 - **CACHE_BACKEND_URL：** V2新增配置项，缓存连接字符串，仅外部缓存（如 Redis）需要，格式为`redis://:password@host:port`，默认为`redis://localhost:6379`
 - **CACHE_REDIS_MAXMEMORY：** V2新增配置项，`Redis` 缓存最大内存限制，为 `0` 时不限制，未配置时，如开启大内存模式时为 `1024mb`，未开启时为 `256mb`
-- **BIG_MEMORY_MODE：** 大内存模式，默认为`false`，开启后会增加缓存数量，占用更多的内存，但响应速度会更快
 - **GLOBAL_IMAGE_CACHE：** 全局图片缓存，将媒体图片缓存到本地，默认为 `false`
+- **GLOBAL_IMAGE_CACHE_DAYS：** 全局图片缓存保留天数，默认`7`天
+- **TEMP_FILE_DAYS：**  临时文件保留天数，默认`3`天
 - **META_CACHE_EXPIRE：** 元数据识别缓存过期时间（小时），数字型，不配置或者配置为0时使用系统默认（大内存模式为7天，否则为3天），调大该值可减少themoviedb的访问次数
 
 使用 redis 作为缓存时时参考 [安装Redis](#安装Redis) 安装配置Redis环境。
@@ -229,6 +230,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **SUBSCRIBE_RSS_INTERVAL：** RSS订阅模式刷新时间间隔（分钟），默认为 `30`
 - **SUBSCRIBE_STATISTIC_SHARE：** 是否匿名分享订阅数据，用于统计和展示用户热门订阅，`true`/`false`，默认`true`
 - **SUBSCRIBE_SEARCH：** 订阅搜索开关，默认为 `false`
+- **LOCAL_EXISTS_SEARCH：** 检查本地媒体库是否存在资源开关，默认为 `false`
 
 ## 站点
 - **SITEDATA_REFRESH_INTERVAL：** 站点数据刷新间隔（小时），默认为 `6`
@@ -244,7 +246,6 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **TORRENT_TAG：** 种子标签，默认为 `MOVIEPILOT`
 - **DOWNLOAD_SUBTITLE：** 下载站点字幕，`true`/`false`，默认`true`
 - **AUTO_DOWNLOAD_USER：** 远程交互搜索时自动择优下载的用户ID（消息通知渠道的用户ID），多个用户使用,分割，设置为 `all` 代表全部用户自动择优下载，未设置需要手动选择资源或者回复`0`才自动择优下载
-- **LOCAL_EXISTS_SEARCH：** 检查本地媒体库是否存在资源开关，默认为 `false`
 
 ## CookieCloud
 - **COOKIECLOUD_ENABLE_LOCAL：** CookieCloud是否启动本地服务，默认为 `false`
@@ -275,7 +276,8 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **WALLPAPER：** 登录页面电影海报，支持 `tmdb`/`bing`/`mediaserver`，默认为 `tmdb`
 - **CUSTOMIZE_WALLPAPER_API_URL：** 自定义壁纸api地址，默认为空
 
-## 其它杂项
+## 性能
+- **BIG_MEMORY_MODE：** 大内存模式，默认为`false`，开启后会增加缓存数量，占用更多的内存，但响应速度会更快
 - **PERFORMANCE_MONITOR_ENABLE：** FastApi性能监控，默认为 `false`
 - **ENCODING_DETECTION_PERFORMANCE_MODE：** 是否启用编码探测的性能模式，默认为 `true`，优先提升探测效率，但可能降低编码探测的准确性
 - **ENCODING_DETECTION_MIN_CONFIDENCE：** 编码探测的最低置信度阈值，默认为 `0.8`
