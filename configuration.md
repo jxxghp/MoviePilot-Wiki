@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-08-20T14:17:12.942Z
+date: 2025-08-21T02:43:15.921Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -290,7 +290,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 
 ## 1. 安装Redis容器
 
-**根据需要决定是否开启持久化，不开时重启Redis后缓存数据会丢失，但不会影响程序正常运行**
+**根据需要决定是否开启持久化，不开时重启Redis后缓存数据会丢失，但不会影响程序正常运行（建议设置复杂密码）**
 ```bash
 # 创建持久化目录
 mkdir -p /volume1/docker/redis/data
@@ -300,7 +300,7 @@ docker run \
   --name my-redis \
   -p 6379:6379 \
   -v /volume1/docker/redis/data:/data \
-  -d redis redis-server --save 600 1
+  -d redis redis-server --save 600 1 --requirepass "你的密码"
 ```
 
 ## 2. 配置MoviePilot使用Redis
@@ -311,7 +311,7 @@ docker run \
 # 缓存类型，支持 cachetools 和 redis，默认使用 cachetools
 CACHE_BACKEND_TYPE=redis
 # 缓存连接字符串，仅Redis缓存需要
-CACHE_BACKEND_URL="redis://localhost:6379"
+CACHE_BACKEND_URL="redis://:你的密码@localhost:6379"
 ```
 
 重启MoviePilot生效。
@@ -331,7 +331,7 @@ docker run -d \
   -p 5432:5432 \
   -e POSTGRES_DB=moviepilot \
   -e POSTGRES_USER=moviepilot \
-  -e POSTGRES_PASSWORD=moviepilot \
+  -e POSTGRES_PASSWORD="你的密码" \
   -v /volume1/docker/postgresql:/var/lib/postgresql/data \
   postgres
 ```
@@ -372,7 +372,7 @@ ALTER USER moviepilot CREATEDB;
 apt update
 apt install pgloader
 
-pgloader sqlite:////var/lib/postgresql/data/user.db postgresql://moviepilot:moviepilot@localhost:5432/moviepilot
+pgloader sqlite:////var/lib/postgresql/data/user.db postgresql://moviepilot:你的密码@localhost:5432/moviepilot
 ```
 
 > 注意：数据迁移前请备份原有SQLite数据库文件。
@@ -391,7 +391,7 @@ DB_POSTGRESQL_HOST=localhost
 DB_POSTGRESQL_PORT=5432
 DB_POSTGRESQL_DATABASE=moviepilot
 DB_POSTGRESQL_USERNAME=moviepilot
-DB_POSTGRESQL_PASSWORD=moviepilot
+DB_POSTGRESQL_PASSWORD="你的密码"
 ```
 
 ## 5. 验证配置
