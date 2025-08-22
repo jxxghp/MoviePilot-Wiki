@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2024-12-26T14:01:59.741Z
+date: 2025-08-22T23:40:46.484Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -66,6 +66,89 @@ docker run -itd \
 ```
 
 ## docker-compose  {.tabset}
+
+### V2-全功能版
+```shell
+services:
+
+  moviepilot:
+    stdin_open: true
+    tty: true
+    container_name: moviepilot-v2
+    hostname: moviepilot-v2
+    ports:
+     - '3000:3000'
+     - '3001:3001'
+    volumes:
+      - '/media:/media' #媒体
+      - '/moviepilot-v2/config:/config' #持久化配置
+      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright' #内核浏览器
+      - '/var/run/docker.sock:/var/run/docker.sock:ro' #重启MP权限
+      - '/tr/config/torrents:/torrents'  #TR种子位置
+      - '/qbittorrent/data/data/BT_backup:/BT_backup' #QB种子位置
+    environment:
+      - 'NGINX_PORT=3000'
+      - 'PORT=3001'
+      - 'PUID=0'
+      - 'PGID=0'
+      - 'UMASK=000'
+      - 'TZ=Asia/Shanghai'
+      - 'SUPERUSER=admin'
+      - 'DB_TYPE=postgresql'
+      - 'DB_POSTGRESQL_HOST=postgresql'
+      - 'DB_POSTGRESQL_PORT=5432'
+      - 'DB_POSTGRESQL_DATABASE=moviepilot'
+      - 'DB_POSTGRESQL_USERNAME=moviepilot'
+      - 'DB_POSTGRESQL_PASSWORD=pg_password'
+      - 'CACHE_BACKEND_TYPE=redis'
+      - 'CACHE_BACKEND_URL=redis://:redis_password@redis:6379'
+    restart: always
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    image: jxxghp/moviepilot-v2:latest
+
+  redis:
+    volumes:
+        - /volume1/docker/redis/data:/data
+    image: redis
+    command: redis-server --save 600 1 --requirepass redis_password
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgresql:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: moviepilot
+      POSTGRES_USER: moviepilot
+      POSTGRES_PASSWORD: pg_password
+    volumes:
+      - /volume1/docker/postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moviepilot -d moviepilot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+#最后这个迁移数据库的    
+  pgloader:
+    image: dimitri/pgloader:latest
+    volumes:
+      - <MP配置文件路径>:/mp_config
+    command: >
+      pgloader 
+      sqlite:///mp_config/user.db 
+      postgresql://moviepilot:pg_password@postgresql:5432/moviepilot
+    depends_on:
+      postgresql:
+        condition: service_healthy
+```
 
 ### V2-纯净版
 ```shell
