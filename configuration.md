@@ -83,6 +83,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 ## HTTPS访问
 - **ENABLE_SSL：** 是否启动https访问，`true`/`false`，启用后需要设置完整相关参数，否则无法正常访问后台，**仅支持Docker环境**
 - **SSL_DOMAIN：** SSL域名，用于申请证书，需要与实际的后台访问域名一致
+- **SSL_NGINX_PORT：** https访问端口，默认443
 - **SSL_EMAIL：** SSL证书申请使用的邮箱地址
 - **AUTO_ISSUE_CERT：** 是否自动签发证书，`true`/`false`，启用后会自动安装acme.sh签发证书并定时更新，仅支持DNS认证方式，需要同时以`ACME_ENV_`开关设置好DNS认证相关参数；不启用时，需要手动准备SSL证书文件，以文件名：`/config/certs/latest/fullchain.pem`、`/config/certs/latest/privkey.pem` 存放
 - **DNS_PROVIDER：** acme.sh DNS认证方式，相关参数设置参考：[wiki](https://github.com/acmesh-official/acme.sh/wiki/说明)
