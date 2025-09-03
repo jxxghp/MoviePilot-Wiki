@@ -2,7 +2,7 @@
 title: 进阶
 description: 词表、分类策略等高阶使用方法
 published: 1
-date: 2025-07-01T09:00:41.672Z
+date: 2025-09-03T09:14:21.969Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:47:08.061Z
@@ -182,6 +182,7 @@ tv:
    - `genre_ids` 内容类型，具体含义参考下方字典。
    - `release_year` 发行年份，格式：YYYY，电影实际对应`release_date`字段，电视剧实际对应`first_air_date`字段，支持范围设定，如：`YYYY-YYYY`
    - themoviedb 详情API返回的其它一级字段，API参考：[电影](https://developer.themoviedb.org/reference/movie-details)、[电视剧](https://developer.themoviedb.org/reference/tv-series-details)。
+4. !条件值表示排除该值，一般用于将分类中的某子类单独分类的情况，同时不用考虑分类先后顺序
 
 **`genre_ids` 内容类型字典：**
 ```
