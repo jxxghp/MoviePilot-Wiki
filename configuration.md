@@ -70,14 +70,15 @@ dateCreated: 2024-05-30T09:48:02.073Z
 |   PTS    |   ptskit    |   `PTSKIT_UID`：用户ID<br/>`PTSKIT_PASSKEY`：密钥   |
 
 ## 基础设置
-- **❗NGINX_PORT：** WEB服务端口，默认`3000`，可自行修改，不能与API服务端口冲突
-- **❗PORT：** API服务端口，默认`3001`，可自行修改，不能与WEB服务端口冲突
+- **❗NGINX_PORT**：WEB服务端口，默认`3000`，可自行修改，不能与API服务端口冲突
+- **❗PORT**：API服务端口，默认`3001`，可自行修改，不能与WEB服务端口冲突
 - **PUID**：运行程序用户的`uid`，默认`0`
 - **PGID**：运行程序用户的`gid`，默认`0`
 - **UMASK**：掩码权限，默认`000`，可以考虑设置为`022`
-- **HOST：** API监听地址，默认为 `0.0.0.0`
-- **CONFIG_DIR：** 配置文件目录，默认为空，使用系统默认路径`/config`
-- **TZ：** 时区，默认为 `Asia/Shanghai`
+- **HOST**：API监听地址，默认为 `0.0.0.0`
+- **CONFIG_DIR**：配置文件目录，默认为空，使用系统默认路径`/config`
+- **TZ**：时区，默认为 `Asia/Shanghai`
+- **START_NOGOSU**：以不切换容器内用户的方式启动容器，这有助于缓解无根容器的用户权限问题。例如，使用 Podman 的 `--group-add keep-groups`（需要 crun 运行时支持）以将宿主用户的附加组权限侧漏到容器中，同时使用 `START_NOGOSU=true` 避免容器内切换用户导致 `initgroups()` 被调用，使得侧漏进来的补充组权限被清空。将此环境变量设置为 `true` 会导致 `PUID` 与 `PGID` 环境变量失效，因为容器内不再会进行用户切换。默认为 `false`。
 
 
 ## HTTPS访问
