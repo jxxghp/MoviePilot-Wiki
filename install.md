@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2025-08-22T23:40:46.484Z
+date: 2025-09-10T09:49:50.704Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -19,10 +19,9 @@ MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`
 docker run -itd \
     --name moviepilot-v2 \
     --hostname moviepilot-v2 \
-    --network host \
-    # --network bridge \
-    # -p 3000:3000 \
-    # -p 3001:3001 \
+    --network bridge \
+    -p 3000:3000 \
+    -p 3001:3001 \
     -v /media:/media \
     -v /moviepilot-v2/config:/config \
     -v /moviepilot-v2/core:/moviepilot/.cache/ms-playwright \
@@ -33,10 +32,8 @@ docker run -itd \
     -e 'PGID=0' \
     -e 'UMASK=000' \
     -e 'TZ=Asia/Shanghai' \
-    # -e 'AUTH_SITE=v2.0.7+版本以后可不设置，直接通过 UI 配置' \
-    # -e 'IYUU_SIGN=xxxx' \
-    -e 'SUPERUSER=admin' \
-    # -e 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串' \
+    -e 'SUPERUSER=admin' \ #超级管理员用户名
+    -e 'SUPERUSER_PASSWORD=你的初始登录密码' \ #超级管理员初始密码
     --restart always \
     jxxghp/moviepilot-v2:latest
 ```
@@ -94,6 +91,7 @@ services:
       - 'UMASK=000'
       - 'TZ=Asia/Shanghai'
       - 'SUPERUSER=admin'
+      - 'SUPERUSER_PASSWORD=你的初始登录密码'
       - 'DB_TYPE=postgresql'
       - 'DB_POSTGRESQL_HOST=postgresql'
       - 'DB_POSTGRESQL_PORT=5432'
@@ -159,15 +157,7 @@ services:
     tty: true
     container_name: moviepilot-v2
     hostname: moviepilot-v2
-    
     network_mode: host
-    # networks:
-    # - moviepilot
-
-    # ports:
-    #  - '3000:3000'
-    #  - '3001:3001'
-        
     volumes:
       - '/media:/media'
       - '/moviepilot-v2/config:/config'
@@ -181,10 +171,8 @@ services:
       - 'PGID=0'
       - 'UMASK=000'
       - 'TZ=Asia/Shanghai'
-      # - 'AUTH_SITE=iyuu'  # v2.0.7+版本以后，可不设置，直接通过 UI 配置
-      # - 'IYUU_SIGN=xxxx'  
-      - 'SUPERUSER=admin'  # 设置超级用户
-      # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
+      - 'SUPERUSER=admin' #超级管理员用户名
+      - 'SUPERUSER_PASSWORD=你的初始登录密码' #超级管理员初始密码
 
     restart: always
     image: jxxghp/moviepilot-v2:latest
@@ -199,55 +187,54 @@ services:
 version: '3.3'
 services:
   moviepilot:
-    stdin_open: true  # 是否打开标准输入流（交互模式），为 true 时容器可以保持运行并与用户交互
-    tty: true  # 是否分配伪终端，使容器的终端行为更像一个真实的终端
-    container_name: moviepilot-v2  # 容器的名称
-    hostname: moviepilot-v2  # 容器主机名
+    stdin_open: true  #是否打开标准输入流（交互模式），为 true 时容器可以保持运行并与用户交互
+    tty: true  #是否分配伪终端，使容器的终端行为更像一个真实的终端
+    container_name: moviepilot-v2  #容器的名称
+    hostname: moviepilot-v2  #容器主机名
     
     # 网关设置
-    network_mode: host  # 内置的网关
-    # networks:  # 自定义网关
+    network_mode: host  #内置的网关
+    # networks:  #自定义网关
     #  - moviepilot  
 
     # 端口映射，当network_mode的值为 host 时，将失效
     # ports:
     	# 前端 UI 显示
-      # - target: 3000  # 容器内部端口设置为 3000
-      #   published: 3000  # 映射到宿主机的 3000 端口，允许外部访问
-      #   protocol: tcp  # TCP 协议，可选udp
+      # - target: 3000  #容器内部端口设置为 3000
+      #   published: 3000  #映射到宿主机的 3000 端口，允许外部访问
+      #   protocol: tcp  #TCP 协议，可选udp
       # API 接口
-      # - target: 3001  # 容器内部端口设置为 3001
-      #   published: 3001  # 映射到宿主机的 3001 端口，允许外部访问
-      #   protocol: tcp  # TCP 协议，可选udp
+      # - target: 3001  #容器内部端口设置为 3001
+      #   published: 3001  #映射到宿主机的 3001 端口，允许外部访问
+      #   protocol: tcp  #TCP 协议，可选udp
 
     # 目录映射：宿主机目录:容器内目录
     volumes:
-      - '/media:/media'  # 媒体库或下载库路径
-      - '/moviepilot-v2/config:/config'  # moviepilot 的配置文件存放路径
-      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'  # 浏览器内核存放路径
-      - '/var/run/docker.sock:/var/run/docker.sock:ro'  # 用于获取宿主机的docker管理权，一般用于UI页面重启或自动更新
+      - '/media:/media'  #媒体库或下载库路径
+      - '/moviepilot-v2/config:/config'  #moviepilot 的配置文件存放路径
+      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'  #浏览器内核存放路径
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'  #用于获取宿主机的docker管理权，一般用于UI页面重启或自动更新
       
     # 环境变量：- '变量名=值‘
     environment:
-      - 'NGINX_PORT=3000'  # UI页面的内部监听端口
-      - 'PORT=3001'  # API接口的内部监听端口
-      - 'PUID=0'  # 设置应用运行时的用户 ID 为 0（root 用户）
-      - 'PGID=0'  # 设置应用运行时的组 ID 为 0（root 组）
-      - 'UMASK=000'  # 文件创建时的默认权限掩码，000 表示不限制权限
-      - 'TZ=Asia/Shanghai'  # 设置时区为上海（Asia/Shanghai）
-      # - 'AUTH_SITE=iyuu'  # 设置认证站点，v2.0.7+版本以后可不设置，直接通过 UI 配置
-      # - 'IYUU_SIGN=xxxx'  # 单个站点密钥，配合 AUTH_SITE 使用
-      - 'SUPERUSER=admin'  # 设置超级用户为 admin
-      # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
+      - 'NGINX_PORT=3000'  #UI页面的内部监听端口
+      - 'PORT=3001'  #API接口的内部监听端口
+      - 'PUID=0'  #设置应用运行时的用户 ID 为 0（root 用户）
+      - 'PGID=0'  #设置应用运行时的组 ID 为 0（root 组）
+      - 'UMASK=000'  #文件创建时的默认权限掩码，000 表示不限制权限
+      - 'TZ=Asia/Shanghai'  #设置时区为上海（Asia/Shanghai）
+      - 'SUPERUSER=admin'  #设置超级用户为 admin
+      - 'SUPERUSER_PASSWORD=你的初始登录密码' #超级管理员初始密码
+      - 'ADVANCED_MODE=false' #关闭高级模式，只显示简化设置项
       
     # 重启模式: 
-    restart: always  # 始终重启
+    restart: always  #始终重启
     image: jxxghp/moviepilot-v2:latest
     
 # 当使用内置网关时，可不启用
 # networks:
-#   moviepilot:  # 定义一个名为 moviepilot 的自定义网络
-#     name: moviepilot  # 网络的名称
+#   moviepilot:  #定义一个名为 moviepilot 的自定义网络
+#     name: moviepilot  #网络的名称
 
 
 ```
