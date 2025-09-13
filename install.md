@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2025-09-10T09:49:50.704Z
+date: 2025-09-13T08:01:46.564Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -134,7 +134,7 @@ services:
       timeout: 5s
       retries: 5
   
-#最后这个迁移数据库的    
+	# 最后这个迁移数据库的    
   pgloader:
     image: dimitri/pgloader:latest
     volumes:
@@ -176,10 +176,6 @@ services:
 
     restart: always
     image: jxxghp/moviepilot-v2:latest
-    
-# networks:
-#   moviepilot:
-#     name: moviepilot
 ```
 
 ### V2-小白版
