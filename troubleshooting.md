@@ -2,7 +2,7 @@
 title: 故障排除
 description: 常见问题及解决方案
 published: 1
-date: 2025-09-13T07:52:18.870Z
+date: 2025-09-13T07:53:23.533Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:55:21.946Z
@@ -38,5 +38,6 @@ sudo sysctl -p
 
 v2.6.8+出现无法搜索、无法添加站点问题的，检查认证资源版本是否为2.4.1+，站点资源版本是否为2.0.7+，如果不是且重启不会自动更新，请更新docker镜像。
 
-## 更多问题解决方法，请访问Telegram 的 [MoviePilot Wiki频道](https://t.me/Moviepilot_Wiki) 或 [MoviePilot交流群](https://t.me/moviepilot_official)获取。
-## 注意：前往 issus 或 [MoviePilot Wiki频道](https://t.me/Moviepilot_Wiki) 或 [MoviePilot交流群](https://t.me/moviepilot_official) 提问前，请附带日志截图、配置截图等关键信息，便于快速解决您的问题；尽量不要试图仅通过文字描述进行提问，以获取问题答案。
+
+> 更多问题解决方法，请访问Telegram 的 [MoviePilot Wiki频道](https://t.me/Moviepilot_Wiki) 或 [MoviePilot交流群](https://t.me/moviepilot_official)获取。问前请附带日志截图、配置截图等关键信息，便于快速解决您的问题；尽量不要试图仅通过文字描述进行提问，以获取问题答案。
+{.is-success}
