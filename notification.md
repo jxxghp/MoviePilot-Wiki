@@ -105,7 +105,7 @@ TCP 中转服务也可以通过 Nginx 实现，通常 socat 用不了 443 端口
 
 - https://slack.com/intl/zh-cn/ 创建工作区
 - https://api.slack.com/ 创建App应用，打开 `Socket Mode`。
-- 开启`Event Subscriptions`、`Bots`、`Permissions`。其中`Bot Token Scopes` 赋于 `chat:write`、`im:read`、`im:history` 、`channels:read`、`commands`权限；`Subscribe to bot events` 赋于 `message.im`、`app_mention` 权限；按需维护`Interactivity & Shortcuts`菜单，类型为`Global`，菜单Callback ID需与项目主页说明一致。
+- 开启`Event Subscriptions`、`Bots`、`Permissions`。其中`Bot Token Scopes` 赋于 `chat:write`、`im:read`、`im:history` 、`channels:read`、`commands`、`groups:read`权限；`Subscribe to bot events` 赋于 `message.im`、`app_mention` 权限；按需维护`Interactivity & Shortcuts`菜单，类型为`Global`，菜单Callback ID需与项目主页说明一致。
 - 创建 `App-Level Tokens` 并赋于 `connections:write` 权限。
 - Install App 到工作区，登录工作区将App添加到`全体`频道。
 - `OAuth & Permissions` 中 获取 `Bot User OAuth Token`，`Basic Information` 中 获取 `App-Level Tokens `填入相关设置项中，保存。
