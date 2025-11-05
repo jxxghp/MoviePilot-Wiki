@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2025-09-13T08:01:46.564Z
+date: 2025-11-05T05:36:42.054Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -127,7 +127,8 @@ services:
       POSTGRES_USER: moviepilot
       POSTGRES_PASSWORD: pg_password
     volumes:
-      - /volume1/docker/postgresql:/var/lib/postgresql/data
+      - /volume1/docker/postgresql:/var/lib/postgresql
+      #- /volume1/docker/postgresql/data:/var/lib/postgresql/data # 仅 postgresql 17.6 以下版本可用，根据版本二选一即可
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U moviepilot -d moviepilot"]
       interval: 10s
