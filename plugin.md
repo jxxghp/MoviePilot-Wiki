@@ -69,6 +69,7 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 - https://github.com/xijin285/MoviePilot-Plugins/
 - https://github.com/cqubioyj/MoviePilot-Plugins/
 - https://github.com/Hqyel/MoviePilot-Plugins-Third/
+- https://github.com/xiaoQQya/MoviePilot-Plugins
 
 # 插件安装/升级
 
