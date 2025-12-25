@@ -2,7 +2,7 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2025-12-25T14:01:55.603Z
+date: 2025-12-25T14:03:17.676Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
@@ -126,7 +126,7 @@ Discord 通知渠道配置方法
 1. 建立一个Discord bot
    - 打开并登录 [https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications](https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications)
    - 建立一个新应用，比如叫 MoviePilot。
-   - 进入应用并导航到Bot页面（可以自己配置想用的icon），确保启用`Presence Intent` Server Members Intent 以及`Message Content Intent` 
+   - 进入应用并导航到Bot页面（可以自己配置想用的icon），确保启用`Presence Intent`、`Server Members Intent` 以及`Message Content Intent` 
 
 
 2. 安装bot到自己的Discord服务器
