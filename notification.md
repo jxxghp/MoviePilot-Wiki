@@ -2,12 +2,11 @@
 title: 通知
 description: 设置消息通知渠道以及远程控制
 published: 1
-date: 2024-12-26T12:34:23.151Z
+date: 2025-12-25T14:00:48.488Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-31T12:38:49.255Z
 ---
-
 
 # 系统通知
 
@@ -122,6 +121,24 @@ TCP 中转服务也可以通过 Nginx 实现，通常 socat 用不了 443 端口
 - 参考 https://doc.voce.chat 搭建VoceChat服务，创建机器人，获取`机器人密钥`和`频道ID`连同`服务地址`填入对应设置项，保存。
 - VoceChat机器人Webhook地址设置为：`http://ip:port/api/v1/message/?token=moviepilot`，其中`moviepilot`修改为实际配置中实际的`API_TOKEN`的值，`ip:port`为实际MoviePilot的IP地址和端口。
 
+# Discord
+Discord 通知渠道配置方法
+1. 建立一个Discord bot
+   1. 打开并登录 [https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications](https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications)
+   2. 建立一个新应用，比如叫 MoviePilot。
+   3. 进入应用并导航到Bot页面（可以自己配置想用的icon），确保启用`Presence Intent` Server Members Intent 以及`Message Content Intent` 
+
+
+2. 安装bot到自己的Discord服务器
+   1. 导航到Installation，按照图示设置好权限。
+   2. 复制打开安装链接，选择需要安装的服务器安装。
+
+
+3. 配置MoviePilot
+   1. 回到Bot页面，点击Reset Token。
+   2. 将这个Token放入MoviePilot通知渠道配置中的Bot Token。
+   3. 打开Discord并选择你想要发送MP通知的频道，右键复制链接，这个链接URL的最后一串数字是频道ID，前一串数字是服务器ID，将这两个ID填入通知渠道配置并保存。
+
 # WebPush
 
 WebPush基于PWA实现让网页应用能像App客户端一样发送消息通知，**实现客户端级的消息通知使用体验**，开启WebPush需要满足以下条件：
@@ -131,3 +148,4 @@ WebPush基于PWA实现让网页应用能像App客户端一样发送消息通知�
 - 如果为IOS，需要`16.4`以上版本。
 
 建议将插件、站点等消息通过WebPush发送，其余媒体类消息则通知到微信等客户端，实现管理员消息通知和普通使用用户通知分离。
+
