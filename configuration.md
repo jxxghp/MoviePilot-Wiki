@@ -79,6 +79,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - **CONFIG_DIR**：配置文件目录，默认为空，使用系统默认路径`/config`
 - **TZ**：时区，默认为 `Asia/Shanghai`
 - **START_NOGOSU**：以不切换容器内用户的方式启动容器，这有助于缓解无根容器的用户权限问题。例如，使用 Podman 的 `--group-add keep-groups`（需要 crun 运行时支持）以将宿主用户的附加组权限侧漏到容器中，同时使用 `START_NOGOSU=true` 避免容器内切换用户导致 `initgroups()` 被调用，使得侧漏进来的补充组权限被清空。将此环境变量设置为 `true` 会导致 `PUID` 与 `PGID` 环境变量失效，因为容器内不再会进行用户切换。默认为 `false`。
+- **PLAYWRIGHT_BROWSER_TYPE**: （仅支持V2版本）Playwright浏览器环境，`chromium`或者`firefox`，默认`chromium`。在使用CookieCloud将浏览器cookies同步到MoviePilot时：如果使用的是火狐浏览器，则设置为`firefox`会获得更好的兼容性；如果使用的是谷歌浏览器或者chromium类浏览器，则不要更改。
 
 
 ## HTTPS访问
