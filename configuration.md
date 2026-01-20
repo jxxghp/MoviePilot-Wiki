@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2025-09-10T09:40:23.511Z
+date: 2026-01-20T14:13:33.496Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -183,6 +183,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **ENCODING_DETECTION_PERFORMANCE_MODE：** V2新增配置项，编码探测性能模式，默认为`true`，优先提升探测效率，但可能降低编码探测的准确性
 - **TOKENIZED_SEARCH：** V2新增配置项，分词搜索，默认为`false`，可提升历史记录搜索精度，但可能增加性能开销和意外结果
 - **META_CACHE_EXPIRE：** 元数据识别缓存过期时间（小时），数字型，不配置或者配置为0时使用系统默认（大内存模式为7天，否则为3天），调大该值可减少themoviedb的访问次数
+- **PASSKEY_ALLOW_REGISTER_WITHOUT_OTP：** 是否允许在未启用 OTP 时直接注册通行密钥，默认为`false`
 
 ## 媒体整理
 - **RMT_MEDIAEXT：** 支持的媒体文件后缀格式，默认为 `['.mp4', '.mkv', '.ts', '.iso', '.rmvb', '.avi', '.mov', '.mpeg', '.mpg', '.wmv', '.3gp', '.asf', '.m4v', '.flv', '.m2ts', '.strm', '.tp', '.f4v']`
