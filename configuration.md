@@ -2,7 +2,7 @@
 title: 配置参考
 description: 所有支持的配置项说明
 published: 1
-date: 2026-01-21T00:13:35.735Z
+date: 2026-01-21T12:08:06.308Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
@@ -204,7 +204,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **RENAME_FORMAT_S0_NAMES：** 重命名时支持的S0别名，默认为 `["Specials", "SPs"]`
 - **DEFAULT_SUB：** 为指定默认字幕添加.default后缀，默认为 `zh-cn`
 - **SCRAP_FOLLOW_TMDB：** 新增已入库媒体是否跟随TMDB信息变化，默认为 `true`
-- **TRANSFER_THREADS：** 文件整理线程数，v2.9.5新增，默认为 `5` ，设为 `1` 关闭多线程整理  
+- **TRANSFER_THREADS：** 文件整理线程数，v2.9.5新增，默认为 `1` ，设为 `1` 关闭多线程整理  
 
 ## 媒体识别
 - **SEARCH_SOURCE：** 媒体信息来源，支持 `themoviedb`/`douban`/`bangumi`，多个用`,`分隔，默认为 `themoviedb,douban,bangumi`
