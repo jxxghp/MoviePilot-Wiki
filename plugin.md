@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-01-24T11:26:04.764Z
+date: 2026-01-24T11:27:09.255Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -10,6 +10,10 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 # 插件市场
 通过在变量`PLUGIN_MARKET`中添加第三方插件仓库地址后（v2版本点击插件页面图标维护），即可在插件市场中看到对应的插件。
+
+**MoviePilot目前已有：**
+- **v1.0+：`200+` 个插件**
+- **v2.0+：`280+` 个插件**
 
 插件市场仓库地址仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) 项目的fork，或者查看频道置顶了解更多第三方插件仓库。
 
@@ -38,10 +42,6 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/xijin285/MoviePilot-Plugins
 - https://github.com/Seed680/MoviePilot-Plugins
 - https://github.com/imaliang/MoviePilot-Plugins"
-  
-**MoviePilot目前已有：**
-- **v1.0+：`200+` 个插件**
-- **v2.0+：`250+` 个插件**
 
 **完整的插件仓库地址配置：**
 ```
