@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-01-11T13:56:11.657Z
+date: 2026-01-24T11:17:08.144Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -72,7 +72,6 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 - https://github.com/xiaoQQya/MoviePilot-Plugins/
 - https://github.com/mrtian2016/MoviePilot-Plugins/
 - https://github.com/andyxu8023/MoviePilot-Plugins/
-
 - https://github.com/Sinterdial/MoviePilot-Plugins/
 
 # 插件安装/升级
