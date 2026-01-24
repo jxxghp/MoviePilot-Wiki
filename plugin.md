@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-01-24T11:17:08.144Z
+date: 2026-01-24T11:26:04.764Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -18,13 +18,26 @@ dateCreated: 2024-06-11T22:35:11.803Z
 {.is-info}
 
 **默认已内置以下插件库：**
-  1. https://github.com/jxxghp/MoviePilot-Plugins
-  2. https://github.com/thsrite/MoviePilot-Plugins
-  3. https://github.com/honue/MoviePilot-Plugins
-  4. https://github.com/InfinityPacer/MoviePilot-Plugins
-  5. https://github.com/DDSRem-Dev/MoviePilot-Plugins
-  6. https://github.com/madrays/MoviePilot-Plugins
-  7. ... 会定期更新
+- https://github.com/jxxghp/MoviePilot-Plugins
+- https://github.com/thsrite/MoviePilot-Plugins
+- https://github.com/honue/MoviePilot-Plugins
+- https://github.com/InfinityPacer/MoviePilot-Plugins
+- https://github.com/DDSRem-Dev/MoviePilot-Plugins
+- https://github.com/madrays/MoviePilot-Plugins
+- https://github.com/justzerock/MoviePilot-Plugins
+- https://github.com/KoWming/MoviePilot-Plugins
+- https://github.com/wikrin/MoviePilot-Plugins
+- https://github.com/HankunYu/MoviePilot-Plugins
+- https://github.com/baozaodetudou/MoviePilot-Plugins
+- https://github.com/Aqr-K/MoviePilot-Plugins
+- https://github.com/hotlcc/MoviePilot-Plugins-Third
+- https://github.com/gxterry/MoviePilot-Plugins
+- https://github.com/DzAvril/MoviePilot-Plugins
+- https://github.com/mrtian2016/MoviePilot-Plugins
+- https://github.com/Hqyel/MoviePilot-Plugins-Third
+- https://github.com/xijin285/MoviePilot-Plugins
+- https://github.com/Seed680/MoviePilot-Plugins
+- https://github.com/imaliang/MoviePilot-Plugins"
   
 **MoviePilot目前已有：**
 - **v1.0+：`200+` 个插件**
