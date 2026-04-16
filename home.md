@@ -23,10 +23,11 @@ dateCreated: 2024-05-30T04:38:01.345Z
 
 # 安装
 
-MoviePilot支持Docker、Windows和群辉平台，参考下述说明安排和配置。
+MoviePilot支持Docker、Windows、群辉以及 `macOS/Linux` 本地 CLI 部署，参考下述说明安排和配置。
 
 - [环境准备 *安装前的准备工作。*](/ready)
 - [安装指引 *如何安装MoviePilot。*](/install)
+- [本地 CLI *macOS/Linux 本地安装、更新和服务管理。*](/cli)
 - [配置说明 *一些配置项的说明（主要为V1版本使用）。*](/configuration)
 - [升级 *如何自动更新升级版本。*](/upgrade)
 - [发行说明 *重大版本更新记录。*](/release)

@@ -51,6 +51,41 @@ docker pull jxxghp/moviepilot-v2:latest
 
 不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到`重置`选项；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
 
+### 本地 CLI <i class="mdi mdi-console"></i>
+
+本地 CLI 安装模式不依赖 Docker 自动升级机制，请直接使用 `moviepilot update ...` 命令更新。
+
+推荐流程：
+
+```shell
+moviepilot stop
+moviepilot update all
+moviepilot start
+```
+
+也可以分开更新：
+
+```shell
+moviepilot update backend
+moviepilot update frontend
+moviepilot update all --skip-resources
+```
+
+指定版本示例：
+
+```shell
+moviepilot update backend --ref v2.9.31
+moviepilot update frontend --frontend-version v2.9.31
+```
+
+说明：
+
+- `update backend` 会更新本地 Git 仓库并重新安装后端依赖
+- `update frontend` 会下载并替换前端 release
+- `update all` 会同时更新后端、前端，并默认同步资源文件
+- 如果当前仓库存在已跟踪源码改动，更新命令会停止，避免覆盖本地修改
+- 通过 `moviepilot start` 管理起来的本地实例，现已支持系统内置重启；但程序升级仍建议显式执行 `moviepilot update ...`
+
 
 ### Synology套件 <i class="mdi mdi-linux"></i>
 

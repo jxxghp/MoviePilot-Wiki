@@ -14,6 +14,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 > ❗号标识的为必填项，其它为可选项，可选项可删除配置变量从而使用默认值。
 {.is-info}
 
+> 本地 CLI 安装模式下，绝大多数常用配置均可通过 `moviepilot setup --wizard`、`moviepilot config ...` 或前端界面完成，不再需要手工维护多仓库文件。
+{.is-info}
+
 
 # 环境变量
 
@@ -23,6 +26,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 
 > 不再持续更新，在MoviePilot中点击用头像，弹出菜单中 `用户认证` 可选择的站点即代表支持该站点认证。
 {.is-info}
+
+> 本地 CLI 安装模式下，初始化向导也支持直接配置用户站点认证，会自动列出当前资源支持的站点并写入系统配置。
+{.is-success}
 
 - **❗AUTH_SITE：** **认证站点**（认证通过后才能使用站点相关功能），支持配置多个认证站点，使用`,`分隔，如：`iyuu,hhclub`，会依次执行认证操作，直到有一个站点认证成功。 
 
@@ -76,7 +82,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 - **PGID**：运行程序用户的`gid`，默认`0`
 - **UMASK**：掩码权限，默认`000`，可以考虑设置为`022`
 - **HOST**：API监听地址，默认为 `0.0.0.0`
-- **CONFIG_DIR**：配置文件目录，默认为空，使用系统默认路径`/config`
+- **CONFIG_DIR**：配置文件目录。Docker / 套件环境通常为 `/config`；本地 CLI 安装默认使用程序目录外的系统配置目录：
+  - macOS：`~/Library/Application Support/MoviePilot`
+  - Linux：`${XDG_CONFIG_HOME:-~/.config}/moviepilot`
 - **TZ**：时区，默认为 `Asia/Shanghai`
 - **START_NOGOSU**：以不切换容器内用户的方式启动容器，这有助于缓解无根容器的用户权限问题。例如，使用 Podman 的 `--group-add keep-groups`（需要 crun 运行时支持）以将宿主用户的附加组权限侧漏到容器中，同时使用 `START_NOGOSU=true` 避免容器内切换用户导致 `initgroups()` 被调用，使得侧漏进来的补充组权限被清空。将此环境变量设置为 `true` 会导致 `PUID` 与 `PGID` 环境变量失效，因为容器内不再会进行用户切换。默认为 `false`。
 - **PLAYWRIGHT_BROWSER_TYPE**: （仅支持V2版本）Playwright浏览器环境，`chromium`或者`firefox`，默认`chromium`。在使用CookieCloud将浏览器cookies同步到MoviePilot时：如果使用的是火狐浏览器，则设置为`firefox`会获得更好的兼容性；如果使用的是谷歌浏览器或者chromium类浏览器，则不要更改。
@@ -123,8 +131,8 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 
 ## 系统重启&更新
 - **MOVIEPILOT_AUTO_UPDATE：** 重启时自动更新，`true`/`release`/`dev`/`false`，默认`release`，需要能正常连接Github **注意：如果出现网络问题可以配置`PROXY_HOST`**
-- **AUTO_UPDATE_RESOURCE**：启动时自动检测和更新资源包（站点索引及认证等），`true`/`false`，默认`true`，需要能正常连接Github，仅支持Docker镜像
-- **DOCKER_CLIENT_API：** 使用Docker环境部署时用于实现内建重启功能，默认为：`tcp://127.0.0.1:38379`，官方docker境像无需单独配置
+- **AUTO_UPDATE_RESOURCE**：启动时自动检测和更新资源包（站点索引及认证等），`true`/`false`，默认`true`，需要能正常连接Github。Docker 环境可直接依赖该机制；本地 CLI 安装模式通常使用 `moviepilot update all` 来同步程序和资源
+- **DOCKER_CLIENT_API：** 使用Docker环境部署时用于实现内建重启功能，默认为：`tcp://127.0.0.1:38379`，官方docker境像无需单独配置。本地 CLI 安装模式不依赖该项；由 `moviepilot start` 管理起来的实例已支持内建重启
 
 ## 缓存
 - **CACHE_BACKEND_TYPE：** V2新增配置项，缓存类型，支持 `cachetools` 和 `redis`，默认使用 `cachetools`
