@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-04-10T12:22:13.796Z
+date: 2026-04-16T02:44:13.117Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -12,7 +12,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 **MoviePilot目前已有：**
 - **v1.0+：`200+` 个插件**
-- **v2.0+：`280+` 个插件**
+- **v2.0+：`300+` 个插件**
 
 通过在变量`PLUGIN_MARKET`中添加第三方插件仓库地址后（v2版本点击插件页面图标维护），即可在插件市场中看到对应的插件。**通过插件市场下载和更新插件需要良好的网络环境，能正确连接Github，同时需要配置Github Token。**
 
@@ -47,7 +47,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 **完整的插件仓库地址配置：**
 ```
-https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePilot-Plugins/,https://github.com/honue/MoviePilot-Plugins/,https://github.com/InfinityPacer/MoviePilot-Plugins/,https://github.com/dandkong/MoviePilot-Plugins/,https://github.com/Aqr-K/MoviePilot-Plugins/,https://github.com/AnjoyLi/MoviePilot-Plugins/,https://github.com/WithdewHua/MoviePilot-Plugins/,https://github.com/HankunYu/MoviePilot-Plugins/,https://github.com/baozaodetudou/MoviePilot-Plugins/,https://github.com/almus2zhang/MoviePilot-Plugins/,https://github.com/Pixel-LH/MoviePilot-Plugins/,https://github.com/lightolly/MoviePilot-Plugins/,https://github.com/suraxiuxiu/MoviePilot-Plugins/,https://github.com/gxterry/MoviePilot-Plugins/,https://github.com/hotlcc/MoviePilot-Plugins-Third/,https://github.com/boeto/MoviePilot-Plugins/,https://github.com/xiangt920/MoviePilot-Plugins/,https://github.com/yubanmeiqin9048/MoviePilot-Plugins/,https://github.com/loongcheung/MoviePilot-Plugins/,https://github.com/xcehnz/MoviePilot-Plugins/,https://github.com/imaliang/MoviePilot-Plugins/,https://github.com/wikrin/MoviePilot-Plugins/,https://github.com/DDSRem-Dev/MoviePilot-Plugins/,https://github.com/KoWming/MoviePilot-Plugins,https://github.com/madrays/MoviePilot-Plugins,https://github.com/aClarkChen/MoviePilot-Plugins,https://github.com/justzerock/MoviePilot-Plugins,https://github.com/Seed680/MoviePilot-Plugins,https://github.com/DzAvril/MoviePilot-Plugins,https://github.com/xijin285/MoviePilot-Plugins,https://github.com/cqubioyj/MoviePilot-Plugins,https://github.com/Hqyel/MoviePilot-Plugins-Third,https://github.com/mrtian2016/MoviePilot-Plugins,https://github.com/andyxu8023/MoviePilot-Plugins,https://github.com/Sinterdial/MoviePilot-Plugins,https://github.com/4Nest/MoviePilot-Plugins,https://github.com/baranwang/MoviePilot-Plugins,https://github.com/luanyi143/MoviePilot-Plugins,https://github.com/jianji112/MoviePilot-Plugins
+https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePilot-Plugins/,https://github.com/honue/MoviePilot-Plugins/,https://github.com/InfinityPacer/MoviePilot-Plugins/,https://github.com/dandkong/MoviePilot-Plugins/,https://github.com/Aqr-K/MoviePilot-Plugins/,https://github.com/AnjoyLi/MoviePilot-Plugins/,https://github.com/WithdewHua/MoviePilot-Plugins/,https://github.com/HankunYu/MoviePilot-Plugins/,https://github.com/baozaodetudou/MoviePilot-Plugins/,https://github.com/almus2zhang/MoviePilot-Plugins/,https://github.com/Pixel-LH/MoviePilot-Plugins/,https://github.com/lightolly/MoviePilot-Plugins/,https://github.com/suraxiuxiu/MoviePilot-Plugins/,https://github.com/gxterry/MoviePilot-Plugins/,https://github.com/hotlcc/MoviePilot-Plugins-Third/,https://github.com/boeto/MoviePilot-Plugins/,https://github.com/xiangt920/MoviePilot-Plugins/,https://github.com/yubanmeiqin9048/MoviePilot-Plugins/,https://github.com/loongcheung/MoviePilot-Plugins/,https://github.com/xcehnz/MoviePilot-Plugins/,https://github.com/imaliang/MoviePilot-Plugins/,https://github.com/wikrin/MoviePilot-Plugins/,https://github.com/DDSRem-Dev/MoviePilot-Plugins/,https://github.com/KoWming/MoviePilot-Plugins,https://github.com/madrays/MoviePilot-Plugins,https://github.com/aClarkChen/MoviePilot-Plugins,https://github.com/justzerock/MoviePilot-Plugins,https://github.com/Seed680/MoviePilot-Plugins,https://github.com/DzAvril/MoviePilot-Plugins,https://github.com/xijin285/MoviePilot-Plugins,https://github.com/cqubioyj/MoviePilot-Plugins,https://github.com/Hqyel/MoviePilot-Plugins-Third,https://github.com/mrtian2016/MoviePilot-Plugins,https://github.com/andyxu8023/MoviePilot-Plugins,https://github.com/Sinterdial/MoviePilot-Plugins,https://github.com/4Nest/MoviePilot-Plugins,https://github.com/baranwang/MoviePilot-Plugins,https://github.com/luanyi143/MoviePilot-Plugins,https://github.com/jianji112/MoviePilot-Plugins,https://github.com/AWdress/MoviePilot-Plugins
 ```
 
 **访问插件仓库地址，点 :star: 支持作者：**
@@ -91,6 +91,7 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 - https://github.com/4Nest/MoviePilot-Plugins/
 - https://github.com/luanyi143/MoviePilot-Plugins/
 - https://github.com/jianji112/MoviePilot-Plugins/
+- https://github.com/AWdress/MoviePilot-Plugins/
 
 # 插件安装/升级
 
