@@ -17,6 +17,9 @@ dateCreated: 2024-05-30T09:48:02.073Z
 > 本地 CLI 安装模式下，绝大多数常用配置均可通过 `moviepilot setup --wizard`、`moviepilot config ...` 或前端界面完成，不再需要手工维护多仓库文件。
 {.is-info}
 
+> 当前安装向导已覆盖 `基础参数`、`用户站点认证`、`存储目录`、`下载器`、`媒体服务器`、`通知渠道`、`智能助手`、`资源偏好` 等核心初始化内容；首次部署建议先完成向导，再按需回到本页查看进阶变量。
+{.is-info}
+
 
 # 环境变量
 
@@ -192,6 +195,58 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **TOKENIZED_SEARCH：** V2新增配置项，分词搜索，默认为`false`，可提升历史记录搜索精度，但可能增加性能开销和意外结果
 - **META_CACHE_EXPIRE：** 元数据识别缓存过期时间（小时），数字型，不配置或者配置为0时使用系统默认（大内存模式为7天，否则为3天），调大该值可减少themoviedb的访问次数
 - **PASSKEY_ALLOW_REGISTER_WITHOUT_OTP：** 是否允许在未启用 OTP 时直接注册通行密钥，v2.9.5版本新增，默认为`false`
+
+## 智能助手
+
+> 智能助手的页面级说明参考 [智能助手](/agent)。这里仅列出主要配置项。
+{.is-info}
+
+- **AI_AGENT_ENABLE：** 是否启用智能助手总开关，默认为 `false`
+- **AI_AGENT_GLOBAL：** 是否启用全局智能助手入口，默认为 `false`
+- **AI_AGENT_VERBOSE：** 是否输出更详细的智能助手执行过程，默认为 `false`
+- **AI_AGENT_JOB_INTERVAL：** 智能助手定时任务检查间隔（小时），`0` 代表关闭，默认为 `0`
+- **AI_AGENT_RETRY_TRANSFER：** 是否允许智能助手自动重试整理失败记录，默认为 `false`
+- **LLM_PROVIDER：** LLM 提供商，支持 `openai` / `google` / `deepseek`，默认为 `deepseek`
+- **LLM_MODEL：** LLM 模型名称，默认为 `deepseek-chat`
+- **LLM_SUPPORT_IMAGE_INPUT：** 是否启用图片输入能力，默认为 `true`
+- **LLM_API_KEY：** LLM API 密钥
+- **LLM_BASE_URL：** LLM 接口基础地址；使用 OpenAI 兼容接口或第三方中转时需要配置
+- **LLM_MAX_CONTEXT_TOKENS：** 上下文窗口大小，单位为 `K`，默认为 `64`
+- **LLM_TEMPERATURE：** LLM 温度参数，默认为 `0.1`
+- **LLM_MAX_ITERATIONS：** 单次智能助手任务允许的最大迭代次数，默认为 `128`
+- **LLM_TOOL_TIMEOUT：** 单次工具调用超时时间（秒），默认为 `300`
+- **LLM_VERBOSE：** 是否输出底层 LLM 更详细日志，默认为 `false`
+- **LLM_MAX_MEMORY_MESSAGES：** 智能助手记忆消息数量上限，默认为 `30`
+- **LLM_MEMORY_RETENTION_DAYS：** 本地记忆保留天数，默认为 `1`
+- **LLM_REDIS_MEMORY_RETENTION_DAYS：** Redis 记忆保留天数，默认为 `7`
+- **LLM_MAX_TOOLS：** 工具选择中间件最大工具数量，`0` 代表关闭，默认为 `0`
+- **AI_RECOMMEND_ENABLED：** 是否启用资源搜索 `AI智能推荐`，默认为 `false`
+- **AI_RECOMMEND_USER_PREFERENCE：** 智能推荐时的用户偏好描述，默认为空
+- **AI_RECOMMEND_MAX_ITEMS：** 单次智能推荐返回条目上限，默认为 `50`
+
+### 图片与附件
+
+- 当 `LLM_SUPPORT_IMAGE_INPUT=true` 时，图片会按多模态方式直接发送给模型
+- 当 `LLM_SUPPORT_IMAGE_INPUT=false` 时，图片不会被拒绝，而是按本地附件保存并以 `local_path` 形式交给智能助手
+- 用户上传的文件会落盘到临时目录，路径位于 `TEMP_PATH/agent_uploads/<session_id>/...`
+- 临时文件清理保留时间由 `TEMP_FILE_DAYS` 控制
+
+### 语音
+
+- **AI_VOICE_PROVIDER：** 语音能力提供商，当前默认 `openai`
+- **AI_VOICE_STT_PROVIDER：** 语音识别提供商，未设置时回退到 `AI_VOICE_PROVIDER`
+- **AI_VOICE_TTS_PROVIDER：** 语音合成提供商，未设置时回退到 `AI_VOICE_PROVIDER`
+- **AI_VOICE_API_KEY：** 语音能力 API 密钥
+- **AI_VOICE_STT_API_KEY：** 语音识别 API 密钥，未设置时回退到 `AI_VOICE_API_KEY`
+- **AI_VOICE_TTS_API_KEY：** 语音合成 API 密钥，未设置时回退到 `AI_VOICE_API_KEY`
+- **AI_VOICE_BASE_URL：** 语音能力基础地址
+- **AI_VOICE_STT_BASE_URL：** 语音识别基础地址，未设置时回退到 `AI_VOICE_BASE_URL`
+- **AI_VOICE_TTS_BASE_URL：** 语音合成基础地址，未设置时回退到 `AI_VOICE_BASE_URL`
+- **AI_VOICE_STT_MODEL：** 语音转文字模型，默认为 `gpt-4o-mini-transcribe`
+- **AI_VOICE_TTS_MODEL：** 文字转语音模型，默认为 `gpt-4o-mini-tts`
+- **AI_VOICE_TTS_VOICE：** 语音合成发音人，默认为 `alloy`
+- **AI_VOICE_LANGUAGE：** 语音识别语言，默认为 `zh`
+- **AI_VOICE_REPLY_WITH_TEXT：** 回复语音时是否同时附带文字说明，默认为 `false`
 
 ## 媒体整理
 - **RMT_MEDIAEXT：** 支持的媒体文件后缀格式，默认为 `['.mp4', '.mkv', '.ts', '.iso', '.rmvb', '.avi', '.mov', '.mpeg', '.mpg', '.wmv', '.3gp', '.asf', '.m4v', '.flv', '.m2ts', '.strm', '.tp', '.f4v']`

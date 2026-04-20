@@ -335,6 +335,38 @@ curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v2/scripts/bootst
 - 创建全局 `moviepilot` 命令
 - 默认启动前后端服务
 
+首次安装完成后，向导会继续引导完成初始化配置。当前初始化向导已覆盖：
+
+- 基础参数
+  - 应用域名
+  - 管理员密码
+  - `API_TOKEN`
+  - `OCR_HOST`
+  - `PROXY_HOST`
+  - `GITHUB_TOKEN`
+- 用户站点认证
+  - 直接读取当前支持的认证站点
+  - 按站点动态展示 `UID`、`Passkey`、用户名等字段
+- 存储目录
+  - 下载目录
+  - 媒体库目录
+  - 整理方式
+  - 覆盖策略
+- 下载器
+- 媒体服务器
+- 通知渠道
+- 智能助手
+  - `AI_AGENT_ENABLE`
+  - `LLM_PROVIDER`
+  - `LLM_MODEL`
+  - `LLM_API_KEY`
+  - `LLM_SUPPORT_IMAGE_INPUT`
+  - `AI_RECOMMEND_ENABLED`
+- 资源偏好
+
+安装向导默认使用 `themoviedb` 作为识别来源，不再在首次安装流程中暴露识别源选择，避免误导新用户。
+{.is-info}
+
 安装完成后可直接使用：
 
 ```shell
@@ -352,6 +384,7 @@ moviepilot stop
 moviepilot restart
 moviepilot update all
 moviepilot setup --wizard
+moviepilot uninstall
 moviepilot agent 帮我检查当前配置
 ```
 

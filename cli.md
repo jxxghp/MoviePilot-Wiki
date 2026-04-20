@@ -18,6 +18,7 @@ dateCreated: 2026-04-16T12:30:00.000Z
 - 下载前端 release
 - 下载并同步资源文件
 - 初始化配置
+- 卸载本地运行环境
 - 启动、停止、重启前后端服务
 - 更新后端、前端和资源
 - 通过命令行完成配置、调试和 Agent 请求
@@ -63,6 +64,8 @@ curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v2/scripts/bootst
 moviepilot setup --config-dir /path/to/moviepilot-config
 ```
 
+如果当前还没有可用配置目录，执行 `moviepilot setup` 或 `moviepilot init` 时会先展示默认路径并允许你确认或指定其它路径。
+
 查看当前实际配置目录：
 
 ```shell
@@ -89,6 +92,11 @@ moviepilot config path
 - AI Agent
   - 可按需启用 `AI_AGENT_ENABLE`
   - 配置 `LLM_PROVIDER`、`LLM_MODEL`、`LLM_API_KEY`、`LLM_BASE_URL`
+  - 配置 `LLM_SUPPORT_IMAGE_INPUT`
+  - 配置 `AI_RECOMMEND_ENABLED`
+
+> 安装向导默认使用 `themoviedb` 作为识别来源，不再在首次安装流程中要求选择识别源。
+{.is-info}
 
 # 常用命令
 
@@ -100,6 +108,7 @@ moviepilot install frontend
 moviepilot install resources
 moviepilot init --wizard
 moviepilot setup --wizard
+moviepilot uninstall
 ```
 
 说明：
@@ -109,6 +118,21 @@ moviepilot setup --wizard
 - `install resources`：下载 `MoviePilot-Resources` 并同步到 `app/helper`
 - `init`：初始化本地配置
 - `setup`：串行执行依赖安装、前端安装、资源同步和初始化
+- `uninstall`：卸载本地运行环境，默认保留配置目录
+
+## 卸载
+
+```shell
+moviepilot uninstall
+moviepilot uninstall --config-dir /path/to/moviepilot-config
+```
+
+说明：
+
+- 卸载时会进行两次确认
+- 默认不删除配置目录
+- 过程中会询问是否删除配置目录
+- 源码目录不会被删除
 
 ## 服务管理
 
@@ -172,6 +196,7 @@ moviepilot agent --session cli-debug-1 帮我看看为什么没有自动整理
 
 - `moviepilot agent` 会直接向本地 Agent 发送一次请求
 - 使用前需要先配置 LLM 参数，并开启 `AI_AGENT_ENABLE`
+- 智能助手相关配置说明参考 [智能助手](/agent)
 
 ## 配置、工具与调度
 
@@ -223,6 +248,7 @@ moviepilot install frontend
 moviepilot install resources
 moviepilot init
 moviepilot setup
+moviepilot uninstall
 moviepilot update backend
 moviepilot update frontend
 moviepilot update all
