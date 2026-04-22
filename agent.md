@@ -232,14 +232,48 @@ moviepilot tool show run_slash_command
 - `moviepilot-api`：直接调用 MoviePilot API
 - `moviepilot-update`：升级、重启等维护流程
 
-如果你自己在 `config/agent/skills` 下新增技能目录并提供 `SKILL.md`，智能助手也可以把它当作新的流程模板来使用。
+如果你自己在 `CONFIG_DIR/agent/skills` 下新增技能目录并提供 `SKILL.md`，智能助手也可以把它当作新的流程模板来使用。
+
+### `/skills` 命令：管理技能
+
+`/skills` 是消息渠道中的远程命令，用来管理智能助手可用的技能。它和 `moviepilot agent` 不同，不是在本地 CLI 里执行，而是在 Telegram、微信等已接入 `/命令` 的消息渠道中发送。
+
+它主要可以完成这些事：
+
+- 查看当前已安装技能，并区分 `内置`、`本地`、`仓库来源`、`社区注册表`
+- 浏览 `SKILL_MARKET` 中配置的公开技能源，默认包含 `ClawHub`、`openai/skills`、`anthropics/skills`、`vercel-labs/agent-skills`
+- 按技能 `ID`、名称、描述、来源标签搜索市场技能
+- 将市场技能安装到 `CONFIG_DIR/agent/skills/<skill-id>/`
+- 删除非内置技能；MoviePilot 自带的内置技能只能查看，不能删除
+- 刷新技能市场缓存，重新拉取最新公开技能列表
+
+常见用法：
+
+```text
+/skills
+/skills refresh
+/skills 刷新
+/skills weather
+/skills 搜索 weather
+```
+
+交互方式：
+
+- 如果当前消息渠道支持按钮和回调，发送 `/skills` 后会直接出现 `已安装技能`、`技能市场`、`搜索`、`安装`、`删除`、`刷新`、`关闭` 等按钮
+- 如果当前渠道不支持按钮，也可以继续发送文本指令：`1`、`2`、`搜索 <关键词>`、`清除搜索`、`安装 <序号>`、`删除 <序号>`、`n`、`p`、`返回`、`刷新`、`退出`
+
+需要注意：
+
+- `/skills` 的市场列表来自 `SKILL_MARKET` 配置；如果不配置市场源，命令仍可查看已安装技能，但不会有可安装的市场条目
+- `ClawHub` 在界面中会按 `社区注册表` 展示，安装前应自行甄别技能质量与安全性
+- 你手工放到 `CONFIG_DIR/agent/skills` 下的自定义技能，也会出现在 `/skills` 的已安装列表中
 
 ## 记忆与定时任务
 
 除了即时对话，智能助手还带有两类辅助机制：
 
-- **记忆：** 会自动保留会话上下文，并可在 `config/agent` 下维护长期偏好记忆
-- **Jobs：** 可以在 `config/agent/jobs` 中维护待办任务；当 `AI_AGENT_JOB_INTERVAL` 大于 `0` 时，系统会按间隔唤醒智能助手检查并执行待处理任务
+- **记忆：** 会自动保留会话上下文，并可在 `CONFIG_DIR/agent` 下维护长期偏好记忆
+- **Jobs：** 可以在 `CONFIG_DIR/agent/jobs` 中维护待办任务；当 `AI_AGENT_JOB_INTERVAL` 大于 `0` 时，系统会按间隔唤醒智能助手检查并执行待处理任务
 
 所以它不仅能回答“现在怎么做”，也能在一定程度上承担“之后继续做”的任务。
 
@@ -335,6 +369,7 @@ moviepilot agent --session cli-debug-1 帮我看看为什么没有自动整理
 完成对应通知渠道配置后，智能助手也可以通过消息入口参与交互。常见场景包括：
 
 - 发送文本让智能助手分析问题
+- 发送 `/skills` 浏览已安装技能和技能市场，并直接完成安装、删除、搜索、刷新等操作
 - 在支持附件能力的渠道中发送图片或文件，让智能助手结合附件内容处理
 - 在支持语音能力的渠道中发送语音并自动转写后继续对话
 

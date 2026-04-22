@@ -206,6 +206,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **AI_AGENT_VERBOSE：** 是否输出更详细的智能助手执行过程，默认为 `false`
 - **AI_AGENT_JOB_INTERVAL：** 智能助手定时任务检查间隔（小时），`0` 代表关闭，默认为 `0`
 - **AI_AGENT_RETRY_TRANSFER：** 是否允许智能助手自动重试整理失败记录，默认为 `false`
+- **SKILL_MARKET：** 技能市场源列表，多个地址使用 `,` 分隔，供消息渠道中的 `/skills` 命令浏览和安装市场技能；默认包含 `https://clawhub.ai`、`https://github.com/openai/skills`、`https://github.com/anthropics/skills`、`https://github.com/vercel-labs/agent-skills`
 - **LLM_PROVIDER：** LLM 提供商，支持 `openai` / `google` / `deepseek`，默认为 `deepseek`
 - **LLM_MODEL：** LLM 模型名称，默认为 `deepseek-chat`
 - **LLM_SUPPORT_IMAGE_INPUT：** 是否启用图片输入能力，默认为 `true`
