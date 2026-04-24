@@ -2,7 +2,7 @@
 title: 智能助手
 description: 配置与使用 MoviePilot 智能助手
 published: 1
-date: 2026-04-22T10:30:00.000Z
+date: 2026-04-24T10:30:00.000Z
 tags:
 editor: markdown
 dateCreated: 2026-04-20T10:30:00.000Z
@@ -160,35 +160,48 @@ MoviePilot V2 已内置智能助手能力，可用于：
 
 ## 方式一：安装向导
 
-初始化向导已内置 `智能助手` 步骤，无论是 WEB 首次安装向导，还是本地 CLI 的 `moviepilot setup --wizard`，都可以直接完成以下配置：
-
-- `AI_AGENT_ENABLE`
-- `AI_AGENT_GLOBAL`
-- `AI_AGENT_VERBOSE`
-- `LLM_PROVIDER`
-- `LLM_MODEL`
-- `LLM_API_KEY`
-- `LLM_BASE_URL`
-- `LLM_SUPPORT_IMAGE_INPUT`
-- `LLM_MAX_CONTEXT_TOKENS`
-- `AI_AGENT_JOB_INTERVAL`
-- `AI_AGENT_RETRY_TRANSFER`
-- `AI_RECOMMEND_ENABLED`
-- `AI_RECOMMEND_USER_PREFERENCE`
-- `AI_RECOMMEND_MAX_ITEMS`
+初始化向导已内置第 7 步 `智能助手`，无论是 WEB 首次安装向导，还是本地 CLI 的 `moviepilot setup --wizard`，都可以直接完成常用 AI 参数配置。
 
 ## 方式二：系统设置
 
-也可以在 `设定 -> 系统` 中后续调整智能助手相关参数。配置项说明参考 [配置参考](/configuration) 中的 `智能助手` 章节。
+也可以在 `设定 -> 系统 -> 基础设置` 中后续调整智能助手相关参数。修改后点击页面底部的 `保存` 生效。
+
+# WEB 设置项对应关系
+
+前端已经为常用智能助手参数提供了可视化配置入口。你不需要手工编辑环境变量时，可以按下面的界面字段设置。
+
+> 先打开 `启用智能助手` 后，其它智能助手、LLM、图片输入、失败整理接管、智能推荐等字段才会显示。
+{.is-info}
+
+| 参数 | WEB 界面字段 | 设置位置与说明 |
+| --- | --- | --- |
+| `AI_AGENT_ENABLE` | `启用智能助手` | 总开关；在安装向导第 7 步或 `设定 -> 系统 -> 基础设置` 中打开 |
+| `AI_AGENT_GLOBAL` | `全局智能助手` | 打开后，消息对话默认走智能体回答，不需要每次使用 `/ai` 命令 |
+| `AI_AGENT_VERBOSE` | `啰嗦模式` | 打开后，智能助手回复时会显示工具调用过程，适合排障 |
+| `LLM_PROVIDER` | `LLM提供商` | 下拉选择 `OpenAI`、`Google` 或 `DeepSeek` |
+| `LLM_BASE_URL` | `LLM基础URL` | 自定义 LLM API 地址；使用 OpenAI 兼容服务、中转地址或私有网关时填写 |
+| `LLM_API_KEY` | `LLM API密钥` | 填写模型服务商提供的 API Key |
+| `LLM_MODEL` | `LLM模型名称` | 可手工输入，也可在填写提供商、密钥和基础 URL 后点击刷新图标加载模型列表 |
+| `LLM_MAX_CONTEXT_TOKENS` | `LLM 最大上下文 Token 数量 (K)` | 单位是 `K`，例如 `64` 表示约 64K Token 上下文上限 |
+| `AI_AGENT_JOB_INTERVAL` | `定时唤醒` | 选择 `不启用`、`1小时`、`3小时`、`6小时`、`12小时`、`24小时`、`1周` 或 `1个月` |
+| `LLM_SUPPORT_IMAGE_INPUT` | `模型支持图片输入` | 模型支持多模态图片时打开；关闭后图片会保存为本地附件并把路径交给智能助手 |
+| `AI_AGENT_RETRY_TRANSFER` | `文件整理失败智能接管` | 打开后，整理失败记录可由智能助手自动分析并尝试重新整理 |
+| `AI_RECOMMEND_ENABLED` | `搜索结果智能推荐` | 打开后，资源搜索结果页会显示 `AI智能推荐` 入口 |
+| `AI_RECOMMEND_USER_PREFERENCE` | `用户偏好` | 仅在 `搜索结果智能推荐` 打开后显示；用于描述推荐偏好，例如 `4K WEB-DL Dolby Vision` |
+| `AI_RECOMMEND_MAX_ITEMS` | `智能推荐分析条目上限` | 仅在 `搜索结果智能推荐` 打开后显示；限制送入智能助手分析的搜索结果数量 |
+
+后续在 `设定 -> 系统 -> 基础设置` 调整 LLM 参数时，可以点击 `测试调用` 验证 `LLM提供商`、`LLM基础URL`、`LLM API密钥` 和 `LLM模型名称` 是否可用。
+
+未在上表中的高级项，例如 `SKILL_MARKET`、`LLM_TEMPERATURE`、`LLM_MAX_ITERATIONS`、`LLM_TOOL_TIMEOUT`、`LLM_MEMORY_*`、`AI_VOICE_*` 等，通常仍通过配置文件、环境变量或部署平台变量维护。完整参数说明参考 [配置参考](/configuration) 中的 `智能助手` 章节。
 
 # 基础配置建议
 
 最少需要准备以下几项：
 
-- 打开 `AI_AGENT_ENABLE`
-- 选择 `LLM_PROVIDER`
-- 填写 `LLM_MODEL`
-- 填写 `LLM_API_KEY`
+- 在 WEB 中打开 `启用智能助手`（`AI_AGENT_ENABLE`）
+- 选择 `LLM提供商`（`LLM_PROVIDER`）
+- 填写 `LLM API密钥`（`LLM_API_KEY`）
+- 填写或刷新选择 `LLM模型名称`（`LLM_MODEL`）
 
 常见建议：
 
