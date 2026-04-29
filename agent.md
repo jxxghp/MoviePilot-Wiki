@@ -2,7 +2,7 @@
 title: 智能助手
 description: 配置与使用 MoviePilot 智能助手
 published: 1
-date: 2026-04-24T10:30:00.000Z
+date: 2026-04-29T10:30:00.000Z
 tags:
 editor: markdown
 dateCreated: 2026-04-20T10:30:00.000Z
@@ -147,7 +147,7 @@ MoviePilot V2 已内置智能助手能力，可用于：
 - 文本：正常对话、问答、分析、指令执行
 - 图片：模型支持多模态时直接看图；不支持时会自动转为本地附件路径继续处理
 - 文件：先保存到临时目录，再把 `local_path` 提供给智能助手处理
-- 语音：先语音识别，再继续对话；必要时也可以回传语音答复
+- 语音 / 音频：语音消息或音频附件会先转写成文本，再继续对话；在支持真实语音发送的渠道中，也可以回传语音答复
 - 按钮：在支持按钮与回调的消息渠道里，智能助手可以主动发按钮让你点选，而不是反复追问
 
 因此你可以把它理解成：
@@ -170,7 +170,7 @@ MoviePilot V2 已内置智能助手能力，可用于：
 
 前端已经为常用智能助手参数提供了可视化配置入口。你不需要手工编辑环境变量时，可以按下面的界面字段设置。
 
-> 先打开 `启用智能助手` 后，其它智能助手、LLM、图片输入、失败整理接管、智能推荐等字段才会显示。
+> 先打开 `启用智能助手` 后，其它智能助手、LLM、图片输入、音频输入输出、失败整理接管、智能推荐等字段才会显示；音频相关字段还需要再打开 `支持音频输入输出` 才会展开。
 {.is-info}
 
 | 参数 | WEB 界面字段 | 设置位置与说明 |
@@ -185,6 +185,14 @@ MoviePilot V2 已内置智能助手能力，可用于：
 | `LLM_MAX_CONTEXT_TOKENS` | `LLM 最大上下文 Token 数量 (K)` | 单位是 `K`，例如 `64` 表示约 64K Token 上下文上限 |
 | `AI_AGENT_JOB_INTERVAL` | `定时唤醒` | 选择 `不启用`、`1小时`、`3小时`、`6小时`、`12小时`、`24小时`、`1周` 或 `1个月` |
 | `LLM_SUPPORT_IMAGE_INPUT` | `模型支持图片输入` | 模型支持多模态图片时打开；关闭后图片会保存为本地附件并把路径交给智能助手 |
+| `LLM_SUPPORT_AUDIO_INPUT_OUTPUT` | `支持音频输入输出` | 前端音频能力开关；打开后才会显示并保存下方音频相关设置 |
+| `AI_VOICE_API_KEY` | `音频 API密钥` | 音频转写与语音合成共用的 API Key；留空时，在 `LLM_PROVIDER=OpenAI` 且语音 provider 也为 `openai` 时可回退复用 `LLM API密钥` |
+| `AI_VOICE_BASE_URL` | `音频基础URL` | 音频转写与语音合成共用的基础 URL；使用硅基流动等 OpenAI 兼容服务时通常与 `LLM基础URL` 相同，留空时可回退复用 `LLM基础URL` |
+| `AI_VOICE_STT_MODEL` | `音频转写模型` | 将用户语音 / 音频转成文字的模型名称 |
+| `AI_VOICE_TTS_MODEL` | `语音合成模型` | 将文字回复转换为语音的模型名称 |
+| `AI_VOICE_TTS_VOICE` | `语音音色` | 语音合成使用的发音人 / 音色标识 |
+| `AI_VOICE_LANGUAGE` | `识别语言` | 仅用于语音转写时给模型提供语言提示，例如 `zh`、`en`；不是智能助手回答语言开关 |
+| `AI_VOICE_REPLY_WITH_TEXT` | `语音回复附带文字` | 发送语音回复时，同时再附带一份文字内容 |
 | `AI_AGENT_RETRY_TRANSFER` | `文件整理失败智能接管` | 打开后，整理失败记录可由智能助手自动分析并尝试重新整理 |
 | `AI_RECOMMEND_ENABLED` | `搜索结果智能推荐` | 打开后，资源搜索结果页会显示 `AI智能推荐` 入口 |
 | `AI_RECOMMEND_USER_PREFERENCE` | `用户偏好` | 仅在 `搜索结果智能推荐` 打开后显示；用于描述推荐偏好，例如 `4K WEB-DL Dolby Vision` |
@@ -192,7 +200,10 @@ MoviePilot V2 已内置智能助手能力，可用于：
 
 后续在 `设定 -> 系统 -> 基础设置` 调整 LLM 参数时，可以点击 `测试调用` 验证 `LLM提供商`、`LLM基础URL`、`LLM API密钥` 和 `LLM模型名称` 是否可用。
 
-未在上表中的高级项，例如 `SKILL_MARKET`、`LLM_TEMPERATURE`、`LLM_MAX_ITERATIONS`、`LLM_TOOL_TIMEOUT`、`LLM_MEMORY_*`、`AI_VOICE_*` 等，通常仍通过配置文件、环境变量或部署平台变量维护。完整参数说明参考 [配置参考](/configuration) 中的 `智能助手` 章节。
+> `支持音频输入输出` 主要是 WEB / 安装向导里的音频入口开关，用来展开并保存音频相关字段；真正能否识别语音、是否能回传语音，仍取决于 `AI_VOICE_*` 配置是否可用，以及当前消息渠道本身是否支持。
+{.is-info}
+
+未在上表中的高级项，例如 `SKILL_MARKET`、`LLM_TEMPERATURE`、`LLM_MAX_ITERATIONS`、`LLM_TOOL_TIMEOUT`、`LLM_MEMORY_*`，以及更细分的 `AI_VOICE_STT_PROVIDER` / `AI_VOICE_TTS_PROVIDER`、`AI_VOICE_STT_API_KEY` / `AI_VOICE_TTS_API_KEY` 等，通常仍通过配置文件、环境变量或部署平台变量维护。完整参数说明参考 [配置参考](/configuration) 中的 `智能助手` 章节。
 
 # 基础配置建议
 
@@ -202,10 +213,14 @@ MoviePilot V2 已内置智能助手能力，可用于：
 - 选择 `LLM提供商`（`LLM_PROVIDER`）
 - 填写 `LLM API密钥`（`LLM_API_KEY`）
 - 填写或刷新选择 `LLM模型名称`（`LLM_MODEL`）
+- 如果希望处理语音消息，再打开 `支持音频输入输出`，并至少把 `AI_VOICE_STT_MODEL` 改成当前服务商实际存在的语音转写模型
 
 常见建议：
 
 - 如果模型或平台支持多模态输入，建议保持 `LLM_SUPPORT_IMAGE_INPUT=true`
+- 如果只需要“用户发语音，系统先转写后继续对话”，重点确认 `AI_VOICE_STT_MODEL` 可用
+- 如果还希望智能助手回传语音，再继续配置 `AI_VOICE_TTS_MODEL` 和 `AI_VOICE_TTS_VOICE`
+- 如果 LLM 与语音共用同一家 OpenAI 兼容服务，可先留空 `AI_VOICE_API_KEY` / `AI_VOICE_BASE_URL`，利用后端回退机制复用 `LLM_API_KEY` / `LLM_BASE_URL`
 - 如果使用 OpenAI 兼容接口，可按需填写 `LLM_BASE_URL`
 - 如果希望智能助手可以直接在多个入口中使用，可打开 `AI_AGENT_GLOBAL`
 - 如果希望系统后台定时检查智能体任务，可配置 `AI_AGENT_JOB_INTERVAL`
@@ -328,9 +343,75 @@ TEMP_PATH/agent_uploads/<session_id>/
 - 智能助手可以直接基于本地文件路径处理原文件
 - 文件会按系统临时文件清理策略清除，保留天数由 `TEMP_FILE_DAYS` 控制
 
-## 语音输入
+## 音频输入与语音回复
 
-对于已接入语音能力的消息渠道，语音消息会先尝试语音识别，再将识别文本交给智能助手。语音能力使用 `AI_VOICE_*` 相关配置，未单独配置时，部分参数会回退到已有的 `LLM_*` 设置。
+MoviePilot 当前的语音能力不是直接内嵌在 LLM 里，而是通过 `VoiceHelper` 走独立的 `AI_VOICE_*` 配置完成。
+
+当前代码里的几个关键点：
+
+- 当前内置并已注册的语音 provider 只有 `openai`
+- 因此 OpenAI 本身以及硅基流动这类 **OpenAI 兼容音频接口** 可以直接接入；如果服务不是 OpenAI 兼容接口，则需要额外扩展 provider
+- 语音转写与语音合成可以共用一套 `AI_VOICE_API_KEY` / `AI_VOICE_BASE_URL`，也可以继续通过更细的 `AI_VOICE_STT_*`、`AI_VOICE_TTS_*` 拆分
+- 当 `AI_VOICE_*` 未单独配置，且 `LLM_PROVIDER=openai` 时，后端会自动回退复用 `LLM_API_KEY` 与 `LLM_BASE_URL`
+- 当前单个转写音频大小上限为 `25MB`；只有音频但转写失败时，系统会直接提示 `语音识别失败，请稍后重试`
+
+### 当前已接入的消息渠道
+
+- `Telegram`：支持接收 `voice` / `audio`，也支持真实语音回传
+- `企业微信应用模式`（`WECHAT_MODE=app`）：支持语音接收、语音转写和真实语音回传
+- `Slack`、`Discord`、`QQ`、`VoceChat`、`SynologyChat`：支持把音频附件下载后做转写，当前默认用户回复仍以文字为主
+- `企业微信机器人模式`（`WECHAT_MODE=bot`）：当前能识别到“收到的是语音消息”，但代码里不会自动下载并转写该语音；如果你需要完整语音交互，建议改用应用模式
+
+> `识别语言` 对应 `AI_VOICE_LANGUAGE`，只用于语音转写阶段给 STT 模型一个语言提示，例如 `zh`、`en`。它不会限制智能助手最终用什么语言回答，也不是 WEB 界面语言设置。
+{.is-info}
+
+## 示例：使用硅基流动配置音频能力
+
+硅基流动提供 OpenAI 兼容接口，因此在 MoviePilot 里应按 `OpenAI` 提供商方式接入。下面用一组已经在硅基流动官方文档中出现的模型名举例：
+
+- 对话模型：`deepseek-ai/DeepSeek-V3`
+- 音频转写模型：`FunAudioLLM/SenseVoiceSmall`
+- 语音合成模型：`FunAudioLLM/CosyVoice2-0.5B`
+- 语音音色：`FunAudioLLM/CosyVoice2-0.5B:alex`
+
+### WEB 里这样填
+
+| WEB 字段 | 示例值 | 说明 |
+| --- | --- | --- |
+| `LLM提供商` | `OpenAI` | 硅基流动按 OpenAI 兼容接口接入 |
+| `LLM基础URL` | `https://api.siliconflow.cn/v1` | 注意保留结尾的 `/v1` |
+| `LLM API密钥` | `sk-你的硅基流动密钥` | 从硅基流动控制台获取 |
+| `LLM模型名称` | `deepseek-ai/DeepSeek-V3` | 智能助手主对话模型 |
+| `支持音频输入输出` | `开启` | 展开并启用音频相关设置 |
+| `音频 API密钥` | 留空或同上 | 与 LLM 同服务商时可留空复用；也可显式再填一次 |
+| `音频基础URL` | 留空或 `https://api.siliconflow.cn/v1` | 与 LLM 同服务商时可留空复用 |
+| `音频转写模型` | `FunAudioLLM/SenseVoiceSmall` | 用于把语音转成文字 |
+| `语音合成模型` | `FunAudioLLM/CosyVoice2-0.5B` | 用于把文字回复转成语音 |
+| `语音音色` | `FunAudioLLM/CosyVoice2-0.5B:alex` | 使用硅基流动文档里的系统预置音色示例 |
+| `识别语言` | `zh` | 中文语音可用 `zh`；英文可改 `en` |
+| `语音回复附带文字` | 按需开启 | 希望同时收到音频和文字时打开 |
+
+如果你是通过环境变量或部署平台变量维护配置，也可以直接写成：
+
+```env
+AI_AGENT_ENABLE=true
+LLM_PROVIDER=openai
+LLM_BASE_URL=https://api.siliconflow.cn/v1
+LLM_API_KEY=sk-你的硅基流动密钥
+LLM_MODEL=deepseek-ai/DeepSeek-V3
+
+AI_VOICE_STT_MODEL=FunAudioLLM/SenseVoiceSmall
+AI_VOICE_TTS_MODEL=FunAudioLLM/CosyVoice2-0.5B
+AI_VOICE_TTS_VOICE=FunAudioLLM/CosyVoice2-0.5B:alex
+AI_VOICE_LANGUAGE=zh
+AI_VOICE_REPLY_WITH_TEXT=true
+```
+
+> 上面这组环境变量示例没有单独写 `AI_VOICE_API_KEY` / `AI_VOICE_BASE_URL`，因为在 `LLM_PROVIDER=openai` 时，MoviePilot 后端会自动回退复用 `LLM_API_KEY` 与 `LLM_BASE_URL`。如果你希望把语音能力拆到另一套服务，再额外补上对应的 `AI_VOICE_*` 连接参数即可。
+{.is-info}
+
+> 硅基流动的模型可用性可能会调整；如果示例模型后续下线或你想更换效果，请以其 [模型广场](https://cloud.siliconflow.cn/models)、[语音转文本文档](https://docs.siliconflow.cn/cn/api-reference/audio/create-audio-transcriptions) 与 [文本转语音文档](https://docs.siliconflow.cn/cn/userguide/capabilities/text-to-speech) 为准。
+{.is-info}
 
 # 使用入口
 
