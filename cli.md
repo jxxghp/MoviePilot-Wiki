@@ -2,10 +2,10 @@
 title: 本地 CLI
 description: 使用 moviepilot 命令进行本地安装、初始化、更新与服务管理
 published: 1
-date: 2026-04-16T12:30:00.000Z
-tags:
+date: 2026-05-07T11:38:19.479Z
+tags: 
 editor: markdown
-dateCreated: 2026-04-16T12:30:00.000Z
+dateCreated: 2026-04-16T12:04:54.839Z
 ---
 
 # 说明
@@ -280,4 +280,4 @@ moviepilot commands
 - 资源文件会自动从 `MoviePilot-Resources` 下载，不需要手工复制到 `app/helper`
 - 本地 CLI 安装模式的更新，不依赖 Docker 自动升级机制；请使用 `moviepilot update ...`
 - 如果本地仓库存在已跟踪源码改动，更新命令会停止，避免覆盖本地修改；未跟踪文件不会再阻断更新
-- 如果你要把 MoviePilot 的工具能力接入 OpenClaw、Claude Code 等第三方 Agent，而不是直接在本地 CLI 里执行，可参考 [MCP Server](/mcp)
+- 如果你要把 MoviePilot 的工具能力接入 OpenClaw、Claude Code 等第三方 Agent，而不是直接在本地 CLI 里执行，可参考 [MCP](/mcp)
