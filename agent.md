@@ -2,10 +2,10 @@
 title: 智能助手
 description: 配置与使用 MoviePilot 智能助手
 published: 1
-date: 2026-04-29T10:30:00.000Z
-tags:
+date: 2026-05-07T11:33:48.711Z
+tags: 
 editor: markdown
-dateCreated: 2026-04-20T10:30:00.000Z
+dateCreated: 2026-04-20T12:01:10.386Z
 ---
 
 # 功能概览
@@ -507,7 +507,7 @@ moviepilot agent --session cli-debug-1 帮我看看为什么没有自动整理
 - [安装指引](/install)
 - [本地 CLI](/cli)
 - [配置参考](/configuration)
-- [MCP Server](/mcp)
+- [MCP](/mcp)
 - [搜索](/search)
 - [文件整理](/reorganize)
 - [通知](/notification)
