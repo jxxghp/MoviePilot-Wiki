@@ -28,6 +28,7 @@ dateCreated: 2024-05-30T09:47:38.779Z
 
 - 日志文件路径为`/config`对应映射目录下`logs/moviepilot.log`文件。
 - 可以通过搜索关键字 `API_TOKEN` 快速定位相关日志内容。
+- 如果你要在 OpenClaw、Claude Code 等第三方 Agent 工具中接入 MoviePilot，也使用同一个 `API_TOKEN` 作为 MCP 认证密钥，参考 [MCP Server](/mcp)。
 
 # 用户认证
 **为了控制用户数量避免大规范泛滥使用**，MoviePilot引入了PT用户认证机制，你需要有认证站点范围内的账号才能使用软件的资源搜索、订阅及下载功能，出此下策与利益无关，属NAStool一路走来，吸取失败经验的无奈之举。

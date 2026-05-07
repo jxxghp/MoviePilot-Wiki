@@ -507,6 +507,7 @@ moviepilot agent --session cli-debug-1 帮我看看为什么没有自动整理
 - [安装指引](/install)
 - [本地 CLI](/cli)
 - [配置参考](/configuration)
+- [MCP Server](/mcp)
 - [搜索](/search)
 - [文件整理](/reorganize)
 - [通知](/notification)
