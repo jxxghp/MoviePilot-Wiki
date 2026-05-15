@@ -2,7 +2,7 @@
 title: 本地 CLI
 description: 使用 moviepilot 命令进行本地安装、初始化、更新与服务管理
 published: 1
-date: 2026-05-07T11:38:19.479Z
+date: 2026-05-15T01:04:59.000Z
 tags: 
 editor: markdown
 dateCreated: 2026-04-16T12:04:54.839Z
@@ -92,7 +92,9 @@ moviepilot config path
 - AI Agent
   - 可按需启用 `AI_AGENT_ENABLE`
   - 配置 `LLM_PROVIDER`、`LLM_MODEL`、`LLM_API_KEY`、`LLM_BASE_URL`
-  - 配置 `LLM_SUPPORT_IMAGE_INPUT`
+  - 配置 `LLM_THINKING_LEVEL`、`LLM_SUPPORT_IMAGE_INPUT`
+  - 配置 `LLM_SUPPORT_AUDIO_INPUT`、`AUDIO_INPUT_*`
+  - 配置 `LLM_SUPPORT_AUDIO_OUTPUT`、`AUDIO_OUTPUT_*`
   - 配置 `AI_RECOMMEND_ENABLED`
 
 > 安装向导默认使用 `themoviedb` 作为识别来源，不再在首次安装流程中要求选择识别源。

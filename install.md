@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2025-11-05T05:37:52.392Z
+date: 2026-05-15T01:04:59.000Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -360,7 +360,11 @@ curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v2/scripts/bootst
   - `LLM_PROVIDER`
   - `LLM_MODEL`
   - `LLM_API_KEY`
+  - `LLM_BASE_URL`
+  - `LLM_THINKING_LEVEL`
   - `LLM_SUPPORT_IMAGE_INPUT`
+  - `LLM_SUPPORT_AUDIO_INPUT` 与 `AUDIO_INPUT_*`
+  - `LLM_SUPPORT_AUDIO_OUTPUT` 与 `AUDIO_OUTPUT_*`
   - `AI_RECOMMEND_ENABLED`
 - 资源偏好
 
