@@ -2,7 +2,7 @@
 title: 发行说明
 description: 需要关注的重要版本变更
 published: 1
-date: 2026-05-17T08:17:03.705Z
+date: 2026-05-17T08:19:02.229Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:17.992Z
@@ -17,6 +17,10 @@ dateCreated: 2024-05-30T09:49:17.992Z
 - 需要重新拉取新镜像才能生效
 - 首次启动会下载浏览器内核（大约140M），需要调整docker容器浏览器内核缓存目录映射：
 > /moviepilot/.cache/ms-playwright ==> /moviepilot/.cloakbrowser
+
+
+# v2.5.9
+- 此版本及以后将不再支持Python 3.11环境，建议重新拉取最新镜像，否则后续将无法自动更新站点资源
 
 # v2.0.1
 - MoviePilot V1版本停止功能更新，仅修复重大Bug以及同步更新站点资源包。V2版本新增多项新特性，部分功能重新设计开发，使用独立境像，无法通过V1版本自动升级，同时也不兼容旧版本配置和数据库文件。
