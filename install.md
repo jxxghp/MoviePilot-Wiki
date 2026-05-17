@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2026-05-15T01:04:59.000Z
+date: 2026-05-17T08:14:01.303Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -24,7 +24,7 @@ docker run -itd \
     -p 3001:3001 \
     -v /media:/media \
     -v /moviepilot-v2/config:/config \
-    -v /moviepilot-v2/core:/moviepilot/.cache/ms-playwright \
+    -v /moviepilot-v2/core:/moviepilot/.cloakbrowser \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
     -e 'NGINX_PORT=3000' \
     -e 'PORT=3001' \
@@ -46,7 +46,7 @@ docker run -itd \
     -p 3000:3000 \
     -v /media:/media \
     -v /moviepilot/config:/config \
-    -v /moviepilot/core:/moviepilot/.cache/ms-playwright \
+    -v /moviepilot/core:/moviepilot/.cloakbrowser \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
     -e 'NGINX_PORT=3000' \
     -e 'PORT=3001' \
@@ -79,7 +79,7 @@ services:
     volumes:
       - '/media:/media' #媒体
       - '/moviepilot-v2/config:/config' #持久化配置
-      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright' #内核浏览器
+      - '/moviepilot-v2/core:/moviepilot/.cloakbrowser' #内核浏览器
       - '/var/run/docker.sock:/var/run/docker.sock:ro' #重启MP权限
       - '/tr/config/torrents:/torrents'  #TR种子位置
       - '/qbittorrent/data/data/BT_backup:/BT_backup' #QB种子位置
@@ -164,7 +164,7 @@ services:
     volumes:
       - '/media:/media'
       - '/moviepilot-v2/config:/config'
-      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'
+      - '/moviepilot-v2/core:/moviepilot/.cloakbrowser'
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
       
     environment:
@@ -211,7 +211,7 @@ services:
     volumes:
       - '/media:/media'  #媒体库或下载库路径
       - '/moviepilot-v2/config:/config'  #moviepilot 的配置文件存放路径
-      - '/moviepilot-v2/core:/moviepilot/.cache/ms-playwright'  #浏览器内核存放路径
+      - '/moviepilot-v2/core:/moviepilot/.cloakbrowser'  #浏览器内核存放路径
       - '/var/run/docker.sock:/var/run/docker.sock:ro'  #用于获取宿主机的docker管理权，一般用于UI页面重启或自动更新
       
     # 环境变量：- '变量名=值‘
@@ -258,7 +258,7 @@ services:
         volumes:
             - '/media:/media'
             - '/moviepilot/config:/config'
-            - '/moviepilot/core:/moviepilot/.cache/ms-playwright'
+            - '/moviepilot/core:/moviepilot/.cloakbrowser'
             - '/var/run/docker.sock:/var/run/docker.sock:ro'
         environment:
             - 'NGINX_PORT=3000'
