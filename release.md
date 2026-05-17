@@ -2,7 +2,7 @@
 title: 发行说明
 description: 需要关注的重要版本变更
 published: 1
-date: 2024-11-05T11:48:13.598Z
+date: 2026-05-17T08:16:39.681Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:17.992Z
@@ -10,6 +10,13 @@ dateCreated: 2024-05-30T09:49:17.992Z
 
 > 访问 [此处](https://github.com/jxxghp/MoviePilot/releases) 了解所有的版本更新日志，此页面只针对历史上的重大变更做一些说明，在进行升级前请了解这些信息并做好准备。
 {.is-success}
+
+# v2.12.0
+更换浏览器内核为 Cloak Browser (https://cloakbrowser.dev/)，以提升穿透 Cloudflare 人机验证能力
+
+- 需要重新拉取新镜像才能生效
+- 首次启动会下载浏览器内核（大约140M），需要调整浏览器内核缓存目录：
+> /moviepilot/.cache/ms-playwright ==> /moviepilot/.cloakbrowser
 
 # v2.0.1
 - MoviePilot V1版本停止功能更新，仅修复重大Bug以及同步更新站点资源包。V2版本新增多项新特性，部分功能重新设计开发，使用独立境像，无法通过V1版本自动升级，同时也不兼容旧版本配置和数据库文件。
