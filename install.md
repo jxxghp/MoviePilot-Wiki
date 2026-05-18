@@ -2,7 +2,7 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2026-05-17T08:14:01.303Z
+date: 2026-05-18T05:12:14.807Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
@@ -46,7 +46,7 @@ docker run -itd \
     -p 3000:3000 \
     -v /media:/media \
     -v /moviepilot/config:/config \
-    -v /moviepilot/core:/moviepilot/.cloakbrowser \
+    -v /moviepilot/core:/moviepilot/moviepilot/.cache/ms-playwright \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
     -e 'NGINX_PORT=3000' \
     -e 'PORT=3001' \
@@ -258,7 +258,7 @@ services:
         volumes:
             - '/media:/media'
             - '/moviepilot/config:/config'
-            - '/moviepilot/core:/moviepilot/.cloakbrowser'
+            - '/moviepilot/core:/moviepilot/.cache/ms-playwright'
             - '/var/run/docker.sock:/var/run/docker.sock:ro'
         environment:
             - 'NGINX_PORT=3000'
