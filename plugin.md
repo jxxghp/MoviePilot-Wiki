@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-06-05T14:34:43.214Z
+date: 2026-06-05T14:35:06.243Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
