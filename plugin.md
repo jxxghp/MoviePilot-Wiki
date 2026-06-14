@@ -43,15 +43,10 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/xijin285/MoviePilot-Plugins
 - https://github.com/Seed680/MoviePilot-Plugins
 - https://github.com/imaliang/MoviePilot-Plugins
-- https://github.com/baranwang/MoviePilot-Plugins
-- https://github.com/Mister-album/MoviePilot-Plugins
 
-**完整的插件仓库地址配置：**
-```
-https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePilot-Plugins/,https://github.com/honue/MoviePilot-Plugins/,https://github.com/InfinityPacer/MoviePilot-Plugins/,https://github.com/dandkong/MoviePilot-Plugins/,https://github.com/Aqr-K/MoviePilot-Plugins/,https://github.com/AnjoyLi/MoviePilot-Plugins/,https://github.com/WithdewHua/MoviePilot-Plugins/,https://github.com/HankunYu/MoviePilot-Plugins/,https://github.com/baozaodetudou/MoviePilot-Plugins/,https://github.com/almus2zhang/MoviePilot-Plugins/,https://github.com/Pixel-LH/MoviePilot-Plugins/,https://github.com/lightolly/MoviePilot-Plugins/,https://github.com/suraxiuxiu/MoviePilot-Plugins/,https://github.com/gxterry/MoviePilot-Plugins/,https://github.com/hotlcc/MoviePilot-Plugins-Third/,https://github.com/boeto/MoviePilot-Plugins/,https://github.com/xiangt920/MoviePilot-Plugins/,https://github.com/yubanmeiqin9048/MoviePilot-Plugins/,https://github.com/loongcheung/MoviePilot-Plugins/,https://github.com/xcehnz/MoviePilot-Plugins/,https://github.com/imaliang/MoviePilot-Plugins/,https://github.com/wikrin/MoviePilot-Plugins/,https://github.com/DDSRem-Dev/MoviePilot-Plugins/,https://github.com/KoWming/MoviePilot-Plugins,https://github.com/madrays/MoviePilot-Plugins,https://github.com/aClarkChen/MoviePilot-Plugins,https://github.com/justzerock/MoviePilot-Plugins,https://github.com/Seed680/MoviePilot-Plugins,https://github.com/DzAvril/MoviePilot-Plugins,https://github.com/xijin285/MoviePilot-Plugins,https://github.com/cqubioyj/MoviePilot-Plugins,https://github.com/Hqyel/MoviePilot-Plugins-Third,https://github.com/mrtian2016/MoviePilot-Plugins,https://github.com/andyxu8023/MoviePilot-Plugins,https://github.com/Sinterdial/MoviePilot-Plugins,https://github.com/4Nest/MoviePilot-Plugins,https://github.com/baranwang/MoviePilot-Plugins,https://github.com/luanyi143/MoviePilot-Plugins,https://github.com/jianji112/MoviePilot-Plugins,https://github.com/AWdress/MoviePilot-Plugins,https://github.com/cyt-666/MoviePilot-Plugins,https://github.com/jiangbkvir/MoviePilot-Plugins,https://github.com/wio-ki/MoviePilot-Plugins,https://github.com/bfjy2024/MoviePilot-Plugins,https://github.com/ui-beam-9/MoviePilot-Plugins,https://github.com/Mister-album/MoviePilot-Plugins,https://github.com/ifsherlock/MoviePilot-Plugins,https://github.com/andyxu8023/MoviePilot-Plugins,https://github.com/clone-fan/MoviePilot-Plugins
-```
+**可同步的公开插件仓库清单：**
 
-**访问插件仓库地址，点 :star: 支持作者：**
+<!-- plugin-market-repos:start -->
 - https://github.com/jxxghp/MoviePilot-Plugins
 - https://github.com/thsrite/MoviePilot-Plugins
 - https://github.com/honue/MoviePilot-Plugins
@@ -90,6 +85,7 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 - https://github.com/andyxu8023/MoviePilot-Plugins
 - https://github.com/Sinterdial/MoviePilot-Plugins
 - https://github.com/4Nest/MoviePilot-Plugins
+- https://github.com/baranwang/MoviePilot-Plugins
 - https://github.com/luanyi143/MoviePilot-Plugins
 - https://github.com/jianji112/MoviePilot-Plugins
 - https://github.com/AWdress/MoviePilot-Plugins
@@ -100,8 +96,10 @@ https://github.com/jxxghp/MoviePilot-Plugins/,https://github.com/thsrite/MoviePi
 - https://github.com/ui-beam-9/MoviePilot-Plugins
 - https://github.com/Mister-album/MoviePilot-Plugins
 - https://github.com/ifsherlock/MoviePilot-Plugins
-- https://github.com/andyxu8023/MoviePilot-Plugins
 - https://github.com/clone-fan/MoviePilot-Plugins
+<!-- plugin-market-repos:end -->
+
+以上清单可在插件市场设置中点击“同步 Wiki”自动合并到本地配置。同步时会与本地已有仓库去重，保留本地顺序并追加 Wiki 中新增的公开仓库。
 
 # 插件安装/升级
 
