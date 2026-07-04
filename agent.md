@@ -324,6 +324,8 @@ moviepilot tool show run_slash_command
 
 因此，智能助手是“有工具的智能体”，但不是“无条件的超级管理员”。
 
+外部管理员级集成需要单独理解：MCP 以及 OpenAI / Anthropic 兼容的 Agent API 使用 `API_TOKEN` 认证，持有该密钥的客户端会被视为受信任的管理员级 Agent 集成。它不同于普通登录用户在 WEB 页面里的 UI 权限，也不会因为某个普通用户会话而自动收窄能力范围。只应把 `API_TOKEN` 配置给你信任的客户端、网关或自动化系统。
+
 # 图片、文件与语音
 
 ## 图片输入

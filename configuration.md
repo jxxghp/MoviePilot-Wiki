@@ -131,7 +131,7 @@ V1版本有些进阶配置参数需要通过配置文件进行配置（不配置
 - **FRONTEND_PATH：** 前端静态文件路径，默认为 `/public`，Docker 官方镜像和本地 CLI 会自动维护
 - **❗SUPERUSER：** 超级管理员用户名，默认`admin`，安装后使用该用户登录后台管理界面。**注意：仅在首次安装时生效！**
 - **SUPERUSER_PASSWORD：** 超级管理员初始密码，`v2.8.0+`版本才支持，仅在首次安装时生效，不配置时系统会自动生成随机密码，随机密码会在首次启动的日志中打印。**注意：仅在首次安装时生效！**
-- **❗API_TOKEN：** API密钥，V1版本默认为`moviepilot`，**V2版本需要配置为大于等于16个字符的复杂字符串** （如配置不符合要求将会强制重新生成，可在后台日志、env配置文件或系统设定中查看最新的值） 。在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值。第三方 Agent 工具接入 MoviePilot MCP 时，也使用同一个 `API_TOKEN` 认证，参考 [MCP](/mcp)。
+- **❗API_TOKEN：** API密钥，V1版本默认为`moviepilot`，**V2版本需要配置为大于等于16个字符的复杂字符串** （如配置不符合要求将会强制重新生成，可在后台日志、env配置文件或系统设定中查看最新的值） 。在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值。第三方 Agent 工具接入 MoviePilot MCP，以及调用 OpenAI / Anthropic 兼容 Agent API 时，也使用同一个 `API_TOKEN` 认证。请将它视为管理员级 secret，不要分享给不受信第三方客户端；远程接入优先使用请求头并配合 HTTPS、访问控制和网络隔离，参考 [MCP](/mcp)。
 - **DEBUG：** 是否调试模式，默认为 `false`
 - **APP_DOMAIN：** 应用域名，格式为 `https://movie-pilot.org`，默认为空
 - **ADVANCED_MODE：** 高级设置模式，`v2.8.0+`版本才支持，默认为 `true`，开启后会显示全部设置选项，否则仅显示设置向导，引导完成简化设置。
@@ -410,7 +410,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 | 基础 | `SUPERUSER` | `admin` | 首次启动环境变量/配置文件 | 超级管理员用户名，仅首次安装生效 |
 | 基础 | `SUPERUSER_PASSWORD` | 随机生成 | 首次启动环境变量/配置文件 | 超级管理员初始密码，仅首次安装生效 |
 | 基础 | `APP_DOMAIN` | 空 | `设定 -> 系统 -> 基础设置` | 外部访问域名 |
-| 基础 | `API_TOKEN` | 自动生成 | `设定 -> 系统 -> 基础设置` | API、Webhook、MCP 认证密钥 |
+| 基础 | `API_TOKEN` | 自动生成 | `设定 -> 系统 -> 基础设置` | API、Webhook、MCP、兼容 Agent API 认证密钥 |
 | 基础 | `DEBUG` | `false` | `设定 -> 系统 -> 进阶设置` | 调试日志与调试模式 |
 | 基础 | `ADVANCED_MODE` | `true` | 环境变量/配置文件 | 是否显示完整设置 |
 | 基础 | `DEV` | `false` | 环境变量/配置文件 | 本地开发模式 |

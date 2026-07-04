@@ -20,10 +20,13 @@ MoviePilot 已内置标准 `MCP (Model Context Protocol)` 服务，第三方 Age
 # 连接前先确认这几件事
 
 1. MoviePilot 已正常运行，并且第三方 Agent 工具能访问到 MoviePilot 的 API 地址。
-2. 你已经拿到 `API_TOKEN`，它就是 MCP 的认证密钥。
+2. 你已经拿到 `API_TOKEN`，它就是 MCP 的认证密钥，也是管理员级凭证。
 3. 你使用的是 `API` 端口，默认是 `3001`，不是前端页面端口 `3000`。
 
 `API_TOKEN` 可在系统设置中查看或修改，也可以从启动日志中搜索 `API_TOKEN` 获取。关于 `API_TOKEN` 的说明可参考 [基础](/basic)。
+
+> 持有 `API_TOKEN` 的 MCP 客户端可调用 MoviePilot 通过 MCP 暴露的业务工具。只把它配置给你信任的 Agent 工具或受控网关，不要交给不受信第三方服务。
+{.is-warning}
 
 常见地址示例：
 
@@ -56,6 +59,9 @@ MoviePilot 已内置标准 `MCP (Model Context Protocol)` 服务，第三方 Age
 - 如果客户端只能配置 URL、不能配置自定义请求头，可以退而求其次把 `API_TOKEN` 放到 `?apikey=` 查询参数里。
 
 > 推荐优先使用请求头认证，不建议把 `API_TOKEN` 直接写进 URL，因为 URL 更容易出现在日志、历史记录或截图里。
+{.is-warning}
+
+> 如果需要让远程 Agent 访问 MoviePilot MCP，请先完成 HTTPS、访问控制、网络隔离或反向代理鉴权等部署防护，不要把带有管理员级凭证保护的接口直接裸露到公网。
 {.is-warning}
 
 # 先用简单请求验证是否可用
@@ -208,7 +214,7 @@ moviepilot tool show search_torrents
 moviepilot tool show add_subscribe
 ```
 
-> 出于安全考虑，MoviePilot 不会通过 MCP 暴露 `execute_command`、`search_web`、`edit_file`、`write_file`、`read_file` 这类本地高风险工具。第三方 Agent 拿到的是 MoviePilot 业务能力相关的工具集，而不是系统级任意读写执行权限。
+> 出于安全考虑，MoviePilot 不会通过 MCP 暴露 `execute_command`、`search_web`、`edit_file`、`write_file`、`read_file` 这类本地高风险工具。第三方 Agent 拿到的是 MoviePilot 业务能力相关的工具集，而不是系统级任意读写执行权限。隐藏这些本地高风险工具只是收敛 MCP 暴露面，不代表 `API_TOKEN` 支持按用户划分的细粒度权限。
 {.is-info}
 
 # 常见问题
@@ -258,9 +264,10 @@ MoviePilot 这边优先按远程 HTTP MCP 使用。
 可以，但强烈建议：
 
 - 使用 `HTTPS`
+- 在反向代理、网关或网络层增加访问控制，只允许可信客户端访问
 - 不要把 `API_TOKEN` 写进公开仓库或公开截图
 - 不要把带 `apikey=` 的 URL 随意分享
-- 把 `API_TOKEN` 视为高敏感凭证保管
+- 把 `API_TOKEN` 视为管理员级高敏感凭证保管
 
 # 相关文档
 
