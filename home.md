@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2026-07-01T02:30:46.478Z
+date: 2026-07-17T09:18:29.114Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -31,6 +31,8 @@ MoviePilot支持Docker、Windows、群辉以及 `macOS/Linux` 本地 CLI 部署�
 - [配置说明 *一些配置项的说明（主要为V1版本使用）。*](/configuration)
 - [升级 *如何自动更新升级版本。*](/upgrade)
 - [发行说明 *重大版本更新记录。*](/release)
+- [周边项目 *Windows、移动端、Apple TV 与浏览器扩展。*](/ecosystem)
+
 {.links-list}
 
 # 用户指南
@@ -46,7 +48,6 @@ MoviePilot支持Docker、Windows、群辉以及 `macOS/Linux` 本地 CLI 部署�
 - [智能助手 *配置与使用 AI 智能助手。*](/agent)
 - [MCP *在第三方 Agent 工具中接入 MoviePilot MCP。*](/mcp)
 - [Doctor 诊断 *使用 moviepilot doctor 进行离线诊断和安全自救。*](/doctor)
-- [周边项目 *Windows、移动端、Apple TV 与浏览器扩展。*](/ecosystem)
 - [进阶 *词表、分类策略等高阶使用方法。*](/advanced)
 - [故障排除 *常见问题及解决方案。*](/troubleshooting)
 {.links-list}
