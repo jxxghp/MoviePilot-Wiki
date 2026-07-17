@@ -46,6 +46,7 @@ MoviePilot支持Docker、Windows、群辉以及 `macOS/Linux` 本地 CLI 部署�
 - [智能助手 *配置与使用 AI 智能助手。*](/agent)
 - [MCP *在第三方 Agent 工具中接入 MoviePilot MCP。*](/mcp)
 - [Doctor 诊断 *使用 moviepilot doctor 进行离线诊断和安全自救。*](/doctor)
+- [周边项目 *Windows、移动端、Apple TV 与浏览器扩展。*](/ecosystem)
 - [进阶 *词表、分类策略等高阶使用方法。*](/advanced)
 - [故障排除 *常见问题及解决方案。*](/troubleshooting)
 {.links-list}
