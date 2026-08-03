@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-07-17T09:12:28.556Z
+date: 2026-08-03T04:48:39.992Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -111,6 +111,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/EWEDLCM/MoviePilot-Plugins
 - https://github.com/mitlearn/MoviePilot-PluginsV2
 - https://github.com/BrettDean/MoviePilot-Plugins
+- https://github.com/odomu/MoviePilot-Plugins
 <!-- plugin-market-repos:end -->
 
 以上清单可在插件市场设置中点击“同步 Wiki”自动合并到本地配置。同步时会与本地已有仓库去重，保留本地顺序并追加 Wiki 中新增的公开仓库。
