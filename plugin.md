@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-08-03T04:48:39.992Z
+date: 2026-08-04T14:30:04.318Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -12,7 +12,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 **MoviePilot目前已有：**
 - **v1.0+：`200+` 个插件**
-- **v2.0+：`300+` 个插件**
+- **v2.0+：`400+` 个插件**
 
 通过在变量`PLUGIN_MARKET`中添加第三方插件仓库地址后（v2版本点击插件页面图标维护），即可在插件市场中看到对应的插件。**通过插件市场下载和更新插件需要良好的网络环境，能正确连接Github，同时需要配置Github Token。**
 
@@ -112,6 +112,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/mitlearn/MoviePilot-PluginsV2
 - https://github.com/BrettDean/MoviePilot-Plugins
 - https://github.com/odomu/MoviePilot-Plugins
+- https://github.com/zyt0339/MoviePilot-Plugins
 <!-- plugin-market-repos:end -->
 
 以上清单可在插件市场设置中点击“同步 Wiki”自动合并到本地配置。同步时会与本地已有仓库去重，保留本地顺序并追加 Wiki 中新增的公开仓库。
