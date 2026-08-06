@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-08-05T09:03:43.730Z
+date: 2026-08-06T00:47:15.215Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -22,27 +22,8 @@ dateCreated: 2024-06-11T22:35:11.803Z
 > 插件适配V2版本需要插件开发者进行兼容改造或者在插件代码中声明支持V2，如发现V1版本中的插件在V2版本的插件市场中不显示，需联系插件开发者修改支持。
 {.is-info}
 
-**默认已内置以下插件库：**
+**官方插件库：**
 - https://github.com/jxxghp/MoviePilot-Plugins
-- https://github.com/thsrite/MoviePilot-Plugins
-- https://github.com/honue/MoviePilot-Plugins
-- https://github.com/InfinityPacer/MoviePilot-Plugins
-- https://github.com/DDSRem-Dev/MoviePilot-Plugins
-- https://github.com/madrays/MoviePilot-Plugins
-- https://github.com/justzerock/MoviePilot-Plugins
-- https://github.com/KoWming/MoviePilot-Plugins
-- https://github.com/wikrin/MoviePilot-Plugins
-- https://github.com/HankunYu/MoviePilot-Plugins
-- https://github.com/baozaodetudou/MoviePilot-Plugins
-- https://github.com/Aqr-K/MoviePilot-Plugins
-- https://github.com/hotlcc/MoviePilot-Plugins-Third
-- https://github.com/gxterry/MoviePilot-Plugins
-- https://github.com/DzAvril/MoviePilot-Plugins
-- https://github.com/mrtian2016/MoviePilot-Plugins
-- https://github.com/Hqyel/MoviePilot-Plugins-Third
-- https://github.com/xijin285/MoviePilot-Plugins
-- https://github.com/Seed680/MoviePilot-Plugins
-- https://github.com/imaliang/MoviePilot-Plugins
 
 **可同步的公开插件仓库清单：**
 
