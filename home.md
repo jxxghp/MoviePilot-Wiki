@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2026-08-07T23:10:45.862Z
+date: 2026-08-07T23:11:28.061Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -31,7 +31,6 @@ MoviePilot支持Docker、Windows、群辉以及 `macOS/Linux` 本地 CLI 部署�
 - [配置说明 *环境变量和常用配置项说明。*](/configuration)
 - [升级 *如何自动更新升级版本。*](/upgrade)
 - [发行说明 *重大版本更新记录。*](/release)
-- [V3 版本说明 *V3 的版本边界、音乐支持和资源体系。*](/v3)
 - [周边项目 *Windows、移动端、Apple TV 与浏览器扩展。*](/ecosystem)
 
 {.links-list}
