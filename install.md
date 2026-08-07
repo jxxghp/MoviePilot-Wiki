@@ -12,7 +12,37 @@ dateCreated: 2024-05-30T09:48:38.889Z
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
 使用 `docker run -itd` 命令安装时，请去除其中的 `#` 开头的注释行，以防报错。
 
+> 本页现有 Docker 示例为 V2 部署示例。V3 是独立版本，安装前请先阅读 [V3 版本说明](/v3)，并以 V3 发布页提供的镜像、标签和资源目录为准；不要直接复用 V2 的容器名、配置目录或站点资源。
+{.is-warning}
+
 ## docker-cli {.tabset}
+
+### V3版本
+
+V3 使用独立的 Docker 仓库和容器数据目录，不要与 V2 容器共用配置目录或数据库。正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。
+
+```shell
+docker run -itd \
+    --name moviepilot-v3 \
+    --hostname moviepilot-v3 \
+    --network bridge \
+    -p 3000:3000 \
+    -p 3001:3001 \
+    -v /media:/media \
+    -v /moviepilot-v3/config:/config \
+    -v /moviepilot-v3/core:/moviepilot/.cloakbrowser \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -e 'NGINX_PORT=3000' \
+    -e 'PORT=3001' \
+    -e 'PUID=0' \
+    -e 'PGID=0' \
+    -e 'UMASK=000' \
+    -e 'TZ=Asia/Shanghai' \
+    -e 'SUPERUSER=admin' \
+    -e 'SUPERUSER_PASSWORD=你的初始登录密码' \
+    --restart always \
+    jxxghp/moviepilot-v3:latest
+```
 
 ### V2版本
 ```shell
