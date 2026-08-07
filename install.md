@@ -17,6 +17,33 @@ MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`
 
 ## docker-cli {.tabset}
 
+### V3版本
+
+V3 使用独立的 Docker 仓库和容器数据目录，不要与 V2 容器共用配置目录或数据库。正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。
+
+```shell
+docker run -itd \
+    --name moviepilot-v3 \
+    --hostname moviepilot-v3 \
+    --network bridge \
+    -p 3000:3000 \
+    -p 3001:3001 \
+    -v /media:/media \
+    -v /moviepilot-v3/config:/config \
+    -v /moviepilot-v3/core:/moviepilot/.cloakbrowser \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -e 'NGINX_PORT=3000' \
+    -e 'PORT=3001' \
+    -e 'PUID=0' \
+    -e 'PGID=0' \
+    -e 'UMASK=000' \
+    -e 'TZ=Asia/Shanghai' \
+    -e 'SUPERUSER=admin' \
+    -e 'SUPERUSER_PASSWORD=你的初始登录密码' \
+    --restart always \
+    jxxghp/moviepilot-v3:latest
+```
+
 ### V2版本
 ```shell
 docker run -itd \

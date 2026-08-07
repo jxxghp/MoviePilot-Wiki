@@ -18,6 +18,17 @@ V3 是独立主版本，不以 V2 配置、数据库和站点资源兼容为目�
 V3 站点资源使用 `resources.v3` 和 `user.sites.v3.bin`。V3 的镜像名称、发布标签和本地更新命令以对应发行说明为准，不要把下面的 V2 镜像命令直接用于 V3。
 {.is-danger}
 
+### V3 Docker 镜像
+
+V3 不覆盖 V2 镜像仓库，升级时请使用独立镜像：
+
+```bash
+docker pull jxxghp/moviepilot-v3:latest
+docker compose up --force-recreate -d moviepilot
+```
+
+需要固定版本时，将 `latest` 替换为对应的版本标签，例如 `3.0.0`。V3 容器建议使用 `moviepilot-v3` 容器名及 `/moviepilot-v3/config`、`/moviepilot-v3/core` 数据目录。
+
 
 # 升级方法
 
