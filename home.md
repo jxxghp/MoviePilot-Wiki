@@ -18,6 +18,9 @@ dateCreated: 2024-05-30T04:38:01.345Z
 > 此Wiki与 https://github.com/jxxghp/MoviePilot-Wiki 保持同步。
 {.is-success}
 
+> **V3 版本说明：** V3 是独立主版本，使用独立的 `resources.v3` 站点资源，并新增音乐搜索、下载、订阅和整理能力。V3 不以兼容 V2 配置和资源为目标，切换前请先阅读 [V3 版本说明](/v3)。
+{.is-warning}
+
 > 请勿在**任何国内平台**发布或引用此wiki任何相关内容，请尽量避免在国内公共场合提及`MoviePilot`全称，如确实有需要请使用简称：`MP`。
 {.is-danger}
 
@@ -28,9 +31,10 @@ MoviePilot支持Docker、Windows、群辉以及 `macOS/Linux` 本地 CLI 部署�
 - [环境准备 *安装前的准备工作。*](/ready)
 - [安装指引 *如何安装MoviePilot。*](/install)
 - [本地 CLI *macOS/Linux 本地安装、更新和服务管理。*](/cli)
-- [配置说明 *一些配置项的说明（主要为V1版本使用）。*](/configuration)
+- [配置说明 *环境变量和常用配置项说明。*](/configuration)
 - [升级 *如何自动更新升级版本。*](/upgrade)
 - [发行说明 *重大版本更新记录。*](/release)
+- [V3 版本说明 *V3 的版本边界、音乐支持和资源体系。*](/v3)
 - [周边项目 *Windows、移动端、Apple TV 与浏览器扩展。*](/ecosystem)
 
 {.links-list}
