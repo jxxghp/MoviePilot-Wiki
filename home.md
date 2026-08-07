@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2026-07-17T09:18:29.114Z
+date: 2026-08-07T23:10:45.862Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -17,9 +17,6 @@ dateCreated: 2024-05-30T04:38:01.345Z
 
 > 此Wiki与 https://github.com/jxxghp/MoviePilot-Wiki 保持同步。
 {.is-success}
-
-> **V3 版本说明：** V3 是独立主版本，使用独立的 `resources.v3` 站点资源，并新增音乐搜索、下载、订阅和整理能力。V3 不以兼容 V2 配置和资源为目标，切换前请先阅读 [V3 版本说明](/v3)。
-{.is-warning}
 
 > 请勿在**任何国内平台**发布或引用此wiki任何相关内容，请尽量避免在国内公共场合提及`MoviePilot`全称，如确实有需要请使用简称：`MP`。
 {.is-danger}
