@@ -2,7 +2,7 @@
 title: 发行说明
 description: 需要关注的重要版本变更
 published: 1
-date: 2026-08-08T07:52:09.133Z
+date: 2026-08-08T07:53:04.735Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:17.992Z
@@ -13,7 +13,7 @@ dateCreated: 2024-05-30T09:49:17.992Z
 
 # v3.0.0
 
-MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源体系。
+MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源体系，独立镜像 jxxghp/moviepilot-v3:latest。
 
 [V3版本说明](/v3)
 
