@@ -12,14 +12,14 @@ dateCreated: 2024-05-30T09:48:38.889Z
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
 使用 `docker run -itd` 命令安装时，请去除其中的 `#` 开头的注释行，以防报错。
 
-> 本页现有 Docker 示例为 V2 部署示例。V3 是独立版本，安装前请先阅读 [V3 版本说明](/v3)，并以 V3 发布页提供的镜像、标签和资源目录为准；不要直接复用 V2 的容器名、配置目录或站点资源。
+> V3 兼容 V2 的配置、数据库数据和全部插件。从 V2 切换到 V3 无需迁移数据，保留原有 `/config` 映射和数据库配置即可。请先备份数据，将镜像更换为 `jxxghp/moviepilot-v3:latest`，重新拉取镜像并重建容器；不能仅通过重启 V2 容器跨主版本升级。详见 [V3 版本说明](/v3)。
 {.is-warning}
 
 ## docker-cli {.tabset}
 
 ### V3版本
 
-V3 使用独立的 Docker 仓库和容器数据目录，不要与 V2 容器共用配置目录或数据库。正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。
+V3 正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。下例为全新安装路径；从 V2 切换时，将 `/moviepilot-v3/config` 替换为原 V2 配置目录即可复用数据。
 
 ```shell
 docker run -itd \
@@ -93,6 +93,98 @@ docker run -itd \
 ```
 
 ## docker-compose  {.tabset}
+
+### V3-全功能版
+
+下例使用 V3 的全新安装路径。从 V2 切换时无需迁移数据：保留原 `/config` 映射、PostgreSQL 数据卷、Redis 数据卷及对应连接配置，只需将 MoviePilot 镜像更换为 V3 后拉取并重建容器。`pgloader` 默认不启动，仅在需要将 SQLite 转换为 PostgreSQL 时手动启用，与 V2 升级 V3 无关。
+
+```yaml
+services:
+
+  moviepilot:
+    stdin_open: true
+    tty: true
+    container_name: moviepilot-v3
+    hostname: moviepilot-v3
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    volumes:
+      - '/media:/media' #媒体
+      - '/moviepilot-v3/config:/config' #持久化配置
+      - '/moviepilot-v3/core:/moviepilot/.cloakbrowser' #内核浏览器
+      - '/var/run/docker.sock:/var/run/docker.sock:ro' #重启MP权限
+      - '/tr/config/torrents:/torrents' #TR种子位置
+      - '/qbittorrent/data/data/BT_backup:/BT_backup' #QB种子位置
+    environment:
+      - 'NGINX_PORT=3000'
+      - 'PORT=3001'
+      - 'PUID=0'
+      - 'PGID=0'
+      - 'UMASK=000'
+      - 'TZ=Asia/Shanghai'
+      - 'SUPERUSER=admin'
+      - 'SUPERUSER_PASSWORD=你的初始登录密码'
+      - 'DB_TYPE=postgresql'
+      - 'DB_POSTGRESQL_HOST=postgresql'
+      - 'DB_POSTGRESQL_PORT=5432'
+      - 'DB_POSTGRESQL_DATABASE=moviepilot'
+      - 'DB_POSTGRESQL_USERNAME=moviepilot'
+      - 'DB_POSTGRESQL_PASSWORD=pg_password'
+      - 'CACHE_BACKEND_TYPE=redis'
+      - 'CACHE_BACKEND_URL=redis://:redis_password@redis:6379'
+    restart: always
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    image: jxxghp/moviepilot-v3:latest
+
+  redis:
+    volumes:
+      - /volume1/docker/redis/data:/data
+    image: redis
+    command: redis-server --save 600 1 --requirepass redis_password
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgresql:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: moviepilot
+      POSTGRES_USER: moviepilot
+      POSTGRES_PASSWORD: pg_password
+    volumes:
+      # 仅 postgresql 18.0+ 及以上版本可用，根据版本二选一即可
+      - /volume1/docker/postgresql:/var/lib/postgresql
+      # 仅 postgresql 17.6 及以下版本可用，根据版本二选一即可
+      #- /volume1/docker/postgresql/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moviepilot -d moviepilot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 可选：仅用于将 SQLite 转换为 PostgreSQL，与 V2 升级 V3 无关
+  pgloader:
+    profiles:
+      - migration
+    image: dimitri/pgloader:latest
+    volumes:
+      - <MP配置文件路径>:/mp_config
+    command: >
+      pgloader
+      sqlite:///mp_config/user.db
+      postgresql://moviepilot:pg_password@postgresql:5432/moviepilot
+    depends_on:
+      postgresql:
+        condition: service_healthy
+```
 
 ### V2-全功能版
 ```shell

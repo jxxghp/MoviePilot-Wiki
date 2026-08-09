@@ -13,7 +13,7 @@ dateCreated: 2024-05-30T09:49:17.992Z
 
 # v3.0.0
 
-MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源体系，独立镜像 jxxghp/moviepilot-v3:latest。
+MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源体系，独立镜像为 `jxxghp/moviepilot-v3:latest`。V3 完全兼容 V2 的配置、数据库数据和全部插件，升级时无需迁移数据。但不能仅通过重启 V2 容器升级；需要更换为 V3 镜像，重新拉取并重建容器。
 
 [V3版本说明](/v3)
 
@@ -57,6 +57,4 @@ MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源�
 **设置项变化对比：**
 
 ![dir.png](/dir.png)
-
-
 

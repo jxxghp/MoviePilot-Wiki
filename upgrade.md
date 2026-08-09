@@ -13,21 +13,21 @@ dateCreated: 2024-05-30T09:56:06.097Z
 
 ## V3 切换说明
 
-V3 是独立主版本，不以 V2 配置、数据库和站点资源兼容为目标。V2 实例不要直接覆盖升级为 V3；切换前请先备份配置和数据库，并按 [V3 版本说明](/v3) 使用独立的 V3 实例和资源目录。
+V3 是独立主版本，但完全兼容 V2 的配置、数据库数据和全部插件。从 V2 切换到 V3 不需要迁移数据，继续映射原 V2 的 `/config` 目录并复用原数据库即可；切换前请先完整备份。详见 [V3 版本说明](/v3)。
 
-V3 站点资源使用 `resources.v3` 和 `user.sites.v3.bin`。V3 的镜像名称、发布标签和本地更新命令以对应发行说明为准，不要把下面的 V2 镜像命令直接用于 V3。
+V2 容器的内建重启升级不会直接跨主版本升级到 V3。需要先将镜像改为 V3 镜像，重新拉取最新镜像并重建容器。V3 启动后会使用 `resources.v3` 和 `user.sites.v3.bin` 站点资源。
 {.is-danger}
 
 ### V3 Docker 镜像
 
-V3 不覆盖 V2 镜像仓库，升级时请使用独立镜像：
+V3 使用独立镜像仓库。使用 Docker Compose 时，先将 Compose 文件中 `moviepilot` 服务的 `image` 改为 `jxxghp/moviepilot-v3:latest`，再执行：
 
 ```bash
-docker pull jxxghp/moviepilot-v3:latest
+docker compose pull moviepilot
 docker compose up --force-recreate -d moviepilot
 ```
 
-需要固定版本时，将 `latest` 替换为对应的版本标签，例如 `3.0.0`。V3 容器建议使用 `moviepilot-v3` 容器名及 `/moviepilot-v3/config`、`/moviepilot-v3/core` 数据目录。
+使用其他 Docker 管理器时，请手动拉取 `jxxghp/moviepilot-v3:latest` 并用该镜像重建原容器。需要固定版本时，将 `latest` 替换为对应的版本标签，例如 `3.0.0`。全新安装可使用 `moviepilot-v3` 容器名及 `/moviepilot-v3/config`、`/moviepilot-v3/core` 数据目录；从 V2 切换时应保留原有数据映射。
 
 
 # 升级方法
