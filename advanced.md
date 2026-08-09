@@ -125,6 +125,45 @@ MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内�
 | `episode_title` | 集标题 |
 | `episode_date` | 集播出日期 |
 
+**音乐（`MUSIC_RENAME_FORMAT`）**
+
+音乐作为独立媒体类型拥有单独的重命名格式，在`设定 -> 目录 -> 音乐重命名格式`中配置，与电影、电视剧格式互不影响。音乐重命名**优先读取音频文件标签**（标题、艺术家、专辑、年份、碟号、曲号、ISRC、技术参数等），并结合订阅或搜索时保存的音乐元数据，标签缺失的字段回退使用音乐元数据，因此无需依赖影视资源命名规范。
+
+默认的音乐重命名格式为：
+
+```
+{{album_artist or artist or 'Unknown Artist'}}
+/{{album or 'Unknown Album'}}{% if year %} ({{year}}){% endif %}
+{% if total_discs and total_discs > 1 %}/Disc {{disc_number or 1}}{% endif %}
+/{% if track %}{{track}} - {% endif %}{{title}}{{fileExt}}
+```
+
+默认格式生成的目录结构为：`艺术家（专辑艺术家）/专辑 (年份)/曲号 - 曲名.扩展名`，多碟专辑会在专辑目录下追加`Disc N`目录。用户可参考此格式结合下表自定义：
+
+**`MUSIC_RENAME_FORMAT`支持的配置项（在通用配置项基础上额外支持）：**
+
+| 配置项 | 说明 |
+| --- | --- |
+| `artist` | 艺术家，多个艺术家以` / `分隔 |
+| `artists` | 艺术家列表 |
+| `album_artist` | 专辑艺术家 |
+| `album` | 专辑名称 |
+| `track` | 曲号，两位数字补零显示，如 `01` |
+| `track_number` | 曲号数字 |
+| `total_tracks` | 专辑曲目总数 |
+| `disc_number` | 碟号数字 |
+| `total_discs` | 专辑总碟数 |
+| `audio_format` | 音频格式，如 `FLAC`、`MP3` |
+| `bit_depth` | 音频位深，如 `8bit`、`24bit` |
+| `sample_rate` | 采样率 |
+| `bitrate` | 码率 |
+| `duration` | 时长（秒） |
+| `isrc` | ISRC国际标准音像制品编码 |
+| `version` | 版本，如`单曲`、`重制版`等 |
+
+> 音乐无季集概念，`season`、`episode` 等剧集变量不适用于音乐；音乐当前也不应用影视自定义识别词。
+{.is-info}
+
 # 多目录支持与分类
 
 
