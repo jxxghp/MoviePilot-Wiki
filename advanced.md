@@ -45,7 +45,7 @@ dateCreated: 2024-05-30T09:47:08.061Z
   
 其中:
 - `屏弊词`：将该词从待识别文本中去除。
-- `替换词`支持特定格式：`{[media_source=themoviedb;media_id=xxx;type=movie/tv;s=xxx;e=xxx]}`，使用固定的媒体来源和该来源原生 ID 直接识别。其中 `s`、`e` 为季数和集数（可选）。历史 `tmdbid`、`doubanid` 等写法仅用于兼容读取，新配置请统一使用 `media_source` 和 `media_id`。使用这种模式时，**注意不要把资源的原标题替换掉了**。
+- `替换词`支持特定格式：`{[tmdbid=xxx;type=movie/tv;s=xxx;e=xxx]}`，也可按数据源使用 `doubanid`、`bangumiid` 或 `anilistid`，直接指定对应媒体 ID 识别。其中 `s`、`e` 为季数和集数（可选）。使用这种模式时，**注意不要把资源的原标题替换掉了**。
 - `集偏移`：定位待识别文本中的`集数位置`，并对识别出来的集数做运算，以解决识别出来的的集数与TMDB实际不一致的问题。`前后定位词`之间的所有数字（包括中文小写，不包括中文大写）视为集数，`偏移集数`支持运算，例如集数加1：`EP+1`；集数翻倍：`2*EP`；集数翻倍-1：`2*EP-1`（`EP`代表原集数）。
 
 ## 示例
@@ -100,11 +100,9 @@ MoviePilot文件重命名格式定义基于`jinja2`语法，关于语法的内�
 | `audioCodec` | 音频编码 |
 | `fps` | 帧率 |
 | `webSource` | 流媒体平台 |
-| `media_source` | 媒体主身份来源 |
-| `media_id` | 对应来源的原生媒体 ID |
-| `tmdbid` | TMDB ID（兼容旧命名格式，非TMDB识别源时为空） |
+| `tmdbid` | TMDB ID（非TMDB识别源时为空） |
 | `imdbid` | IMDB ID（可能为空） |
-| `doubanid` | 豆瓣ID（兼容旧命名格式，非豆瓣识别源时为空） |
+| `doubanid` | 豆瓣ID（非豆瓣识别源时为空） |
 | `part` | 段/节 |
 | `fileExt` | 文件扩展名，如 `.mkv` |
 | `customization` | 自定义占位符 |
