@@ -131,7 +131,8 @@ if media_source:
 ## REST 响应
 
 完整的后端输出模型、Python HTTP 调用、Vue 远程组件、统一 Toast、多语言和原生
-响应示例见 [V3 插件 API 响应适配](/plugin-api-response-adaptation)。
+响应示例见插件仓库的
+[V3 插件 API 响应适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
 
 普通 JSON API 使用固定 envelope：
 
