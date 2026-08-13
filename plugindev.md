@@ -23,3 +23,6 @@ dateCreated: 2024-05-30T09:48:59.557Z
 
 > 插件如何支持V2版本请看 [这里](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V2_Plugin_Development.md)。使用媒体识别、搜索、订阅、下载、整理、刮削、媒体库事件或宿主 API 的插件，还需要查看插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)；暴露或调用 HTTP API、使用 Vue 远程组件时还需查看插件仓库的 [V3 插件 API 响应适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
 {.is-success}
+
+> V3 的内置 `MediaSource` 常量不是插件数据源白名单。插件可以注册稳定的小写扩展标识，并以同一个 `media_source` 和来源原生 `media_id` 贯穿发现、识别、订阅、下载、整理与存储；命名规则、事件示例和迁移要求见上述 V3 适配指南。
+{.is-info}
