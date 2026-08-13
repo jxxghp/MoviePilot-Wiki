@@ -22,6 +22,9 @@ dateCreated: 2024-06-11T22:35:11.803Z
 > 插件适配V2版本需要插件开发者进行兼容改造或者在插件代码中声明支持V2，如发现V1版本中的插件在V2版本的插件市场中不显示，需联系插件开发者修改支持。
 {.is-info}
 
+> V3 默认兼容未使用变更合同的 V2 插件；涉及媒体身份、音乐链、宿主 REST API 等新合同的插件，需要按 [V3 插件适配指引](/plugin-v3-adaptation) 建立 V3 专用实现。
+{.is-info}
+
 **官方插件库：**
 - https://github.com/jxxghp/MoviePilot-Plugins
 
