@@ -21,5 +21,5 @@ dateCreated: 2024-05-30T09:48:59.557Z
 
 当然，你也可以PR到官方插件仓库，以便更多人知晓和使用：https://github.com/jxxghp/MoviePilot-Plugins
 
-> 插件如何支持V2版本请看 [这里](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V2_Plugin_Development.md)。使用媒体识别、搜索、订阅、下载、整理、刮削、媒体库事件或宿主 API 的插件，还需要查看 [V3 插件适配指引](/plugin-v3-adaptation)；暴露或调用 HTTP API、使用 Vue 远程组件时还需查看插件仓库的 [V3 插件 API 响应适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
+> 插件如何支持V2版本请看 [这里](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V2_Plugin_Development.md)。使用媒体识别、搜索、订阅、下载、整理、刮削、媒体库事件或宿主 API 的插件，还需要查看插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)；暴露或调用 HTTP API、使用 Vue 远程组件时还需查看插件仓库的 [V3 插件 API 响应适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
 {.is-success}
