@@ -130,6 +130,9 @@ if media_source:
 
 ## REST 响应
 
+完整的后端输出模型、Python HTTP 调用、Vue 远程组件、统一 Toast、多语言和原生
+响应示例见 [V3 插件 API 响应适配](/plugin-api-response-adaptation)。
+
 普通 JSON API 使用固定 envelope：
 
 ```json
@@ -150,6 +153,10 @@ Anthropic 和 MCP JSON-RPC 等协议端点仍保留原生格式。
 
 Vue 远程组件使用宿主传入的 `api` 或 `window.MoviePilotAPI`；该插件客户端保留
 完整 envelope，业务对象同样位于返回值的 `data` 字段。
+
+注入客户端的 `baseURL` 已包含 `/api/v1/`，组件传入
+`plugin/MyPlugin/path` 相对路径即可。默认错误 Toast 已由宿主统一处理，插件不应
+对同一次失败重复弹窗。
 
 ## 仍保留来源专用 ID 的场景
 
@@ -181,6 +188,8 @@ Vue 远程组件使用宿主传入的 `api` 或 `window.MoviePilotAPI`；该插�
 - 非法或半对身份不会进入插件数据和缓存。
 - 已移除 `MusicChain` 导入。
 - REST 调用按 `{ success, message, data }` 读取。
+- 普通 JSON endpoint 有明确输出模型，且没有手工双层套壳。
+- Vue 远程组件使用相对 API 路径，并避免重复错误 Toast。
 - 自定义识别词和重命名格式仍使用历史专用 ID。
 - V3 专用副本完成主版本跃迁并声明 `system_version >= 3.0.0`。
 - 原 V1/V2 代码未被修改，版本与历史排序正确。
