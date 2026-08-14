@@ -13,7 +13,7 @@ dateCreated: 2024-05-30T09:56:06.097Z
 
 ## V3 切换说明
 
-V3 是独立主版本，但兼容 V2 的配置和数据库数据；未使用 V3 变更合同的插件可直接复用，需要适配的插件应安装开发者提供的 V3 专用版本。从 V2 切换到 V3 不需要迁移用户数据，继续映射原 V2 的 `/config` 目录并复用原数据库即可；切换前请先完整备份。详见 [V3 版本说明](/v3) 和插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)。
+V3 是独立主版本，但兼容 V2 的配置和数据库数据；未使用 V3 变更合同的插件可直接复用，需要适配的插件应安装开发者提供的 V3 专用版本。从 V2 切换到 V3 不需要迁移用户数据，继续映射原 V2 的 `/config` 目录并复用原数据库即可；切换前请先完整备份。这里的兼容是指 **V2 数据库可由 V3 向前升级**：V3 首次启动并完成数据库升级后，不能直接换回 V2 镜像，必须先按下文执行数据库降级。详见 [V3 版本说明](/v3) 和插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)。
 
 V2 容器的内建重启升级不会直接跨主版本升级到 V3。需要先将镜像改为 V3 镜像，重新拉取最新镜像并重建容器。V3 启动后会使用 `resources.v3` 和 `user.sites.v3.bin` 站点资源。
 {.is-danger}
@@ -28,6 +28,96 @@ docker compose up --force-recreate -d moviepilot
 ```
 
 使用其他 Docker 管理器时，请手动拉取 `jxxghp/moviepilot-v3:latest` 并用该镜像重建原容器。需要固定版本时，将 `latest` 替换为对应的版本标签，例如 `3.0.0`。全新安装可使用 `moviepilot-v3` 容器名及 `/moviepilot-v3/config`、`/moviepilot-v3/core` 数据目录；从 V2 切换时应保留原有数据映射。
+
+### 从 V3 降级回 V2
+
+V3 会把通用媒体身份统一保存为 `media_source` 和 `media_id`，并在数据库升级时删除 V2 仍会读取的来源专用字段：
+
+| 数据表 | V2 需要恢复的字段 |
+| --- | --- |
+| `subscribe`、`subscribehistory` | `tmdbid`、`imdbid`、`tvdbid`、`doubanid`、`bangumiid`、`anilistid`、`mediaid` |
+| `downloadhistory`、`transferhistory` | `tmdbid`、`imdbid`、`tvdbid`、`doubanid`、`bangumiid`、`anilistid` |
+| `downloadfailure` | `tmdbid`、`doubanid`、`bangumiid`、`anilistid` |
+| `mediaserveritem` | `tmdbid`、`imdbid`、`tvdbid` |
+
+因此不能只把 Compose 中的镜像改回 `jxxghp/moviepilot-v2:latest`。正确顺序是：停止 V3 写入、备份、仍使用 V3 镜像执行数据库降级，最后再切换 V2 镜像。
+
+> 数据库降级会删除 V3 专用的音乐和 Agent 等字段或数据表。V3 升级时已经被合并丢弃的辅助来源 ID、被去重删除的整理历史，以及被 V3 覆盖的旧通知模板，无法仅从升级后的数据库完整还原。需要无损回退时，只能恢复升级 V3 前的完整备份。
+{.is-danger}
+
+#### 1. 停止 MoviePilot 并备份
+
+只停止 MoviePilot 服务，使用 PostgreSQL 时不要停止数据库服务：
+
+```bash
+docker compose stop moviepilot
+```
+
+SQLite 用户应复制宿主机实际映射的配置目录，至少备份其中的 `user.db`；PostgreSQL 用户应使用 `pg_dump` 备份数据库。同时备份 `/config` 目录中的配置文件。以下路径、服务名、数据库名和用户名应按实际部署修改：
+
+```bash
+# SQLite
+cp -a /实际配置目录/user.db /实际备份目录/user.db.v3-before-downgrade
+
+# PostgreSQL
+docker compose exec -T postgresql \
+  pg_dump -U moviepilot -d moviepilot -Fc \
+  > moviepilot-v3-before-downgrade.dump
+```
+
+确认备份文件能够读取后再继续。
+
+#### 2. 使用 V3 镜像执行数据库降级
+
+保持 Compose 文件中的 `moviepilot` 服务仍指向当前使用的 V3 镜像，在 Compose 文件所在目录执行：
+
+```bash
+docker compose run --rm --no-deps \
+  --entrypoint /opt/venv/bin/python \
+  moviepilot -c '
+from configparser import ConfigParser
+
+from alembic.command import downgrade
+from alembic.config import Config
+
+from app.runtime.config import settings
+
+config = Config()
+config.file_config = ConfigParser(interpolation=None)
+config.set_main_option("script_location", str(settings.ROOT_PATH / "database"))
+if settings.DB_TYPE.lower() == "postgresql":
+    database_url = settings.DB_POSTGRESQL_URL()
+else:
+    database_path = settings.CONFIG_PATH / "user.db"
+    database_url = f"sqlite:///{database_path}"
+config.set_main_option("sqlalchemy.url", database_url)
+downgrade(config, "a8c4e2f6b1d9")
+'
+```
+
+`a8c4e2f6b1d9` 是 V2 与 V3 数据库迁移链最后一个共用 revision。该命令会通过 V3 自带的降级迁移补回上述 V2 字段，并根据 `media_source + media_id` 将当前主来源 ID 回填到对应旧字段；其他已经在 V3 升级时丢弃的辅助 ID 会保持为空。
+
+如果已经先换成 V2 镜像并出现 `no such column`、`UndefinedColumn` 或无法识别 V3 revision 的错误，请先停止服务，把镜像临时改回升级前所用的 V3 版本，执行本步骤成功后再继续。不要直接修改 `alembic_version`，只改版本号不会恢复被删除的字段和约束。
+
+本地 CLI 安装方式应先停止 MoviePilot，在 V3 后端项目根目录使用项目虚拟环境执行同一段 Python 代码；将上面命令中的容器入口替换为 `.venv/bin/python`，并确保 `CONFIG_DIR` 指向实际配置目录。
+
+#### 3. 切换到 V2 镜像
+
+数据库降级命令成功结束后，将 Compose 文件中的镜像改为：
+
+```yaml
+image: jxxghp/moviepilot-v2:latest
+```
+
+然后拉取并重建 MoviePilot 服务：
+
+```bash
+docker compose pull moviepilot
+docker compose up --force-recreate -d moviepilot
+docker compose logs -f moviepilot
+```
+
+确认日志中没有数据库字段或 Alembic revision 错误，并检查订阅、下载历史、整理历史和媒体服务器数据后，再删除 V3 容器或旧备份。
 
 
 # 升级方法
