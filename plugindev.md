@@ -10,7 +10,7 @@ dateCreated: 2024-05-30T09:48:59.557Z
 
 #  插件开发步骤
 ## 1. 插件开发
-1. clone 主项目 https://github.com/jxxghp/MoviePilot 到本地开发环境，设置好python编译器和安装好依赖，复制资源包项目 https://github.com/jxxghp/MoviePilot-Resources 对应平台的库文件和bin文件到本地 `app/helper` 目录，设置启动环境变量 `PLUGIN_AUTO_RELOAD=true` 可开启插件热加载。
+1. clone 主项目 https://github.com/jxxghp/MoviePilot 到本地开发环境，设置好python编译器和安装好依赖，复制资源包项目 https://github.com/jxxghp/MoviePilot-Resources 对应平台的库文件和bin文件到本地 `app/application/site` 目录，设置启动环境变量 `PLUGIN_AUTO_RELOAD=true` 可开启插件热加载。
 2. 在 `app/plugins` 目录下创建插件目录和编写代码，参考 [开发指引](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/README.md) 以及其它已有插件代码，完成插件开发。
 3. clone 前端项目 https://github.com/jxxghp/MoviePilot-Frontend 到本地 Visual Studio Code 开发环境，参考项目主页说明安装好环境，启动本地前后端MoviePilot程序，进入 后台插件 -> 插件市场 中可以看到本地插件，可进行安装，在IDE中打断点进行调试，修改代码后自动重新加载生效。
 
@@ -26,3 +26,6 @@ dateCreated: 2024-05-30T09:48:59.557Z
 
 > 使用媒体识别、搜索、订阅、下载、整理、刮削、媒体库事件或宿主 API 的插件，还需要查看插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
 {.is-info}
+
+> V3 对后端模块重新分层后，已登记的 `app.core.*`、`app.helper.*`、`app.utils.*` 等旧导入仍可兼容运行；Debug 模式会提示应迁移到的稳定 SDK。新增插件和维护中的插件请查看插件仓库的 [旧导入路径兼容与迁移指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md#2-旧导入路径兼容与迁移)，Wiki 不重复维护映射清单。
+{.is-warning}
