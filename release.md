@@ -17,7 +17,7 @@ MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源�
 
 [V3版本说明](/v3)
 
-[V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
+[V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
 
 主要变化：
 
