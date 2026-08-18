@@ -32,6 +32,11 @@ MoviePilot 当前插件开发目标是 V3。完整开发合同统一维护在
 Debug 模式会提示稳定 SDK 迁移路径。不要为消除警告复制宿主实现，具体处理按迁移
 专题执行。
 
+插件只依赖公开的 SDK、Host SPI 和 `get_api()` 注册合同。宿主内部的 API、Application、
+Runtime、Adapter 拆分不会要求插件保留多份导出；已迁移的旧路径由宿主兼容层精确映射。
+插件动态 API 不强制使用宿主 `{success, message, data}` 响应信封，Vue 远程组件使用的
+公共 `pluginApi` 遇到非标准 `Response` 结构会原样交付给插件调用方。
+
 ## 发布插件
 
 第三方插件仓库建议 fork
