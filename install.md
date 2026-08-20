@@ -12,7 +12,7 @@ dateCreated: 2024-05-30T09:48:38.889Z
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
 使用 `docker run -itd` 命令安装时，请去除其中的 `#` 开头的注释行，以防报错。
 
-> V3 兼容 V2 的配置和数据库数据，未使用 V3 变更合同的插件可直接复用；需要适配的插件应安装开发者提供的 V3 专用版本。从 V2 切换到 V3 无需迁移用户数据，保留原有 `/config` 映射和数据库配置即可。请先备份数据，将镜像更换为 `jxxghp/moviepilot-v3:latest`，重新拉取镜像并重建容器；不能仅通过重启 V2 容器跨主版本升级。详见 [V3 版本说明](/v3) 和插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)。
+> V3 兼容 V2 的配置和数据库数据，未使用 V3 变更合同的插件可直接复用；需要适配的插件应安装开发者提供的 V3 专用版本。从 V2 切换到 V3 无需迁移用户数据，保留原有 `/config` 映射和数据库配置即可。请先备份数据，将镜像更换为 `jxxghp/moviepilot-v3:latest`，重新拉取并重建容器；不能仅通过重启 V2 容器跨主版本升级。V3 完成数据库升级后不能直接换回 V2 镜像，回退方法见 [从 V3 降级回 V2](/upgrade#从-v3-降级回-v2)。详见 [V3 版本说明](/v3) 和插件仓库的 [V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)。
 {.is-warning}
 
 ## docker-cli {.tabset}

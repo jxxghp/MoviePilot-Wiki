@@ -13,11 +13,11 @@ dateCreated: 2024-05-30T09:49:17.992Z
 
 # v3.0.0
 
-MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源体系，独立镜像为 `jxxghp/moviepilot-v3:latest`。V3 兼容 V2 的配置和数据库数据，未使用 V3 变更合同的插件可直接复用；需要适配的插件应安装开发者提供的 V3 专用版本。升级时无需迁移用户数据，但不能仅通过重启 V2 容器升级；需要更换为 V3 镜像，重新拉取并重建容器。
+MoviePilot V3 为独立主版本，站点索引和认证资源使用 V3 资源体系，独立镜像为 `jxxghp/moviepilot-v3:latest`。V3 兼容 V2 的配置和数据库数据，未使用 V3 变更合同的插件可直接复用；需要适配的插件应安装开发者提供的 V3 专用版本。升级时无需迁移用户数据，但不能仅通过重启 V2 容器升级；需要更换为 V3 镜像，重新拉取并重建容器。V3 完成数据库升级后不能直接切回 V2，必须先按 [降级步骤](/upgrade#从-v3-降级回-v2) 恢复 V2 数据库结构。
 
 [V3版本说明](/v3)
 
-[V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
+[V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
 
 主要变化：
 

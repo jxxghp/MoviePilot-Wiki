@@ -2,27 +2,46 @@
 title: 插件开发
 description: 开发插件为MoviePilot添加功能
 published: 1
-date: 2025-03-24T23:32:23.550Z
-tags: 
+date: 2026-08-15T08:45:08.000Z
+tags:
 editor: markdown
 dateCreated: 2024-05-30T09:48:59.557Z
 ---
 
-#  插件开发步骤
-## 1. 插件开发
-1. clone 主项目 https://github.com/jxxghp/MoviePilot 到本地开发环境，设置好python编译器和安装好依赖，复制资源包项目 https://github.com/jxxghp/MoviePilot-Resources 对应平台的库文件和bin文件到本地 `app/helper` 目录，设置启动环境变量 `PLUGIN_AUTO_RELOAD=true` 可开启插件热加载。
-2. 在 `app/plugins` 目录下创建插件目录和编写代码，参考 [开发指引](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/README.md) 以及其它已有插件代码，完成插件开发。
-3. clone 前端项目 https://github.com/jxxghp/MoviePilot-Frontend 到本地 Visual Studio Code 开发环境，参考项目主页说明安装好环境，启动本地前后端MoviePilot程序，进入 后台插件 -> 插件市场 中可以看到本地插件，可进行安装，在IDE中打断点进行调试，修改代码后自动重新加载生效。
+# 插件开发
 
-## 2. 插件发布
-1. fork官方插件代码仓库：https://github.com/jxxghp/MoviePilot-Plugins
-2. 删除插件仓库中其它已有插件，上传开发的插件代码。
-3. 将插件仓库地址提供给用户，配置到插件市场变量中。
+MoviePilot 当前插件开发目标是 V3。完整开发合同统一维护在
+`MoviePilot-Plugins` 仓库，Wiki 只提供入口，不复制目录、接口或映射清单，避免
+多份文档内容不一致。
 
-当然，你也可以PR到官方插件仓库，以便更多人知晓和使用：https://github.com/jxxghp/MoviePilot-Plugins
-
-> 插件如何支持多版本请看 [这里](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V2_Plugin_Development.md)
+> 第一次开发插件，请从插件仓库的 [MoviePilot 插件开发指南（V3）](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Plugin_Development.md) 开始。该指南覆盖开发环境、目录、最小骨架、生命周期、稳定 SDK、页面、事件、API、服务、测试和发布。
 {.is-success}
 
-> 使用媒体识别、搜索、订阅、下载、整理、刮削、媒体库事件或宿主 API 的插件，还需要查看插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
-{.is-info}
+## 专题文档
+
+- 已有 V2 插件迁移、旧导入兼容、媒体身份或存量数据：
+  [V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)
+- 插件后端 API、Python HTTP 调用或 Vue 远程组件：
+  [插件 API 专题](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)
+- 官方插件仓目录、索引、版本、CI 和 Release：
+  [仓库与发布指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Repository_Guide.md)
+- 消息、定时服务、缓存、工作流、Agent、存储等具体能力：
+  [插件常见问题](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/FAQ.md)
+
+旧 `app.core.*`、`app.helper.*`、`app.utils.*` 等已登记导入在 V3 中仍可兼容；
+Debug 模式会提示稳定 SDK 迁移路径。不要为消除警告复制宿主实现，具体处理按迁移
+专题执行。
+
+插件只依赖公开的 SDK、Host SPI 和 `get_api()` 注册合同。宿主内部的 API、Application、
+Runtime、Adapter 拆分不会要求插件保留多份导出；已迁移的旧路径由宿主兼容层精确映射。
+插件动态 API 不强制使用宿主 `{success, message, data}` 响应信封，Vue 远程组件使用的
+公共 `pluginApi` 遇到非标准 `Response` 结构会原样交付给插件调用方。
+
+## 发布插件
+
+第三方插件仓库建议 fork
+[MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins)，保留 V3 目录和
+索引结构，通过 `PLUGIN_MARKET` 提供给用户；也可以向官方插件仓库提交 PR。
+
+发布前必须按完整开发指南和仓库指南完成版本一致性检查、相关测试及真实 V3 宿主
+加载验证。

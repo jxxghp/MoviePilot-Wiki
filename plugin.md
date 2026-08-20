@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-08-13T07:29:31.669Z
+date: 2026-08-17T14:50:16.979Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -22,7 +22,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 > 插件适配V2版本需要插件开发者进行兼容改造或者在插件代码中声明支持V2，如发现V1版本中的插件在V2版本的插件市场中不显示，需联系插件开发者修改支持。
 {.is-info}
 
-> V3 默认兼容未使用变更合同的 V2 插件；涉及媒体身份、音乐链、宿主 REST API 等新合同的插件，需要按插件仓库的 [V3 插件适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md) 建立 V3 专用实现。暴露或调用 HTTP API、使用 Vue 远程组件时，还需查看插件仓库的 [V3 插件 API 响应适配指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
+> 插件开发者请从插件仓库的 [MoviePilot 插件开发指南（V3）](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Plugin_Development.md) 开始。已有 V2 插件迁移、旧导入兼容、媒体身份和存量数据问题，再查看 [V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)；API 与 Vue 远程组件另见 [插件 API 专题](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
 {.is-info}
 
 **官方插件库：**
@@ -101,6 +101,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/LXT-A-X/MoviePilot-Plugins
 - https://github.com/zhwejjjj/MoviePilot-Plugins
 - https://github.com/xlmc/MoviePilot-Plugins
+- https://github.com/LunaticXJ/MoviePilot-Plugins
 <!-- plugin-market-repos:end -->
 
 以上清单可在插件市场设置中点击“同步 Wiki”自动合并到本地配置。同步时会与本地已有仓库去重，保留本地顺序并追加 Wiki 中新增的公开仓库。
