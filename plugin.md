@@ -100,6 +100,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/TorrenKt/MoviePilot-Plugins-TSLM
 - https://github.com/LXT-A-X/MoviePilot-Plugins
 - https://github.com/zhwejjjj/MoviePilot-Plugins
+- https://github.com/xlmc/MoviePilot-Plugins
 - https://github.com/LunaticXJ/MoviePilot-Plugins
 <!-- plugin-market-repos:end -->
 
