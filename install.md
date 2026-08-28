@@ -21,6 +21,8 @@ MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`
 
 V3 正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。下例为全新安装路径；从 V2 切换时，将 `/moviepilot-v3/config` 替换为原 V2 配置目录即可复用数据。
 
+V3 停止时会依次关闭后台任务、插件和其他运行模块。建议为容器预留 `120` 秒优雅停止时间，避免 Docker 使用默认的较短等待时间强制终止仍在收尾的进程。
+
 ```shell
 docker run -itd \
     --name moviepilot-v3 \
@@ -40,6 +42,7 @@ docker run -itd \
     -e 'TZ=Asia/Shanghai' \
     -e 'SUPERUSER=admin' \
     -e 'SUPERUSER_PASSWORD=你的初始登录密码' \
+    --stop-timeout 120 \
     --restart always \
     jxxghp/moviepilot-v3:latest
 ```
@@ -134,6 +137,7 @@ services:
       - 'CACHE_BACKEND_TYPE=redis'
       - 'CACHE_BACKEND_URL=redis://:redis_password@redis:6379'
     restart: always
+    stop_grace_period: 120s
     depends_on:
       postgresql:
         condition: service_healthy

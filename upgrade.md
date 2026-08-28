@@ -22,6 +22,8 @@ V2 容器的内建重启升级不会直接跨主版本升级到 V3。需要先�
 
 V3 使用独立镜像仓库。使用 Docker Compose 时，先将 Compose 文件中 `moviepilot` 服务的 `image` 改为 `jxxghp/moviepilot-v3:latest`，再执行：
 
+建议同时为 MoviePilot 服务设置 `stop_grace_period: 120s`，让镜像重建前的容器停止过程有足够时间完成后台任务和模块收尾。使用 `docker run` 或 `docker create` 部署时设置 `--stop-timeout 120`。
+
 ```bash
 docker compose pull moviepilot
 docker compose up --force-recreate -d moviepilot
