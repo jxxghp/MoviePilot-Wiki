@@ -19,7 +19,7 @@ MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`
 
 ### V3版本
 
-V3 正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。下例为全新安装路径；从 V2 切换时，将 `/moviepilot-v3/config` 替换为原 V2 配置目录即可复用数据。
+V3 正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换为具体的 `3.0.0` 等版本号。下例为全新安装路径；从 V2 切换时，将 `/moviepilot-v3/config` 替换为原 V2 配置目录即可复用数据。V3 全新启动不会预置管理员用户、密码或 API Key，首次访问 Web 地址时会进入初始化页面，填写管理员用户名、密码（需确认两次）并生成 API Key 后保存，再跳转到登录页面。
 
 V3 停止时会依次关闭后台任务、插件和其他运行模块。建议为容器预留 `120` 秒优雅停止时间，避免 Docker 使用默认的较短等待时间强制终止仍在收尾的进程。
 
@@ -40,8 +40,6 @@ docker run -itd \
     -e 'PGID=0' \
     -e 'UMASK=000' \
     -e 'TZ=Asia/Shanghai' \
-    -e 'SUPERUSER=admin' \
-    -e 'SUPERUSER_PASSWORD=你的初始登录密码' \
     --stop-timeout 120 \
     --restart always \
     jxxghp/moviepilot-v3:latest
@@ -126,8 +124,6 @@ services:
       - 'PGID=0'
       - 'UMASK=000'
       - 'TZ=Asia/Shanghai'
-      - 'SUPERUSER=admin'
-      - 'SUPERUSER_PASSWORD=你的初始登录密码'
       - 'DB_TYPE=postgresql'
       - 'DB_POSTGRESQL_HOST=postgresql'
       - 'DB_POSTGRESQL_PORT=5432'
@@ -414,7 +410,7 @@ networks:
 - `/moviepilot/core`为浏览器内核下载保存目录（**避免容器重置后重新下载浏览器内核**），需根据实际情况调整。
 - `/var/run/docker.sock`用于内建重启时使用，建议映射。
 - 默认使用`3000`为WEB服务端口，`3001`为Api服务端口，可根据实际情况调整。
-- `AUTH_SITE`、`SUPERUSER`、`API_TOKEN`等其它变量请根据 [配置参考](/configuration) 说明调整和补充，上述为最基础配置，实际可以根据需要补充其它变量。
+- V3 全新安装无需在 Docker 模板中填写 `SUPERUSER`、`SUPERUSER_PASSWORD` 或 `API_TOKEN`：首次访问 Web 地址会进入初始化页面，保存后才会写入管理员账号、密码和 API Key。V2、V1 的模板和首次启动配置方式保持不变；其它变量请根据 [配置参考](/configuration) 说明调整和补充。
 
 # Windows
 

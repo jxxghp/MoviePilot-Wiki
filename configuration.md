@@ -17,7 +17,7 @@ dateCreated: 2024-05-30T09:48:02.073Z
 > 本地 CLI 安装模式下，绝大多数常用配置均可通过 `moviepilot setup --wizard`、`moviepilot config ...` 或前端界面完成，不再需要手工维护多份配置文件。
 {.is-info}
 
-> 当前安装向导已覆盖 `基础参数`、`用户站点认证`、`存储目录`、`下载器`、`媒体服务器`、`通知渠道`、`智能助手`、`资源偏好` 等核心初始化内容；首次部署建议先完成向导，再按需回到本页查看进阶变量。
+> V3 全新安装不再提供独立的设置向导：首次启动只需在 Web 初始化页面创建管理员用户名、密码和 API Key，保存后进入登录页面。V3 的下载器、媒体服务器、通知、存储和智能助手等配置在登录后按需完成；V1、V2 的本地 CLI / 设置向导流程保持不变。
 {.is-info}
 
 
@@ -129,12 +129,12 @@ V1版本有些进阶配置参数需要通过配置文件进行配置（不配置
 - **PROJECT_NAME：** 项目名称，默认为 `MoviePilot`，会影响进程名、OpenAPI 标题和部分 Cookie 名称，一般无需修改
 - **API_V1_STR：** API 路由前缀，默认为 `/api/v1`，一般无需修改
 - **FRONTEND_PATH：** 前端静态文件路径，默认为 `/public`，Docker 官方镜像和本地 CLI 会自动维护
-- **❗SUPERUSER：** 超级管理员用户名，默认`admin`，安装后使用该用户登录后台管理界面。**注意：仅在首次安装时生效！**
-- **SUPERUSER_PASSWORD：** 超级管理员初始密码，`v2.8.0+`版本才支持，仅在首次安装时生效，不配置时系统会自动生成随机密码，随机密码会在首次启动的日志中打印。**注意：仅在首次安装时生效！**
-- **❗API_TOKEN：** API密钥，V1版本默认为`moviepilot`，**V2版本需要配置为大于等于16个字符的复杂字符串** （如配置不符合要求将会强制重新生成，可在后台日志、env配置文件或系统设定中查看最新的值） 。在媒体服务器Webhook、微信回调等地址配置中需要加上`?token=`该值。第三方 Agent 工具接入 MoviePilot MCP，以及调用 OpenAI / Anthropic 兼容 Agent API 时，也使用同一个 `API_TOKEN` 认证。请将它视为管理员级 secret，不要分享给不受信第三方客户端；远程接入优先使用请求头并配合 HTTPS、访问控制和网络隔离，参考 [MCP](/mcp)。
+- **❗SUPERUSER：** 超级管理员用户名。V1、V2 默认`admin`且仅在首次安装时生效；V3 默认为空，首次访问 Web 初始化页面并保存后写入运行时配置。
+- **SUPERUSER_PASSWORD：** 超级管理员初始密码。V2.8+ 的 V1、V2 版本支持通过环境变量预置，未配置时按原版本规则生成；V3 默认为空，启动时不会生成或写入数据库，仅在初始化页面提交后保存密码哈希。
+- **❗API_TOKEN：** API 密钥。V1 默认`moviepilot`；V2 仍要求大于等于 16 位的复杂字符串，不符合要求时按原版本规则重新生成；V3 全新安装由初始化页面生成并保存。该值用于媒体服务器 Webhook、微信回调、MoviePilot MCP 和兼容 Agent API 认证，请按管理员级 secret 保护。
 - **DEBUG：** 是否调试模式，默认为 `false`
 - **APP_DOMAIN：** 应用域名，格式为 `https://movie-pilot.org`，默认为空
-- **ADVANCED_MODE：** 高级设置模式，`v2.8.0+`版本才支持，默认为 `true`，开启后会显示全部设置选项，否则仅显示设置向导，引导完成简化设置。
+- **ADVANCED_MODE：** 仅 V1、V2 支持，`v2.8.0+` 默认 `true`；V3 已移除该变量，登录后直接使用完整设置页面。
 - **DEV:** 开发者模式，`true`/`false`，默认`false`，仅用于本地开发使用，开启后会暂停所有定时任务，且插件代码文件的修改无需重启会自动重载生效
 
 ## 网络&代理
@@ -407,12 +407,12 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 | Docker | `DOCKER_CLIENT_API` | `tcp://127.0.0.1:38379` | 环境变量/配置文件 | Docker 内建重启接口 |
 | Docker | `PLAYWRIGHT_BROWSER_TYPE` | `chromium` | 环境变量/配置文件 | CookieCloud 浏览器类型 |
 | 基础 | `PROJECT_NAME` / `API_V1_STR` / `FRONTEND_PATH` | `MoviePilot` / `/api/v1` / `/public` | 环境变量/配置文件 | 项目名、API 前缀、前端静态目录，一般无需修改 |
-| 基础 | `SUPERUSER` | `admin` | 首次启动环境变量/配置文件 | 超级管理员用户名，仅首次安装生效 |
-| 基础 | `SUPERUSER_PASSWORD` | 随机生成 | 首次启动环境变量/配置文件 | 超级管理员初始密码，仅首次安装生效 |
+| 基础 | `SUPERUSER` | V1/V2 为 `admin`；V3 为空 | V1/V2 首次启动环境变量/配置文件；V3 初始化页面 | 超级管理员用户名；V3 首次访问时创建 |
+| 基础 | `SUPERUSER_PASSWORD` | V1/V2 按原版本规则；V3 为空 | V1/V2 首次启动环境变量/配置文件；V3 初始化页面 | 超级管理员初始密码；V3 不在启动阶段播种 |
 | 基础 | `APP_DOMAIN` | 空 | `设定 -> 系统 -> 基础设置` | 外部访问域名 |
-| 基础 | `API_TOKEN` | 自动生成 | `设定 -> 系统 -> 基础设置` | API、Webhook、MCP、兼容 Agent API 认证密钥 |
+| 基础 | `API_TOKEN` | V1/V2 按原版本规则；V3 初始化页面生成 | V1/V2 环境变量/系统设置；V3 初始化页面 | API、Webhook、MCP、兼容 Agent API 认证密钥 |
 | 基础 | `DEBUG` | `false` | `设定 -> 系统 -> 进阶设置` | 调试日志与调试模式 |
-| 基础 | `ADVANCED_MODE` | `true` | 环境变量/配置文件 | 是否显示完整设置 |
+| 基础 | `ADVANCED_MODE` | V1/V2 为 `true`；V3 不适用 | V1/V2 环境变量/配置文件 | V1/V2 是否显示完整设置；V3 已移除 |
 | 基础 | `DEV` | `false` | 环境变量/配置文件 | 本地开发模式 |
 | 认证 | `AUTH_SITE` 与站点认证变量 | 空 | `用户头像 -> 用户认证` | 前端已有认证入口，优先使用前端 |
 | 认证 | `AUXILIARY_AUTH_ENABLE` | `false` | `设定 -> 系统 -> 进阶设置` | 辅助认证 / SSO |
