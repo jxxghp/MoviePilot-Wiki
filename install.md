@@ -23,6 +23,9 @@ V3 正式版镜像为 `jxxghp/moviepilot-v3:latest`，也可以将标签替换�
 
 V3 停止时会依次关闭后台任务、插件和其他运行模块。建议为容器预留 `120` 秒优雅停止时间，避免 Docker 使用默认的较短等待时间强制终止仍在收尾的进程。
 
+V3 镜像内置 supervisor，同时托管 Nginx 和后端进程。Web 内建重启由容器内 supervisor 完成，不需要映射
+`/var/run/docker.sock`，也不依赖 Docker 的容器重启策略；`--restart always` 仅用于容器整体异常退出或主机重启后的恢复。
+
 ```shell
 docker run -itd \
     --name moviepilot-v3 \
@@ -33,7 +36,6 @@ docker run -itd \
     -v /media:/media \
     -v /moviepilot-v3/config:/config \
     -v /moviepilot-v3/core:/moviepilot/.cloakbrowser \
-    -v /var/run/docker.sock:/var/run/docker.sock:ro \
     -e 'NGINX_PORT=3000' \
     -e 'PORT=3001' \
     -e 'PUID=0' \
@@ -114,7 +116,6 @@ services:
       - '/media:/media' #媒体
       - '/moviepilot-v3/config:/config' #持久化配置
       - '/moviepilot-v3/core:/moviepilot/.cloakbrowser' #内核浏览器
-      - '/var/run/docker.sock:/var/run/docker.sock:ro' #重启MP权限
       - '/tr/config/torrents:/torrents' #TR种子位置
       - '/qbittorrent/data/data/BT_backup:/BT_backup' #QB种子位置
     environment:
@@ -408,7 +409,6 @@ networks:
    3. 下载目录和媒体库目录分别作为两个目录路径映射到docker容器中
 - `/moviepilot/config`为配置文件、数据库文件、日志文件、缓存文件使用的文件目录，该目录将会存储所有设置和数据，需根据实际情况调整。
 - `/moviepilot/core`为浏览器内核下载保存目录（**避免容器重置后重新下载浏览器内核**），需根据实际情况调整。
-- `/var/run/docker.sock`用于内建重启时使用，建议映射。
 - 默认使用`3000`为WEB服务端口，`3001`为Api服务端口，可根据实际情况调整。
 - V3 全新安装无需在 Docker 模板中填写 `SUPERUSER`、`SUPERUSER_PASSWORD` 或 `API_TOKEN`：首次访问 Web 地址会进入初始化页面，保存后才会写入管理员账号、密码和 API Key。V2、V1 的模板和首次启动配置方式保持不变；其它变量请根据 [配置参考](/configuration) 说明调整和补充。
 

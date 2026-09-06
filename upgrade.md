@@ -31,6 +31,9 @@ docker compose up --force-recreate -d moviepilot
 
 使用其他 Docker 管理器时，请手动拉取 `jxxghp/moviepilot-v3:latest` 并用该镜像重建原容器。需要固定版本时，将 `latest` 替换为对应的版本标签，例如 `3.0.0`。全新安装可使用 `moviepilot-v3` 容器名及 `/moviepilot-v3/config`、`/moviepilot-v3/core` 数据目录；从 V2 切换时应保留原有数据映射。
 
+V3 的 Web 内建重启由镜像内 supervisor 托管 Nginx 和后端进程完成，不需要映射 Docker Socket，也不依赖 Docker
+restart policy；Docker restart policy 只负责容器级别的异常恢复和主机重启后拉起。
+
 ### 从 V3 降级回 V2
 
 V3 会把通用媒体身份统一保存为 `media_source` 和 `media_id`，并在数据库升级时删除 V2 仍会读取的来源专用字段：

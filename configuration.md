@@ -153,7 +153,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 ## 系统重启&更新
 - **MOVIEPILOT_AUTO_UPDATE：** 重启时自动更新，`true`/`release`/`dev`/`false`，默认`release`，需要能正常连接Github **注意：如果出现网络问题可以配置`PROXY_HOST`**
 - **AUTO_UPDATE_RESOURCE**：启动时自动检测和更新资源包（站点索引及认证等），`true`/`false`，默认`true`，需要能正常连接Github。Docker 环境可直接依赖该机制；本地 CLI 安装模式通常使用 `moviepilot update all` 来同步程序和资源
-- **DOCKER_CLIENT_API：** 使用Docker环境部署时用于实现内建重启功能，默认为：`tcp://127.0.0.1:38379`，官方docker境像无需单独配置。本地 CLI 安装模式不依赖该项；由 `moviepilot start` 管理起来的实例已支持内建重启
+- **DOCKER_CLIENT_API：** V1/V2 Docker 环境用于实现旧版内建重启功能，默认为：`tcp://127.0.0.1:38379`；V3 镜像改由容器内 supervisor 托管前端 Nginx 和后端进程，Web 重启不访问 Docker API，也不需要映射 Docker Socket。本地 CLI 安装模式由 `moviepilot start` 管理的进程控制器完成重启
 
 ## 缓存
 - **CACHE_BACKEND_TYPE：** V2新增配置项，缓存类型，支持 `cachetools` 和 `redis`，默认使用 `cachetools`
@@ -404,7 +404,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 | Docker | `START_NOGOSU` | `false` | 环境变量 | 无根容器权限兼容 |
 | Docker | `ENABLE_SSL` / `SSL_DOMAIN` / `SSL_NGINX_PORT` / `SSL_EMAIL` / `AUTO_ISSUE_CERT` / `DNS_PROVIDER` / `ACME_ENV_*` | 空 | 环境变量 | Docker HTTPS 与证书申请 |
 | Docker | `NGINX_CLIENT_MAX_BODY_SIZE` | `50m` | 环境变量 | Nginx 上传体积限制 |
-| Docker | `DOCKER_CLIENT_API` | `tcp://127.0.0.1:38379` | 环境变量/配置文件 | Docker 内建重启接口 |
+| Docker | `DOCKER_CLIENT_API` | `tcp://127.0.0.1:38379` | 环境变量/配置文件 | V1/V2 Docker 内建重启接口；V3 不使用 |
 | Docker | `PLAYWRIGHT_BROWSER_TYPE` | `chromium` | 环境变量/配置文件 | CookieCloud 浏览器类型 |
 | 基础 | `PROJECT_NAME` / `API_V1_STR` / `FRONTEND_PATH` | `MoviePilot` / `/api/v1` / `/public` | 环境变量/配置文件 | 项目名、API 前缀、前端静态目录，一般无需修改 |
 | 基础 | `SUPERUSER` | V1/V2 为 `admin`；V3 为空 | V1/V2 首次启动环境变量/配置文件；V3 初始化页面 | 超级管理员用户名；V3 首次访问时创建 |
