@@ -327,6 +327,14 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **SUBSCRIBE_STATISTIC_SHARE：** 是否匿名分享订阅数据，用于统计和展示用户热门订阅，`true`/`false`，默认`true`
 - **SUBSCRIBE_SEARCH：** 订阅搜索开关，默认为 `false`
 - **SUBSCRIBE_SEARCH_INTERVAL：** 订阅搜索间隔（小时），默认为 `24`
+
+单条订阅可在编辑窗口的「搜索周期」中选择「跟随系统」或「自定义」，设置 1–8760 的整数小时数。
+例如电影设为 24 小时、连载剧集设为 6 小时；电影、电视剧和音乐的默认订阅规则也可分别设置。
+独立周期需要开启 `SUBSCRIBE_SEARCH`。系统每五分钟检查到期订阅，再按站点限流安排搜索，站点忙时可能延后。
+最近一次主动搜索的开始时间会持久保存，重启不会重新计时；旧订阅尚无搜索记录时从添加时间起算。
+新增订阅首次搜索、手动搜索及 RSS 刷新不受独立周期限制，手动主动搜索会更新最近搜索时间。
+选择「跟随系统」并保存即可恢复全局间隔。
+
 - **LOCAL_EXISTS_SEARCH：** 检查本地媒体库是否存在资源开关，默认为 `true`
 
 ## 站点
