@@ -187,6 +187,57 @@ services:
         condition: service_healthy
 ```
 
+### V3-小白版
+
+这个版本适合第一次使用 Docker、只需要单个 MoviePilot 容器的场景。它使用内置的 SQLite 数据库和缓存，不需要另外配置 PostgreSQL、Redis 或 Docker Socket。把下面内容保存为 `docker-compose.yml`，只需要先修改 3 个宿主机目录：
+
+- `/media`：媒体库和下载目录的共同根目录。计划使用硬链接时，请让下载目录和媒体库都位于这个根目录下。
+- `/moviepilot-v3/config`：保存配置、数据库和日志，不能删除。
+- `/moviepilot-v3/core`：保存浏览器内核，避免容器重建后重复下载。
+
+```yaml
+services:
+  moviepilot:
+    stdin_open: true # 保持标准输入流打开
+    tty: true # 分配伪终端
+    container_name: moviepilot-v3 # 容器名称
+    hostname: moviepilot-v3 # 容器主机名
+
+    # 端口映射：宿主机端口:容器端口
+    ports:
+      - '3000:3000' # Web 页面，浏览器访问宿主机 3000 端口
+      - '3001:3001' # API 接口
+
+    # 目录映射：宿主机目录:容器内目录
+    volumes:
+      - '/media:/media' # 媒体库和下载目录
+      - '/moviepilot-v3/config:/config' # 配置、数据库和日志
+      - '/moviepilot-v3/core:/moviepilot/.cloakbrowser' # 浏览器内核
+
+    # 基础环境变量
+    environment:
+      - 'NGINX_PORT=3000' # Web 页面端口
+      - 'PORT=3001' # API 端口
+      - 'PUID=0' # 运行用户 ID
+      - 'PGID=0' # 运行用户组 ID
+      - 'UMASK=000' # 新建文件权限掩码
+      - 'TZ=Asia/Shanghai' # 时区
+
+    restart: always # 容器退出或主机重启后自动启动
+    stop_grace_period: 120s # 给 V3 足够时间完成退出清理
+    image: jxxghp/moviepilot-v3:latest
+```
+
+在 `docker-compose.yml` 所在目录执行：
+
+```shell
+docker compose up -d
+```
+
+启动完成后，在浏览器打开 `http://宿主机IP:3000`。V3 首次启动会显示初始化页面，按页面提示创建管理员账号、设置密码并保存 API Key；模板中不需要填写 `SUPERUSER`、`SUPERUSER_PASSWORD` 或 `API_TOKEN`。以后更新镜像时执行 `docker compose pull && docker compose up --force-recreate -d`。如果修改了宿主机端口，访问地址中的 `3000` 也要改成对应端口。
+
+{.is-info}
+
 ### V2-全功能版
 ```shell
 services:
