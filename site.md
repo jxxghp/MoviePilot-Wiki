@@ -37,7 +37,30 @@ V3 除了音乐专用站点，也支持影视综合站中的音乐分支。当�
 
 
 - **公开站点：**
-`Nyaa`、`TorrentGalaxy`、`ACG.RIP`、`MiKan`、`动漫花园`
+`Nyaa`、`TorrentGalaxy`、`ACG.RIP`、`MiKan`、`动漫花园`、`AniBT`
+
+### AniBT
+
+AniBT 的公开接口无需站点 Cookie 或 API Key；MoviePilot 自身的用户认证要求仍然适用。
+在站点管理中添加 `https://anibt.net/`，启用搜索和订阅即可参与资源匹配与下载。
+
+AniBT 旧网页索引已失效。V3 站点索引资源 `3.0.17` 起改用公开 RSS 的关键词查询，
+并保留音乐搜索入口。后端需要包含 [RSS 索引兼容修复](https://github.com/jxxghp/MoviePilot/pull/6872)，
+使索引解析器支持 RSS 的 XML 编码声明。
+在 `设定 -> 关于` 中核对已加载的站点资源版本；只有更新资源而未更新后端时，仍可能搜索失败。
+
+使用「站点RSS」订阅模式时，可在该站点的 RSS 地址中填写：
+
+- 全站最新番剧：`https://anibt.net/rss/magnets.xml`
+- 指定番剧：`https://anibt.net/rss/anime.xml?bgmId=<Bangumi条目ID>`
+- 指定番剧及字幕组：在上一地址追加 `&groupSlug=<字幕组slug>`
+
+指定番剧或字幕组的 RSS 会限制这个站点刷新时能看到的资源范围。订阅设置仍需选择 AniBT，
+下载结果继续遵守 MoviePilot 的媒体识别、缺集和过滤规则。不要把 `bgmId` 当作 TMDB ID。
+RSS 最多返回 100 条资源，建议启用订阅搜索补漏；接口未提供的做种数不能用来判断资源活跃度。
+
+公开接口及筛选参数见 [AniBT RSS 文档](https://wiki.anibt.net/docs/open-api/rss-magnets)
+和 [番剧 RSS 文档](https://wiki.anibt.net/docs/open-api/rss-anime)。
 
 ## 用户认证
 
