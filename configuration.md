@@ -340,7 +340,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 ## 站点
 - **SITEDATA_REFRESH_INTERVAL：** 站点数据刷新间隔（小时），默认为 `6`
 - **SITE_MESSAGE：** 读取和发送站点消息，默认为 `true`
-- **NO_CACHE_SITE_KEY：** 不能缓存站点资源的站点域名，多个使用`,`分隔，默认为 `m-team`
+- **NO_CACHE_SITE_KEY：** 不缓存资源的站点域名关键字，多个使用`,`分隔，默认留空，即所有站点使用资源缓存。馒头也默认使用缓存，刷新会更新下载请求信息，实际下载时再换取临时链接，无需每次清空缓存并重新识别。如旧配置中显式设置了 `m-team`，需将此项清空才能采用新的默认策略。
 - **BROWSER_EMULATION：** 站点浏览器仿真类型，支持 `playwright` 或 `flaresolverr`，默认为 `playwright`
 - **FLARESOLVERR_URL：** FlareSolverr 服务地址，例如 `http://127.0.0.1:8191`，默认为空
 
@@ -483,7 +483,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 | 订阅 | `LOCAL_EXISTS_SEARCH` | `true` | `设定 -> 系统 -> 订阅设置` | 搜索前检查本地媒体库 |
 | 站点 | `SITEDATA_REFRESH_INTERVAL` | `6` | `设定 -> 系统 -> 站点设置` | 站点数据刷新间隔 |
 | 站点 | `SITE_MESSAGE` | `true` | `设定 -> 系统 -> 站点设置` | 读取和发送站点消息 |
-| 站点 | `NO_CACHE_SITE_KEY` | `m-team` | 环境变量/配置文件 | 不缓存资源的站点关键字 |
+| 站点 | `NO_CACHE_SITE_KEY` | 空 | 环境变量/配置文件 | 不缓存资源的站点关键字；留空时所有站点使用缓存 |
 | 站点 | `BROWSER_EMULATION` / `FLARESOLVERR_URL` | `playwright` / 空 | `设定 -> 系统 -> 站点设置` | 浏览器仿真与 FlareSolverr |
 | 搜索下载 | `SEARCH_MULTIPLE_NAME` | `false` | `设定 -> 系统 -> 搜索设置` | 搜索多个名称 |
 | 搜索下载 | `MAX_SEARCH_NAME_LIMIT` | `3` | 环境变量/配置文件 | 最大搜索名称数量 |
