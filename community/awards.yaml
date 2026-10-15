@@ -96,7 +96,12 @@ unlinked: []
 
 opt_out: []
 
-author_aliases: []
+author_aliases:
+  # 插件由维护者代为提交，署名无法自动核验；已确认为本人账号
+  - author: 逗猫
+    market: jxxghp/MoviePilot-Plugins
+    github_id: 37683726
+    login: baozaodetudou
 
 revocations: []
 
