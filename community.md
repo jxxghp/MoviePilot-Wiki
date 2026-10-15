@@ -2,7 +2,7 @@
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
 published: 0
-date: 2026-10-15T15:54:17Z
+date: 2026-10-15T16:18:08Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
@@ -80,9 +80,9 @@ dateCreated: 2026-10-15T08:04:58Z
 
 [thsrite](https://github.com/thsrite)、[jxxghp](https://github.com/jxxghp)、[InfinityPacer](https://github.com/InfinityPacer)、[lightolly](https://github.com/lightolly)、[Seed680](https://github.com/Seed680)、[honue](https://github.com/honue)
 
-### 卓越（12 人）
+### 卓越（13 人）
 
-[DzAvril](https://github.com/DzAvril)、[KoWming](https://github.com/KoWming)、[madrays](https://github.com/madrays)、[hotlcc](https://github.com/hotlcc)、[dwhmofly](https://github.com/dwhmofly)、[TimoYoung](https://github.com/TimoYoung)、[Aqr-K](https://github.com/Aqr-K)、[WithdewHua](https://github.com/WithdewHua)、[wumode](https://github.com/wumode)、[4Nest](https://github.com/4Nest)、[RamenRa](https://github.com/RamenRa)、[mijjjj](https://github.com/mijjjj)
+[DzAvril](https://github.com/DzAvril)、[KoWming](https://github.com/KoWming)、[madrays](https://github.com/madrays)、[hotlcc](https://github.com/hotlcc)、[dwhmofly](https://github.com/dwhmofly)、[TimoYoung](https://github.com/TimoYoung)、[Aqr-K](https://github.com/Aqr-K)、[WithdewHua](https://github.com/WithdewHua)、[wumode](https://github.com/wumode)、[4Nest](https://github.com/4Nest)、[RamenRa](https://github.com/RamenRa)、[baozaodetudou](https://github.com/baozaodetudou)、[mijjjj](https://github.com/mijjjj)
 
 ### 共建（12 人）
 
