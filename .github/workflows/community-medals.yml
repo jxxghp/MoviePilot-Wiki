@@ -6,12 +6,6 @@ on:
   schedule:
     - cron: "17 18 * * *"  # 每日 UTC 18:17（北京时间 02:17）
   workflow_dispatch:
-    inputs:
-      reset_ledger:
-        description: "重置台账，按当前规则从头认定自动勋章（正式开放前执行一次，之后不要再用）"
-        type: boolean
-        required: false
-        default: false
 
 permissions:
   contents: write
@@ -41,16 +35,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EVENT_NAME: ${{ github.event_name }}
-          RESET_LEDGER: ${{ github.event_name == 'workflow_dispatch' && inputs.reset_ledger && 'true' || 'false' }}
         # 手动触发时连同安装量等 facts 一起刷新；定时任务只在每月 1 日刷新 facts，其余日子仅实质变化才提交。
-        # 手动触发且勾选 reset_ledger 时不读取台账，按当前规则从头认定自动勋章。
         run: |
           args=()
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             args+=(--refresh-facts)
-          fi
-          if [ "$RESET_LEDGER" = "true" ]; then
-            args+=(--reset-ledger)
           fi
           python scripts/community_medals/generate.py "${args[@]}"
 

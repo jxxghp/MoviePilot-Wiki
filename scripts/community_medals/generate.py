@@ -8,11 +8,8 @@
 拉取官方仓库的提交与已合并 PR、各市场插件索引和插件安装统计，写回
 `community/medals.json` 与 `community.md`。只依赖 Python 标准库与 PyYAML。
 
-自动勋章一经获得永久保留：默认以上一版 `community/medals.json` 为台账，档位只升不降。
-`--reset-ledger` 不读取台账，按当前规则从头认定自动勋章（编剧刻真实达成日期，布景刻
-当天的认定日期）；人工勋章、收回记录、opt_out 与自动化账号排除照常生效。正式开放前按
-定稿规则执行一次，之后不要再用；重置会让已获得档位按新规则重算，可能降档或移除。
-`--offline` 只按台账重新渲染，不能与 `--reset-ledger` 同时使用。
+自动勋章一经获得永久保留：始终以上一版 `community/medals.json` 为台账，档位只升不降，
+降档或移除只能经 awards.yaml 的收回记录。`--offline` 只按台账重新渲染。
 
 GitHub 数据一律按仓库分页批量拉取后本地聚合，不按人调用搜索接口；Token 只从
 环境变量 GITHUB_TOKEN 读取，不写入任何输出。
@@ -259,13 +256,7 @@ def main(argv: list[str] | None = None) -> int:
         "--offline", action="store_true",
         help="不访问网络，只按台账与 awards.yaml 重新生成（用于修改人工名单或页面文案后本地预览）",
     )
-    parser.add_argument(
-        "--reset-ledger", action="store_true",
-        help="不读取上一版名单作为台账，按当前规则从头认定自动勋章；仅在正式开放前执行一次",
-    )
     args = parser.parse_args(argv)
-    if args.reset_ledger and args.offline:
-        parser.error("--reset-ledger 需要联网重新计算，不能与 --offline 同时使用")
     root: Path = args.root
     awards_path = root / "community" / "awards.yaml"
     json_path = root / "community" / "medals.json"
@@ -279,8 +270,8 @@ def main(argv: list[str] | None = None) -> int:
     awards = medals.parse_awards(yaml.safe_load(awards_path.read_text(encoding="utf-8")))
     previous_doc = json.loads(json_path.read_text(encoding="utf-8")) if json_path.exists() else None
     previous_page = page_path.read_text(encoding="utf-8") if page_path.exists() else None
-    # 台账：自动勋章只升不降的依据。重置时不读取，上一版名单只用于沿用 generated_at 与页面创建时间。
-    ledger_doc = None if args.reset_ledger else previous_doc
+    # 台账：自动勋章只升不降的依据，即上一版名单。
+    ledger_doc = previous_doc
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
     today = now.date().isoformat()
     http = Http(token)
@@ -324,7 +315,7 @@ def main(argv: list[str] | None = None) -> int:
     for uid, login in medals.ledger_logins(ledger_doc).items():
         logins.setdefault(uid, login)
     holders = medals.build_holders(code_medals, plugin_medals, logins, awards)
-    refresh_facts = args.refresh_facts or args.reset_ledger or now.day == 1
+    refresh_facts = args.refresh_facts or now.day == 1
     doc = medals.finalize_document(
         holders, awards.unlinked, previous_doc, now.strftime("%Y-%m-%dT%H:%M:%SZ"), refresh_facts=refresh_facts,
     )
@@ -344,8 +335,6 @@ def main(argv: list[str] | None = None) -> int:
         log("取不到索引的市场: " + ", ".join(missing_markets))
     if unverified:
         log(format_unverified(unverified))
-    if args.reset_ledger:
-        log("已重置台账：自动勋章按当前规则从头认定")
     log("facts 刷新: " + ("是" if refresh_facts else "否，只有实质内容变化才写出新名单"))
     log(f"GitHub API 调用 {http.api_calls} 次，耗时 {time.monotonic() - started:.0f} 秒")
     return 0
