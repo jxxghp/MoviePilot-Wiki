@@ -1,0 +1,62 @@
+# 每日重新计算社区勋章，名单或荣誉榜有变化时提交回 main。
+# Wiki.js 通过 Git 同步拉取这些提交，community.md 随之更新；实例从 raw 地址读取 medals.json。
+name: Community medals
+
+on:
+  schedule:
+    - cron: "17 18 * * *"  # 每日 UTC 18:17（北京时间 02:17）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: community-medals
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r scripts/community_medals/requirements.txt pytest
+
+      - name: Test
+        run: python -m pytest scripts/community_medals/tests -q -p no:cacheprovider
+
+      - name: Generate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # 手动触发时连同安装量等 facts 一起刷新；定时任务只在每月 1 日刷新 facts，其余日子仅实质变化才提交。
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python scripts/community_medals/generate.py --refresh-facts
+          else
+            python scripts/community_medals/generate.py
+          fi
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet -- community/medals.json community.md; then
+            echo "名单无变化"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add community/medals.json community.md
+          git commit -m "chore(community): update community medals"
+          git pull --rebase --quiet origin "${GITHUB_REF_NAME}" || {
+            echo "::error::与远端 ${GITHUB_REF_NAME} 合并失败，请重新运行本工作流"
+            exit 1
+          }
+          git push origin "HEAD:${GITHUB_REF_NAME}" || {
+            echo "::error::推送到 ${GITHUB_REF_NAME} 被拒绝。若分支启用了保护规则，需要允许 github-actions[bot] 推送，或改为通过 PR 提交名单"
+            exit 1
+          }
