@@ -25,8 +25,7 @@
 # bot_exclusions  不计入自动勋章的自动化账号登录名。GitHub 类型为 Bot 的账号，以及登录名以 [bot]、-bot
 #                 结尾（不区分大小写）的账号始终排除，无需登记；这里只登记类型为 User 的自动化或代理账号
 # page_published  荣誉榜页面 community.md 是否在 Wiki 公开（写入页面 front-matter 的 published）。
-#                 勋章功能开放前保持 false：名单照常每日计算，medals.json 照常发布，页面同步但不公开；
-#                 功能开放时改为 true，并按需在其他页面添加指向 /community 的链接
+#                 勋章功能已于 2026-10 正式开放，保持 true；入口在 Wiki 侧边栏
 # author_aliases  插件署名到 GitHub 账号的人工映射。布景默认只认可核验的署名：署名等于市场仓库所有者，
 #                 或署名是该市场仓库的贡献者。插件由他人代为提交等原因无法核验时，与本人确认后在此登记，
 #                 该署名即视为 github_id 对应账号。market 可选，填写时只对该市场生效，省略则对所有市场生效。
@@ -78,7 +77,7 @@
 #     reason: 刷安装量，经维护团队确认
 #     tier: 1
 
-page_published: false
+page_published: true
 
 awards:
   - id: 51039935
