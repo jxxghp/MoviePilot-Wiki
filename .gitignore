@@ -7,3 +7,5 @@
 /dataSources/
 /dataSources.local.xml
 .idea/
+__pycache__/
+.pytest_cache/
