@@ -82,6 +82,14 @@ awards:
     medals:
       - key: maintainer
         at: "2026-10-15"
+      - key: helper
+        at: "2026-10-16"
+      - key: security
+        at: "2026-10-16"
+      - key: tester
+        at: "2026-10-16"
+      - key: pioneer
+        at: "2026-10-16"
   - id: 160988576
     login: InfinityPacer
     medals:
@@ -92,6 +100,8 @@ awards:
     login: 4Nest
     medals:
       - key: pioneer
+        at: "2026-10-16"
+      - key: helper
         at: "2026-10-16"
   - id: 34640489
     login: boeto

@@ -257,6 +257,7 @@ def test_parse_awards_rejects_invalid_entries(text):
 
 
 def test_shipped_awards_file_is_valid():
+    """校验随仓库发布的人工名单及维护者授权颁发的勋章。"""
     from pathlib import Path
     path = Path(medals.__file__).resolve().parents[2] / "community" / "awards.yaml"
     awards = medals.parse_awards(yaml.safe_load(path.read_text(encoding="utf-8")))
@@ -269,7 +270,16 @@ def test_shipped_awards_file_is_valid():
     )
     assert awards.revocations == ()
     # 维护者授权的首批主创。
-    assert awards.holders[51039935] == {"login": "jxxghp", "medals": [{"key": "maintainer", "at": "2026-10-15", "serial": None}]}
+    assert awards.holders[51039935] == {
+        "login": "jxxghp",
+        "medals": [
+            {"key": "maintainer", "at": "2026-10-15", "serial": None},
+            {"key": "helper", "at": "2026-10-16", "serial": None},
+            {"key": "security", "at": "2026-10-16", "serial": None},
+            {"key": "tester", "at": "2026-10-16", "serial": None},
+            {"key": "pioneer", "at": "2026-10-16", "serial": None},
+        ],
+    }
     assert awards.holders[160988576] == {"login": "InfinityPacer", "medals": [{"key": "maintainer", "at": "2026-10-15", "serial": None}]}
 
 
