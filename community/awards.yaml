@@ -108,6 +108,8 @@ awards:
     medals:
       - key: pioneer
         at: "2026-10-16"
+      - key: helper
+        at: "2026-10-16"
   - id: 3138493
     login: EkkoG
     medals:
@@ -117,6 +119,19 @@ awards:
     login: baozaodetudou
     medals:
       - key: pioneer
+        at: "2026-10-16"
+
+  - id: 119646284
+    login: hbq0405
+    medals:
+      - key: helper
+        at: "2026-10-16"
+      - key: pioneer
+        at: "2026-10-16"
+  - id: 86150433
+    login: xyswordzoro
+    medals:
+      - key: helper
         at: "2026-10-16"
 
 unlinked: []
