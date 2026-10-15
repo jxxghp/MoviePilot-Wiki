@@ -88,6 +88,27 @@ awards:
       - key: maintainer
         at: "2026-10-15"
 
+  - id: 74977868
+    login: 4Nest
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+  - id: 34640489
+    login: boeto
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+  - id: 3138493
+    login: EkkoG
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+  - id: 37683726
+    login: baozaodetudou
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+
 unlinked: []
 
 opt_out: []
