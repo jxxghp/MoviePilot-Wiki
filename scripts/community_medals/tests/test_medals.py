@@ -483,10 +483,10 @@ def test_page_unpublished_by_default_and_follows_switch():
         medals.parse_awards(yaml.safe_load("page_published: 'yes'"))
 
 
-def test_shipped_awards_keeps_page_unpublished():
+def test_shipped_awards_publishes_page():
     from pathlib import Path
     path = Path(medals.__file__).resolve().parents[2] / "community" / "awards.yaml"
-    assert medals.parse_awards(yaml.safe_load(path.read_text(encoding="utf-8"))).page_published is False
+    assert medals.parse_awards(yaml.safe_load(path.read_text(encoding="utf-8"))).page_published is True
 
 
 def test_retired_field_is_rejected_with_clear_message():
