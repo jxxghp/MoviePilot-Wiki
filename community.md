@@ -1,8 +1,8 @@
 ---
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
-published: 0
-date: 2026-10-15T16:18:08Z
+published: 1
+date: 2026-10-15T18:00:38Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
