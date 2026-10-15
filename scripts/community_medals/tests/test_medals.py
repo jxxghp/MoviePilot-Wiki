@@ -261,7 +261,12 @@ def test_shipped_awards_file_is_valid():
     path = Path(medals.__file__).resolve().parents[2] / "community" / "awards.yaml"
     awards = medals.parse_awards(yaml.safe_load(path.read_text(encoding="utf-8")))
     assert {"ddsrem-bot", "cursoragent"} <= awards.bot_exclusions
-    assert awards.unlinked == [] and awards.opt_out == frozenset() and awards.author_aliases == ()
+    assert awards.unlinked == [] and awards.opt_out == frozenset()
+    # 与本人确认后登记的插件署名映射。
+    assert awards.author_aliases == (
+        {"author": "逗猫", "market": "jxxghp/moviepilot-plugins",
+         "account": {"id": 37683726, "login": "baozaodetudou", "type": None}},
+    )
     assert awards.revocations == ()
     # 维护者授权的首批主创。
     assert awards.holders[51039935] == {"login": "jxxghp", "medals": [{"key": "maintainer", "at": "2026-10-15", "serial": None}]}
