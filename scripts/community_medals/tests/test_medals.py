@@ -623,7 +623,7 @@ def test_offline_run_regenerates_from_ledger_and_awards(tmp_path, monkeypatch):
     assert "\npublished: 0\n" in (tmp_path / "community.md").read_text(encoding="utf-8")
 
 
-# ---------------------------------------------------------------- 一次性重置台账
+# ---------------------------------------------------------------- 台账
 
 
 def _fake_online(monkeypatch, tmp_path, ledger, awards_text=""):
@@ -651,37 +651,19 @@ def test_default_run_keeps_ledger_tier(tmp_path, monkeypatch):
     assert "7" in doc["holders"]
 
 
-def test_reset_ledger_accepts_lower_computed_tier_and_drops_ledger_only_holders(tmp_path, monkeypatch):
-    awards_text = "awards: [{id: 9, login: boss, medals: [{key: maintainer, at: '2026-10-15'}]}]\nopt_out: [{id: 8, login: out}]\n"
-    _fake_online(monkeypatch, tmp_path, _ledger((1, "a", _code(3, "2024-06-01", 55)), (7, "gone", _code(1, "2024-01-01", 1))), awards_text)
-    doc = _run(tmp_path, "--reset-ledger")
-    record = doc["holders"]["1"]["medals"][0]
-    assert (record["tier"], record["at"], record["facts"]["total"]) == (1, "2025-02-03", 1)
-    assert "7" not in doc["holders"]
-    # 人工勋章照常合并。
-    assert doc["holders"]["9"]["medals"] == [{"key": "maintainer", "at": "2026-10-15", "serial": None}]
-
-
-def test_reset_ledger_still_applies_revocations(tmp_path, monkeypatch):
-    awards_text = "revocations: [{id: 1, login: a, key: code, reason: 违规}]\n"
-    _fake_online(monkeypatch, tmp_path, _ledger((1, "a", _code(3, "2024-06-01", 55))), awards_text)
-    assert "1" not in _run(tmp_path, "--reset-ledger")["holders"]
-
-
-def test_reset_ledger_with_offline_is_rejected(tmp_path):
+def test_reset_ledger_flag_is_removed(tmp_path):
+    # 台账只升不降，不提供从头重算的入口，避免误用让已获得档位按新规则重算。
     with pytest.raises(SystemExit) as error:
-        generate.main(["--root", str(tmp_path), "--offline", "--reset-ledger"])
+        generate.main(["--root", str(tmp_path), "--reset-ledger"])
     assert error.value.code == 2
 
 
-def test_workflow_exposes_reset_ledger_input():
+def test_workflow_has_no_reset_ledger_input():
     from pathlib import Path
     path = Path(medals.__file__).resolve().parents[2] / ".github" / "workflows" / "community-medals.yml"
     workflow = yaml.safe_load(path.read_text(encoding="utf-8"))
     triggers = workflow.get("on", workflow.get(True))  # PyYAML 把 on 解析为布尔 True
-    reset = triggers["workflow_dispatch"]["inputs"]["reset_ledger"]
-    assert reset["type"] == "boolean" and reset["default"] is False
+    assert not (triggers["workflow_dispatch"] or {}).get("inputs")
     step = next(s for s in workflow["jobs"]["generate"]["steps"] if s.get("name") == "Generate")
-    assert "inputs.reset_ledger" in step["env"]["RESET_LEDGER"]
-    assert 'if [ "$RESET_LEDGER" = "true" ]; then\n  args+=(--reset-ledger)' in step["run"]
+    assert "reset" not in step["run"].lower()
     assert 'generate.py "${args[@]}"' in step["run"]
