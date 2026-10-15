@@ -2,7 +2,7 @@
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
 published: 1
-date: 2026-10-15T22:32:26Z
+date: 2026-10-15T22:37:36Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
@@ -55,7 +55,10 @@ dateCreated: 2026-10-15T08:04:58Z
 ## 维护团队颁发
 
 - **主创** [InfinityPacer](https://github.com/InfinityPacer)（2026-10-15）、[jxxghp](https://github.com/jxxghp)（2026-10-15）
-- **启幕** [4Nest](https://github.com/4Nest)（2026-10-16）、[baozaodetudou](https://github.com/baozaodetudou)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[EkkoG](https://github.com/EkkoG)（2026-10-16）
+- **掌灯** [4Nest](https://github.com/4Nest)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）
+- **守夜** [jxxghp](https://github.com/jxxghp)（2026-10-16）
+- **试映** [jxxghp](https://github.com/jxxghp)（2026-10-16）
+- **启幕** [4Nest](https://github.com/4Nest)（2026-10-16）、[baozaodetudou](https://github.com/baozaodetudou)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[EkkoG](https://github.com/EkkoG)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）
 
 ## 编剧
 
