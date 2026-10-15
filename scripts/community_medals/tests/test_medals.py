@@ -616,3 +616,67 @@ def test_offline_run_regenerates_from_ledger_and_awards(tmp_path, monkeypatch):
     assert doc["holders"]["9"]["medals"] == [{"key": "maintainer", "at": "2026-10-16", "serial": None}]
     assert doc["generated_at"] != ledger["generated_at"]
     assert "\npublished: 0\n" in (tmp_path / "community.md").read_text(encoding="utf-8")
+
+
+# ---------------------------------------------------------------- 一次性重置台账
+
+
+def _fake_online(monkeypatch, tmp_path, ledger, awards_text=""):
+    """以本地替身代替网络采集：用户 1 本次只有 1 次贡献（初光）。"""
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    (tmp_path / "community").mkdir()
+    (tmp_path / "plugin.md").write_text("", encoding="utf-8")
+    (tmp_path / "community" / "awards.yaml").write_text(awards_text, encoding="utf-8")
+    (tmp_path / "community" / "medals.json").write_text(medals.dump_document(ledger), encoding="utf-8")
+    contributions = _contribs(1, "MoviePilot", "pr", ["2025-02-03"])
+    monkeypatch.setattr(generate, "collect_contributions", lambda http, bots: (contributions, {1: "a"}, {}))
+    monkeypatch.setattr(generate, "collect_markets", lambda http, names: ([], []))
+    monkeypatch.setattr(generate.Http, "get", lambda self, url, api: (200, {}, {}))
+
+
+def _run(tmp_path, *flags):
+    assert generate.main(["--root", str(tmp_path), *flags]) == 0
+    return json.loads((tmp_path / "community" / "medals.json").read_text(encoding="utf-8"))
+
+
+def test_default_run_keeps_ledger_tier(tmp_path, monkeypatch):
+    _fake_online(monkeypatch, tmp_path, _ledger((1, "a", _code(3, "2024-06-01", 55)), (7, "gone", _code(1, "2024-01-01", 1))))
+    doc = _run(tmp_path)
+    assert doc["holders"]["1"]["medals"][0]["tier"] == 3
+    assert "7" in doc["holders"]
+
+
+def test_reset_ledger_accepts_lower_computed_tier_and_drops_ledger_only_holders(tmp_path, monkeypatch):
+    awards_text = "awards: [{id: 9, login: boss, medals: [{key: maintainer, at: '2026-10-15'}]}]\nopt_out: [{id: 8, login: out}]\n"
+    _fake_online(monkeypatch, tmp_path, _ledger((1, "a", _code(3, "2024-06-01", 55)), (7, "gone", _code(1, "2024-01-01", 1))), awards_text)
+    doc = _run(tmp_path, "--reset-ledger")
+    record = doc["holders"]["1"]["medals"][0]
+    assert (record["tier"], record["at"], record["facts"]["total"]) == (1, "2025-02-03", 1)
+    assert "7" not in doc["holders"]
+    # 人工勋章照常合并。
+    assert doc["holders"]["9"]["medals"] == [{"key": "maintainer", "at": "2026-10-15", "serial": None}]
+
+
+def test_reset_ledger_still_applies_revocations(tmp_path, monkeypatch):
+    awards_text = "revocations: [{id: 1, login: a, key: code, reason: 违规}]\n"
+    _fake_online(monkeypatch, tmp_path, _ledger((1, "a", _code(3, "2024-06-01", 55))), awards_text)
+    assert "1" not in _run(tmp_path, "--reset-ledger")["holders"]
+
+
+def test_reset_ledger_with_offline_is_rejected(tmp_path):
+    with pytest.raises(SystemExit) as error:
+        generate.main(["--root", str(tmp_path), "--offline", "--reset-ledger"])
+    assert error.value.code == 2
+
+
+def test_workflow_exposes_reset_ledger_input():
+    from pathlib import Path
+    path = Path(medals.__file__).resolve().parents[2] / ".github" / "workflows" / "community-medals.yml"
+    workflow = yaml.safe_load(path.read_text(encoding="utf-8"))
+    triggers = workflow.get("on", workflow.get(True))  # PyYAML 把 on 解析为布尔 True
+    reset = triggers["workflow_dispatch"]["inputs"]["reset_ledger"]
+    assert reset["type"] == "boolean" and reset["default"] is False
+    step = next(s for s in workflow["jobs"]["generate"]["steps"] if s.get("name") == "Generate")
+    assert "inputs.reset_ledger" in step["env"]["RESET_LEDGER"]
+    assert 'if [ "$RESET_LEDGER" = "true" ]; then\n  args+=(--reset-ledger)' in step["run"]
+    assert 'generate.py "${args[@]}"' in step["run"]
