@@ -162,6 +162,9 @@ awards:
     medals:
       - key: tester
         at: "2026-10-16"
+      - key: helper
+        at: "2026-10-16"
+        note: 长期在 MoviePilot Telegram 社群热心答疑，帮助用户解决使用问题。
   - id: 115156545
     login: cng10001
     medals:
