@@ -2,7 +2,7 @@
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
 published: 1
-date: 2026-10-16T02:02:44Z
+date: 2026-10-16T02:21:35Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
@@ -55,7 +55,7 @@ dateCreated: 2026-10-15T08:04:58Z
 ## 维护团队颁发
 
 - **主创** [InfinityPacer](https://github.com/InfinityPacer)（2026-10-15）、[jxxghp](https://github.com/jxxghp)（2026-10-15）
-- **掌灯** [4Nest](https://github.com/4Nest)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[xyswordzoro](https://github.com/xyswordzoro)（2026-10-16）、[z2561221](https://github.com/z2561221)（2026-10-16）
+- **掌灯** [4Nest](https://github.com/4Nest)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[foreveruand](https://github.com/foreveruand)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[xyswordzoro](https://github.com/xyswordzoro)（2026-10-16）、[z2561221](https://github.com/z2561221)（2026-10-16）
 - **守夜** [jxxghp](https://github.com/jxxghp)（2026-10-16）
 - **试映** [jxxghp](https://github.com/jxxghp)（2026-10-16）
 - **启幕** [4Nest](https://github.com/4Nest)（2026-10-16）、[baozaodetudou](https://github.com/baozaodetudou)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[EkkoG](https://github.com/EkkoG)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）
