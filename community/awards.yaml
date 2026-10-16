@@ -146,6 +146,14 @@ awards:
       - key: helper
         at: "2026-10-16"
 
+  - id: 54088512
+    login: thsrite
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+      - key: maintainer
+        at: "2026-10-16"
+
 unlinked: []
 
 opt_out: []
