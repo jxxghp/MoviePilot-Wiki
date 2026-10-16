@@ -139,6 +139,8 @@ awards:
     medals:
       - key: helper
         at: "2026-10-16"
+      - key: tester
+        at: "2026-10-16"
 
   - id: 43624948
     login: foreveruand
@@ -152,6 +154,126 @@ awards:
       - key: pioneer
         at: "2026-10-16"
       - key: maintainer
+        at: "2026-10-16"
+  - id: 113089025
+    login: qsxazcv
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 115156545
+    login: cng10001
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 29013338
+    login: xslidi
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 41408191
+    login: qianyueping1211
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 35453590
+    login: zkmydgth
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 152520897
+    login: andyxu8023
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 329063944
+    login: Secular2026
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 185712511
+    login: qqcomeup
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 32502941
+    login: qin9125
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 13133239
+    login: lg1-09
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 29197345
+    login: JiangChenrui
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 166108797
+    login: CRY1221
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 41389186
+    login: PoiYuudachi
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 96385676
+    login: Whys8182
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 720118
+    login: kai456789
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 140163668
+    login: cyx222800
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 142661747
+    login: iamchq
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 12561180
+    login: niumeng07
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 285070612
+    login: "21667758"
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 35649701
+    login: yangn0
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 268078249
+    login: "22143966"
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 103017881
+    login: fansID512
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 43510055
+    login: CHANTXU64
+    medals:
+      - key: tester
+        at: "2026-10-16"
+  - id: 59035223
+    login: dlovew
+    medals:
+      - key: tester
         at: "2026-10-16"
 
 unlinked: []
