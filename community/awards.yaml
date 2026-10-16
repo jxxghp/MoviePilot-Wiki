@@ -276,6 +276,14 @@ awards:
       - key: tester
         at: "2026-10-16"
 
+  - id: 126741315
+    login: wq2020wdm
+    medals:
+      - key: helper
+        at: "2026-10-16"
+      - key: pioneer
+        at: "2026-10-16"
+
 unlinked: []
 
 opt_out: []
