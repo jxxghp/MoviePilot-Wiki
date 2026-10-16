@@ -2,7 +2,7 @@
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
 published: 1
-date: 2026-10-15T23:52:47Z
+date: 2026-10-16T00:34:13Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
@@ -13,7 +13,7 @@ dateCreated: 2026-10-15T08:04:58Z
 > 本页由 [community_medals 定时任务](https://github.com/jxxghp/MoviePilot-Wiki/tree/main/scripts/community_medals) 每日自动生成，请勿直接编辑。维护团队颁发的勋章记录在 [community/awards.yaml](https://github.com/jxxghp/MoviePilot-Wiki/blob/main/community/awards.yaml)。
 {.is-info}
 
-名单更新于 2026-10-15。在 MoviePilot 中配置 GitHub Token 后，超级管理员可以在头像菜单里看到自己的勋章。
+名单更新于 2026-10-16。在 MoviePilot 中配置 GitHub Token 后，超级管理员可以在头像菜单里看到自己的勋章。
 
 # 勋章
 
@@ -94,7 +94,7 @@ dateCreated: 2026-10-15T08:04:58Z
 
 ### 初光（50 人）
 
-[baranwang](https://github.com/baranwang)、[ifsherlock](https://github.com/ifsherlock)、[nnlegenda](https://github.com/nnlegenda)、[liuyuexi1987](https://github.com/liuyuexi1987)、[liuhangbin](https://github.com/liuhangbin)、[odomu](https://github.com/odomu)、[LLL001a](https://github.com/LLL001a)、[ltdstudio](https://github.com/ltdstudio)、[SAGIRIxr](https://github.com/SAGIRIxr)、[JinxJie](https://github.com/JinxJie)、[jianji112](https://github.com/jianji112)、[jiangbkvir](https://github.com/jiangbkvir)、[HCPlantern](https://github.com/HCPlantern)、[zyt0339](https://github.com/zyt0339)、[milikii](https://github.com/milikii)、[shyblacktea](https://github.com/shyblacktea)、[xiaoQQya](https://github.com/xiaoQQya)、[YuHoYe](https://github.com/YuHoYe)、[OneBigMoon](https://github.com/OneBigMoon)、[cyt-666](https://github.com/cyt-666)、[ui-beam-9](https://github.com/ui-beam-9)、[luanyi143](https://github.com/luanyi143)、[wzxcom](https://github.com/wzxcom)、[jeblove](https://github.com/jeblove)、[AWdress](https://github.com/AWdress)、[drdon1234](https://github.com/drdon1234)、[annanygy](https://github.com/annanygy)、[Sinterdial](https://github.com/Sinterdial)、[Fuck996](https://github.com/Fuck996)、[LXT-A-X](https://github.com/LXT-A-X)、[jinyuhao-886](https://github.com/jinyuhao-886)、[LunaticXJ](https://github.com/LunaticXJ)、[zjiecode](https://github.com/zjiecode)、[Hommchen](https://github.com/Hommchen)、[xcehnz](https://github.com/xcehnz)、[kiritoxjf](https://github.com/kiritoxjf)、[xlmc](https://github.com/xlmc)、[zkmydgth](https://github.com/zkmydgth)、[jun9100](https://github.com/jun9100)、[Raymond38324](https://github.com/Raymond38324)、[GuanAllen](https://github.com/GuanAllen)、[morningstar-ski](https://github.com/morningstar-ski)、[loongcheung](https://github.com/loongcheung)、[blacklips](https://github.com/blacklips)、[Guoyin-Wen](https://github.com/Guoyin-Wen)、[mtno1](https://github.com/mtno1)、[RWDai](https://github.com/RWDai)、[liclown2020](https://github.com/liclown2020)、[sanqianxingluo](https://github.com/sanqianxingluo)、[gy520187](https://github.com/gy520187)
+[baranwang](https://github.com/baranwang)、[ifsherlock](https://github.com/ifsherlock)、[nnlegenda](https://github.com/nnlegenda)、[liuyuexi1987](https://github.com/liuyuexi1987)、[liuhangbin](https://github.com/liuhangbin)、[odomu](https://github.com/odomu)、[LLL001a](https://github.com/LLL001a)、[ltdstudio](https://github.com/ltdstudio)、[SAGIRIxr](https://github.com/SAGIRIxr)、[JinxJie](https://github.com/JinxJie)、[jianji112](https://github.com/jianji112)、[jiangbkvir](https://github.com/jiangbkvir)、[HCPlantern](https://github.com/HCPlantern)、[zyt0339](https://github.com/zyt0339)、[milikii](https://github.com/milikii)、[shyblacktea](https://github.com/shyblacktea)、[xiaoQQya](https://github.com/xiaoQQya)、[YuHoYe](https://github.com/YuHoYe)、[OneBigMoon](https://github.com/OneBigMoon)、[cyt-666](https://github.com/cyt-666)、[ui-beam-9](https://github.com/ui-beam-9)、[luanyi143](https://github.com/luanyi143)、[wzxcom](https://github.com/wzxcom)、[jeblove](https://github.com/jeblove)、[AWdress](https://github.com/AWdress)、[drdon1234](https://github.com/drdon1234)、[annanygy](https://github.com/annanygy)、[Sinterdial](https://github.com/Sinterdial)、[Fuck996](https://github.com/Fuck996)、[LXT-A-X](https://github.com/LXT-A-X)、[jinyuhao-886](https://github.com/jinyuhao-886)、[LunaticXJ](https://github.com/LunaticXJ)、[zjiecode](https://github.com/zjiecode)、[Hommchen](https://github.com/Hommchen)、[xcehnz](https://github.com/xcehnz)、[xlmc](https://github.com/xlmc)、[kiritoxjf](https://github.com/kiritoxjf)、[zkmydgth](https://github.com/zkmydgth)、[jun9100](https://github.com/jun9100)、[Raymond38324](https://github.com/Raymond38324)、[GuanAllen](https://github.com/GuanAllen)、[morningstar-ski](https://github.com/morningstar-ski)、[loongcheung](https://github.com/loongcheung)、[blacklips](https://github.com/blacklips)、[Guoyin-Wen](https://github.com/Guoyin-Wen)、[mtno1](https://github.com/mtno1)、[RWDai](https://github.com/RWDai)、[liclown2020](https://github.com/liclown2020)、[sanqianxingluo](https://github.com/sanqianxingluo)、[gy520187](https://github.com/gy520187)
 
 ## 没有 GitHub 账号的获得者
 
