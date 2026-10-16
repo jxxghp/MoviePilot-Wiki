@@ -2,7 +2,7 @@
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
 published: 1
-date: 2026-10-16T02:21:35Z
+date: 2026-10-16T02:30:04Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
@@ -54,11 +54,11 @@ dateCreated: 2026-10-15T08:04:58Z
 
 ## 维护团队颁发
 
-- **主创** [InfinityPacer](https://github.com/InfinityPacer)（2026-10-15）、[jxxghp](https://github.com/jxxghp)（2026-10-15）
+- **主创** [InfinityPacer](https://github.com/InfinityPacer)（2026-10-15）、[jxxghp](https://github.com/jxxghp)（2026-10-15）、[thsrite](https://github.com/thsrite)（2026-10-16）
 - **掌灯** [4Nest](https://github.com/4Nest)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[foreveruand](https://github.com/foreveruand)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[xyswordzoro](https://github.com/xyswordzoro)（2026-10-16）、[z2561221](https://github.com/z2561221)（2026-10-16）
 - **守夜** [jxxghp](https://github.com/jxxghp)（2026-10-16）
 - **试映** [jxxghp](https://github.com/jxxghp)（2026-10-16）
-- **启幕** [4Nest](https://github.com/4Nest)（2026-10-16）、[baozaodetudou](https://github.com/baozaodetudou)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[EkkoG](https://github.com/EkkoG)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）
+- **启幕** [4Nest](https://github.com/4Nest)（2026-10-16）、[baozaodetudou](https://github.com/baozaodetudou)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[EkkoG](https://github.com/EkkoG)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[thsrite](https://github.com/thsrite)（2026-10-16）
 
 ## 编剧
 
@@ -92,9 +92,9 @@ dateCreated: 2026-10-15T08:04:58Z
 
 [boeto](https://github.com/boeto)、[suraxiuxiu](https://github.com/suraxiuxiu)、[gxterry](https://github.com/gxterry)、[xijin285](https://github.com/xijin285)、[dandkong](https://github.com/dandkong)、[Hqyel](https://github.com/Hqyel)、[imaliang](https://github.com/imaliang)、[yubanmeiqin9048](https://github.com/yubanmeiqin9048)、[happyTonakai](https://github.com/happyTonakai)、[mrtian2016](https://github.com/mrtian2016)、[cddjr](https://github.com/cddjr)、[AnjoyLi](https://github.com/AnjoyLi)
 
-### 初光（53 人）
+### 初光（54 人）
 
-[baranwang](https://github.com/baranwang)、[z2561221](https://github.com/z2561221)、[ifsherlock](https://github.com/ifsherlock)、[nnlegenda](https://github.com/nnlegenda)、[andyxu8023](https://github.com/andyxu8023)、[liuyuexi1987](https://github.com/liuyuexi1987)、[liuhangbin](https://github.com/liuhangbin)、[odomu](https://github.com/odomu)、[LLL001a](https://github.com/LLL001a)、[ltdstudio](https://github.com/ltdstudio)、[SAGIRIxr](https://github.com/SAGIRIxr)、[JinxJie](https://github.com/JinxJie)、[jianji112](https://github.com/jianji112)、[jiangbkvir](https://github.com/jiangbkvir)、[HCPlantern](https://github.com/HCPlantern)、[zyt0339](https://github.com/zyt0339)、[milikii](https://github.com/milikii)、[shyblacktea](https://github.com/shyblacktea)、[xiaoQQya](https://github.com/xiaoQQya)、[YuHoYe](https://github.com/YuHoYe)、[OneBigMoon](https://github.com/OneBigMoon)、[cyt-666](https://github.com/cyt-666)、[ui-beam-9](https://github.com/ui-beam-9)、[luanyi143](https://github.com/luanyi143)、[wzxcom](https://github.com/wzxcom)、[jeblove](https://github.com/jeblove)、[AWdress](https://github.com/AWdress)、[drdon1234](https://github.com/drdon1234)、[annanygy](https://github.com/annanygy)、[Sinterdial](https://github.com/Sinterdial)、[Fuck996](https://github.com/Fuck996)、[LXT-A-X](https://github.com/LXT-A-X)、[jinyuhao-886](https://github.com/jinyuhao-886)、[LunaticXJ](https://github.com/LunaticXJ)、[zjiecode](https://github.com/zjiecode)、[Hommchen](https://github.com/Hommchen)、[xcehnz](https://github.com/xcehnz)、[xlmc](https://github.com/xlmc)、[kiritoxjf](https://github.com/kiritoxjf)、[zkmydgth](https://github.com/zkmydgth)、[jun9100](https://github.com/jun9100)、[Raymond38324](https://github.com/Raymond38324)、[GuanAllen](https://github.com/GuanAllen)、[morningstar-ski](https://github.com/morningstar-ski)、[loongcheung](https://github.com/loongcheung)、[blacklips](https://github.com/blacklips)、[Guoyin-Wen](https://github.com/Guoyin-Wen)、[mtno1](https://github.com/mtno1)、[RWDai](https://github.com/RWDai)、[liclown2020](https://github.com/liclown2020)、[sanqianxingluo](https://github.com/sanqianxingluo)、[anorl](https://github.com/anorl)、[gy520187](https://github.com/gy520187)
+[baranwang](https://github.com/baranwang)、[z2561221](https://github.com/z2561221)、[ifsherlock](https://github.com/ifsherlock)、[nnlegenda](https://github.com/nnlegenda)、[andyxu8023](https://github.com/andyxu8023)、[liuyuexi1987](https://github.com/liuyuexi1987)、[liuhangbin](https://github.com/liuhangbin)、[odomu](https://github.com/odomu)、[LLL001a](https://github.com/LLL001a)、[ltdstudio](https://github.com/ltdstudio)、[SAGIRIxr](https://github.com/SAGIRIxr)、[JinxJie](https://github.com/JinxJie)、[jianji112](https://github.com/jianji112)、[jiangbkvir](https://github.com/jiangbkvir)、[HCPlantern](https://github.com/HCPlantern)、[zyt0339](https://github.com/zyt0339)、[milikii](https://github.com/milikii)、[shyblacktea](https://github.com/shyblacktea)、[xiaoQQya](https://github.com/xiaoQQya)、[YuHoYe](https://github.com/YuHoYe)、[OneBigMoon](https://github.com/OneBigMoon)、[cyt-666](https://github.com/cyt-666)、[ui-beam-9](https://github.com/ui-beam-9)、[luanyi143](https://github.com/luanyi143)、[wzxcom](https://github.com/wzxcom)、[jeblove](https://github.com/jeblove)、[AWdress](https://github.com/AWdress)、[drdon1234](https://github.com/drdon1234)、[annanygy](https://github.com/annanygy)、[Sinterdial](https://github.com/Sinterdial)、[Fuck996](https://github.com/Fuck996)、[LXT-A-X](https://github.com/LXT-A-X)、[jinyuhao-886](https://github.com/jinyuhao-886)、[LunaticXJ](https://github.com/LunaticXJ)、[zjiecode](https://github.com/zjiecode)、[Hommchen](https://github.com/Hommchen)、[xcehnz](https://github.com/xcehnz)、[xlmc](https://github.com/xlmc)、[kiritoxjf](https://github.com/kiritoxjf)、[zkmydgth](https://github.com/zkmydgth)、[jun9100](https://github.com/jun9100)、[Raymond38324](https://github.com/Raymond38324)、[GuanAllen](https://github.com/GuanAllen)、[morningstar-ski](https://github.com/morningstar-ski)、[loongcheung](https://github.com/loongcheung)、[blacklips](https://github.com/blacklips)、[strongrexue](https://github.com/strongrexue)、[Guoyin-Wen](https://github.com/Guoyin-Wen)、[mtno1](https://github.com/mtno1)、[RWDai](https://github.com/RWDai)、[liclown2020](https://github.com/liclown2020)、[sanqianxingluo](https://github.com/sanqianxingluo)、[anorl](https://github.com/anorl)、[gy520187](https://github.com/gy520187)
 
 ## 没有 GitHub 账号的获得者
 
