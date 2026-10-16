@@ -324,6 +324,9 @@ author_aliases:
   - author: irab
     github_id: 191116909
     login: irab-liu
+  - author: wenking
+    github_id: 168186446
+    login: clone-fan
 
 revocations: []
 

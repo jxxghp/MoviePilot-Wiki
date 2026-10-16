@@ -316,6 +316,8 @@ def test_shipped_awards_file_is_valid():
          "account": {"id": 30318614, "login": "z2561221", "type": None}},
         {"author": "irab", "market": None,
          "account": {"id": 191116909, "login": "irab-liu", "type": None}},
+        {"author": "wenking", "market": None,
+         "account": {"id": 168186446, "login": "clone-fan", "type": None}},
     )
     assert awards.revocations == ()
     # 维护者授权的首批主创。
