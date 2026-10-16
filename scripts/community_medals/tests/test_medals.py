@@ -267,6 +267,8 @@ def test_shipped_awards_file_is_valid():
     assert awards.author_aliases == (
         {"author": "逗猫", "market": "jxxghp/moviepilot-plugins",
          "account": {"id": 37683726, "login": "baozaodetudou", "type": None}},
+        {"author": "左岸", "market": None,
+         "account": {"id": 152520897, "login": "andyxu8023", "type": None}},
     )
     assert awards.revocations == ()
     # 维护者授权的首批主创。
