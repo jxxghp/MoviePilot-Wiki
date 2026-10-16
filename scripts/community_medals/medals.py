@@ -336,14 +336,19 @@ def merge_package_indexes(indexes: Iterable[Mapping[str, Any]]) -> dict[str, dic
     return merged
 
 
-def attribute_plugins(markets: list[tuple[str, dict[str, dict[str, Any]]]]) -> dict[str, dict[str, Any]]:
+def attribute_plugins(
+    markets: list[tuple[str, dict[str, dict[str, Any]]]],
+    aliases: Iterable[Mapping[str, Any]] = (),
+) -> dict[str, dict[str, Any]]:
     """确定每个插件的归属来源。
 
     markets 为 [(owner/repo, merge_package_indexes 结果)]，顺序即 Wiki 插件页的登记顺序。
-    官方仓库的署名优先；否则只认仓库所有者属于署名作者的市场，转载副本不计。
+    官方仓库的署名优先；否则先按维护者登记的映射核验署名，再判断作者是否为仓库所有者，
+    转载副本不计。映射沿用账号核验的市场范围与优先级，未登记的署名只按原名判断。
     多个作者自有仓库同时收录时取登记顺序靠前者。
     """
     official = next((entries for name, entries in markets if name.lower() == OFFICIAL_PLUGIN_MARKET.lower()), {})
+    aliases = tuple(aliases)
     result: dict[str, dict[str, Any]] = {}
     for pid, meta in official.items():
         if meta["authors"]:
@@ -353,8 +358,12 @@ def attribute_plugins(markets: list[tuple[str, dict[str, dict[str, Any]]]]) -> d
         for pid, meta in entries.items():
             if pid in result or pid in official:
                 continue
-            if owner in {a.lower() for a in meta["authors"]}:
-                result[pid] = {**meta, "market": name}
+            for author in meta["authors"]:
+                account = verified_account(author, name, {}, {}, aliases)
+                login = account["login"] if account else author
+                if login.lower() == owner:
+                    result[pid] = {**meta, "market": name}
+                    break
     return result
 
 
@@ -677,7 +686,7 @@ def render_page(doc: Mapping[str, Any], previous_page: str | None = None, *, pub
         "## 布景怎么算",
         "",
         "- 只统计在 [插件](/plugin) 页登记的插件市场。",
-        "- 官方插件仓里的署名优先；其他插件只认作者自己仓库里的署名，转载的副本不计。",
+        "- 官方插件仓里的署名优先；其他插件只认作者自己仓库里的署名（包括维护团队确认登记的署名映射），转载的副本不计。",
         "- 多人合著的插件，安装量全额计入每位作者。",
         "- 安装量是 MoviePilot 插件统计中的累计安装次数。",
         "- 署名需要能对应到 GitHub 账号：署名是插件仓库的所有者，或是该仓库的贡献者。对不上的署名可以联系维护团队确认后登记。",

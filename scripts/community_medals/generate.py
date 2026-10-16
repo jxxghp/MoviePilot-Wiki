@@ -291,7 +291,7 @@ def main(argv: list[str] | None = None) -> int:
         status, installs, _ = http.get(INSTALL_STATISTIC_URL, api=False)
         if status != 200 or not isinstance(installs, dict):
             raise RuntimeError("插件安装统计不可用")
-    plugins = medals.attribute_plugins(markets)
+    plugins = medals.attribute_plugins(markets, awards.author_aliases)
     owners = resolve_owners(http, {
         meta["market"].split("/", 1)[0].lower() for meta in plugins.values()
         if meta["market"].split("/", 1)[0].lower() in {a.lower() for a in meta["authors"]}

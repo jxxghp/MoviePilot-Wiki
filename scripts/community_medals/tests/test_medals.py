@@ -122,6 +122,49 @@ ALICE = {"id": 1, "login": "Alice", "type": "User"}
 BOB = {"id": 2, "login": "bob", "type": "User"}
 
 
+@pytest.mark.parametrize("scopes, expected", [
+    ([], False),
+    ([(None, "Alice")], True),
+    ([("alice/moviepilot-plugins", "Alice")], True),
+    ([("other/moviepilot-plugins", "Alice")], False),
+    ([(None, "Alice"), ("alice/moviepilot-plugins", "bob")], False),
+])
+def test_alias_owner_attribution_respects_market_scope(scopes, expected):
+    """只有适用于当前市场且映射到所有者的署名才能通过插件归属筛选。"""
+    aliases = tuple({"author": "左岸", "market": scope,
+                     "account": {"id": 1 if login == "Alice" else 2, "login": login}}
+                    for scope, login in scopes)
+    markets = [_market("Alice/MoviePilot-Plugins", {"Solo": {"author": "左岸"}})]
+    assert bool(medals.attribute_plugins(markets, aliases)) is expected
+
+
+def test_alias_owner_receives_plugin_credit_without_counting_reposts():
+    """别名作者的自有插件计入安装量，官方署名优先且转载副本仍被排除。"""
+    aliases = ({"author": "左岸", "market": None, "account": ALICE},)
+    markets = [
+        _market("jxxghp/MoviePilot-Plugins", {"Official": {"author": "bob"}}),
+        _market("carol/MoviePilot-Plugins", {"Solo": {"author": "左岸"}, "Repost": {"author": "左岸"}}),
+        _market("Alice/MoviePilot-Plugins", {
+            "Solo": {"author": "左岸"}, "Joint": {"author": "bob，左岸"},
+            "Official": {"author": "左岸"},
+        }),
+    ]
+    # 使用单次迭代器，保证映射在遍历多个市场和插件时不会耗尽。
+    plugins = medals.attribute_plugins(markets, iter(aliases))
+    assert set(plugins) == {"official", "solo", "joint"}
+    assert plugins["solo"]["market"] == "Alice/MoviePilot-Plugins"
+    assert plugins["official"]["market"] == "jxxghp/MoviePilot-Plugins"
+    accounts, unverified = medals.credit_plugin_authors(
+        plugins, {"Solo": 7000, "Joint": 5000, "Official": 100}, owners={},
+        contributors={"alice/moviepilot-plugins": {"bob": BOB},
+                      "jxxghp/moviepilot-plugins": {"bob": BOB}}, aliases=aliases,
+    )
+    assert unverified == []
+    assert accounts[1]["installs"] == 12000
+    assert {p["id"] for p in accounts[1]["plugins"]} == {"Solo", "Joint"}
+    assert medals.plugin_medal_record(accounts[1], None, "2026-10-16")["tier"] == 2
+
+
 def test_verified_co_authors_each_receive_full_installs():
     markets = [_market("alice/MoviePilot-Plugins", {"Duo": {"name": "Duo", "author": "alice， bob"}})]
     accounts, unverified = medals.credit_plugin_authors(
