@@ -95,6 +95,8 @@ awards:
     medals:
       - key: maintainer
         at: "2026-10-15"
+      - key: security
+        at: "2026-10-16"
 
   - id: 74977868
     login: 4Nest
@@ -282,6 +284,25 @@ awards:
       - key: helper
         at: "2026-10-16"
       - key: pioneer
+        at: "2026-10-16"
+
+  - id: 95741669
+    login: Aqr-K
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+      - key: maintainer
+        at: "2026-10-16"
+      - key: helper
+        at: "2026-10-16"
+  - id: 73049927
+    login: DDSRem
+    medals:
+      - key: pioneer
+        at: "2026-10-16"
+      - key: maintainer
+        at: "2026-10-16"
+      - key: helper
         at: "2026-10-16"
 
 unlinked: []

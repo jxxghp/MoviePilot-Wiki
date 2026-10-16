@@ -327,7 +327,13 @@ def test_shipped_awards_file_is_valid():
             {"key": "pioneer", "at": "2026-10-16", "serial": None},
         ],
     }
-    assert awards.holders[160988576] == {"login": "InfinityPacer", "medals": [{"key": "maintainer", "at": "2026-10-15", "serial": None}]}
+    assert awards.holders[160988576] == {
+        "login": "InfinityPacer",
+        "medals": [
+            {"key": "maintainer", "at": "2026-10-15", "serial": None},
+            {"key": "security", "at": "2026-10-16", "serial": None},
+        ],
+    }
 
 
 @pytest.mark.parametrize("login, account_type, expected", [
