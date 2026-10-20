@@ -8,7 +8,7 @@ editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
 ---
 
-> 配置优先级为：`环境变量` > `env配置文件` == `WEB界面`。**只要某项已通过环境变量注入，前端界面和 `app.env` 中的同名配置就不会覆盖它。** 因此前端已有入口的设置，建议优先在 WEB 中调整；只有前端没有入口、部署启动参数或需要在首次启动前生效的项目，才建议写环境变量。
+> V3 配置优先级为：`环境变量` > `app.env（WEB界面写入）` > `secret 文件` > `默认值`。**只要某项已通过环境变量注入，前端界面和 `app.env` 中的同名配置就不会覆盖它。** 因此前端已有入口的设置，建议优先在 WEB 中调整；只有前端没有入口、部署启动参数或需要在首次启动前生效的项目，才建议写环境变量。
 {.is-warning}
 
 > ❗号标识的为必填项，其它为可选项，可选项可删除配置变量从而使用默认值。
@@ -20,6 +20,45 @@ dateCreated: 2024-05-30T09:48:02.073Z
 > V3 全新安装不再提供独立的设置向导：首次启动只需在 Web 初始化页面创建管理员用户名、密码和 API Key，保存后进入登录页面。V3 的下载器、媒体服务器、通知、存储和智能助手等配置在登录后按需完成；V1、V2 的本地 CLI / 设置向导流程保持不变。
 {.is-info}
 
+
+# Docker / Kubernetes Secrets
+
+V3 支持从 `/run/secrets/<配置项名>` 读取主程序部署配置，例如 `API_TOKEN`、`GITHUB_TOKEN`、
+`TMDB_API_KEY`、`DB_POSTGRESQL_PASSWORD`。文件内容不会导出到进程环境，也不会复制到 `app.env`。
+此功能需使用包含 [Issue #7112](https://github.com/jxxghp/MoviePilot/issues/7112) 实现的版本。
+
+- 默认目录 `/run/secrets` 不存在时静默回落。可通过进程环境变量 `MOVIEPILOT_SECRETS_DIR`
+  更换路径，兼容 `SECRETS_DIR`，前者优先；显式设为空字符串、`false`、`off`、`0` 可关闭。
+  开关在程序导入时读取，不能写在 `app.env` 中；`CONFIG_DIR` 仍需通过进程环境提供。
+- 文件名大小写必须与配置项完全一致。内容为 UTF-8 裸值，不带 dotenv 外层引号，允许 BOM，
+  去除首尾空白并保留内部换行；list / dict 配置使用 JSON。
+- 空文件、非法编码、非法 JSON、类型或字段约束错误会告警并跳过该项，不输出密钥原文。
+  `API_TOKEN` 至少 16 位，无其他有效来源时保持未配置，请修正 secret。
+- 存在同名 secret 的项由外部管理：界面/CLI 不覆盖写入，自动修正也不会写回 `app.env`。
+  轮换文件后须重启，支持 Kubernetes 的投影符号链接。
+- 迁移时需手工删除环境变量和 `app.env` 的同名旧值，否则它们仍优先。界面“清空”可能写入
+  默认值，不等于删行。要恢复本地管理，移除对应 secret 挂载并重启。
+- 暂不支持 `XXX_FILE`，可将单个文件挂载到 secrets 目录中的对应配置名。
+
+Compose 的服务中声明 `secrets`，以 `target` 指定配置名，不把密钥写进 YAML：
+
+```yaml
+services:
+  moviepilot:
+    image: jxxghp/moviepilot-v3:latest
+    volumes:
+      - ./config:/config
+    secrets:
+      - source: moviepilot_api_token
+        target: API_TOKEN
+secrets:
+  moviepilot_api_token:
+    file: ./private/api_token
+```
+
+把真实密钥文件排除在版本管理之外，并确保容器运行用户有读取权限。Swarm 可使用 external secret，
+Kubernetes 可将 Secret 的 key 以配置名投影到 `/run/secrets`。
+更多说明见[主仓 secrets 部署文档](https://github.com/jxxghp/MoviePilot/blob/v3/docs/secrets.md)。
 
 # 环境变量
 
