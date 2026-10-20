@@ -301,6 +301,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **RECOGNIZE_SOURCE：** 媒体识别来源，支持 `themoviedb`/`douban`，默认为 `themoviedb`
 - **ANIME_GENREIDS：** 电视剧动漫的分类genre_ids，默认为 `[16]`
 - **SCRAP_SOURCE：** 刮削来源，支持 `themoviedb`/`douban`，默认为 `themoviedb`
+- **SCRAP_SEASON_IMAGE_TO_ROOT：** V3 季图片是否同时写入剧集根目录，默认为 `true`，保持根目录 `season01-poster.jpg` / `season-specials-poster.jpg` 和季目录 `poster.jpg` 双写。通过环境变量或配置文件设为 `false` 后，季图片仅写入季目录，保留 `poster`、`banner`、`thumb`、`backdrop`、`landscape` 等通用名及现有别名规则。此开关不删除已有图片；「仅缺失」仍对每个启用的目标文件独立判断，已存在的文件跳过，缺失的文件补齐。修改部署环境变量后需重启生效。
 
 ### TMDB
 - **TMDB_IMAGE_DOMAIN：** TMDB图片地址，默认为 `image.tmdb.org`
@@ -461,6 +462,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 | 媒体源 | `SEARCH_SOURCE` | `themoviedb` | `设定 -> 系统 -> 搜索设置` | 搜索媒体信息来源 |
 | 媒体源 | `RECOGNIZE_SOURCE` | `themoviedb` | `设定 -> 系统 -> 基础设置` | 媒体识别来源 |
 | 媒体源 | `SCRAP_SOURCE` | `themoviedb` | `设定 -> 系统 -> 目录设置` | 媒体刮削来源 |
+| 媒体源 | `SCRAP_SEASON_IMAGE_TO_ROOT` | `true` | 环境变量/配置文件 | 季图片是否额外写入剧集根目录；关闭后仅写季目录，不清理已有图片 |
 | 媒体源 | `ANIME_GENREIDS` | `[16]` | 环境变量/配置文件 | 动漫类型 ID |
 | TMDB | `TMDB_IMAGE_DOMAIN` / `TMDB_API_DOMAIN` / `TMDB_LOCALE` / `TMDB_SCRAP_ORIGINAL_IMAGE` | `image.tmdb.org` / `api.themoviedb.org` / `zh` / `false` | `设定 -> 系统 -> 进阶设置` | TMDB 图片、API、语言与原语种图片 |
 | TMDB | `TMDB_API_KEY` | 内置 Key | 环境变量/配置文件 | 自定义 TMDB API Key |
