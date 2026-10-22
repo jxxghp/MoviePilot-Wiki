@@ -340,7 +340,11 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **RECOGNIZE_SOURCE：** 媒体识别来源，支持 `themoviedb`/`douban`，默认为 `themoviedb`
 - **ANIME_GENREIDS：** 电视剧动漫的分类genre_ids，默认为 `[16]`
 - **SCRAP_SOURCE：** 刮削来源，支持 `themoviedb`/`douban`，默认为 `themoviedb`
-- **SCRAP_SEASON_IMAGE_TO_ROOT：** V3 季图片是否同时写入剧集根目录，默认为 `true`，保持根目录 `season01-poster.jpg` / `season-specials-poster.jpg` 和季目录 `poster.jpg` 双写。前端入口为 `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置 -> 季` 中的「季图片同时写入剧集根目录」。关闭后季图片仅写入季目录，保留 `poster`、`banner`、`thumb`、`backdrop`、`landscape` 等通用名及现有别名规则。此开关不删除已有图片；「仅缺失」仍对每个启用的目标文件独立判断，已存在的文件跳过，缺失的文件补齐。也可通过环境变量或配置文件设为 `false`；修改部署环境变量后需重启生效。
+- **SCRAP_SEASON_IMAGE_TO_ROOT：** V3 季图片是否同时写入剧集根目录，默认为 `true`，保持根目录 `season01-poster.jpg` / `season-specials-poster.jpg` 和季目录 `poster.jpg` 双写。前端入口为 `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置 -> 季` 中的「季图片同时写入剧集根目录」。关闭后季图片仅写入季目录，保留 `poster`、`banner`、`thumb`、`backdrop`、`landscape` 等通用名，是否额外写入兼容别名由 `SCRAP_IMAGE_ALIAS` 控制。此开关不删除已有图片；「仅缺失」对根目录和季目录等各个启用位置独立判断，同类型图片已存在时跳过，缺失时补齐。也可通过环境变量或配置文件设为 `false`；修改部署环境变量后需重启生效。
+- **SCRAP_IMAGE_ALIAS：** 是否额外写入图片兼容别名，默认为 `true`。前端入口为 `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置` 中的「写入图片兼容别名」。开启时保留 `backdrop` / `fanart`、`thumb` / `landscape` 别名；关闭后每张图片只使用来源的规范名称，不删除已有文件。同一次图片刮削的相同 URL 只下载一次，多个保存目标优先使用同存储硬链接，不支持时从本地下载副本上传。
+- **SCRAP_4K_BACKGROUND：** 是否获取 Fanart 的 `show4kbackground` / `movie4kbackground`，默认为 `true`，前端与图片别名开关位于同一处。启用后使用媒体服务器支持的 `background` 文件名，普通 Fanart 背景仍使用 `fanart`；关闭只过滤 4K 背景，普通背景和其它艺术图照常处理。`clearlogo` 归一为 `logo`。图片按去扩展名后的精确名称识别类型，未知名称不再因包含 `background`、`logo` 等片段而落盘。
+
+V3 新刮削的影视图片根据实际内容选择小写后缀：JPEG 使用 `.jpg`，PNG 使用 `.png`，WebP 转为 PNG 并保留透明度，避免远程 URL 后缀或大小写产生多份文件。「仅缺失」在每个目标位置按图片类型识别已有图片，兼容 `.jpg` / `.jpeg` / `.png` / `.webp` 及大小写形式，也识别 `backdrop` / `fanart` 等同类型名称。已有图片不会自动清理或重命名；覆盖策略仍可能保留历史其它名称或后缀的文件。
 
 ### TMDB
 - **TMDB_IMAGE_DOMAIN：** TMDB图片地址，默认为 `image.tmdb.org`
@@ -502,6 +506,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 | 媒体源 | `RECOGNIZE_SOURCE` | `themoviedb` | `设定 -> 系统 -> 基础设置` | 媒体识别来源 |
 | 媒体源 | `SCRAP_SOURCE` | `themoviedb` | `设定 -> 系统 -> 目录设置` | 媒体刮削来源 |
 | 媒体源 | `SCRAP_SEASON_IMAGE_TO_ROOT` | `true` | `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置` | 季图片是否额外写入剧集根目录；关闭后仅写季目录，不清理已有图片 |
+| 媒体源 | `SCRAP_IMAGE_ALIAS` / `SCRAP_4K_BACKGROUND` | `true` / `true` | `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置` | 图片兼容别名与 Fanart 4K 背景独立开关；相同 URL 只下载一次 |
 | 媒体源 | `ANIME_GENREIDS` | `[16]` | 环境变量/配置文件 | 动漫类型 ID |
 | TMDB | `TMDB_IMAGE_DOMAIN` / `TMDB_API_DOMAIN` / `TMDB_LOCALE` / `TMDB_SCRAP_ORIGINAL_IMAGE` | `image.tmdb.org` / `api.themoviedb.org` / `zh` / `false` | `设定 -> 系统 -> 进阶设置` | TMDB 图片、API、语言与原语种图片 |
 | TMDB | `TMDB_API_KEY` | 内置 Key | 环境变量/配置文件 | 自定义 TMDB API Key |
