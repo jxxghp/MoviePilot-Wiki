@@ -20,6 +20,9 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 同一并发组内排队后读取最新台账，避免较早的触发 SHA 覆盖前一次增量结果。
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
@@ -45,13 +48,13 @@ jobs:
 
       - name: Commit changes
         run: |
-          if git diff --quiet -- community/medals.json community.md; then
+          git add community/medals.json community.md community/activity.json
+          if git diff --cached --quiet -- community/medals.json community.md community/activity.json; then
             echo "名单无变化"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add community/medals.json community.md
           git commit -m "chore(community): update community medals"
           git pull --rebase --quiet origin "${GITHUB_REF_NAME}" || {
             echo "::error::与远端 ${GITHUB_REF_NAME} 合并失败，请重新运行本工作流"

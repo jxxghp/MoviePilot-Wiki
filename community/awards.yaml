@@ -1,14 +1,15 @@
 # MoviePilot 社区勋章人工名单
 #
 # 本文件通过 PR 维护，由维护者审核合入。每日定时任务
-# （.github/workflows/community-medals.yml）读取本文件，与自动计算的编剧、布景合并，
+# （.github/workflows/community-medals.yml）读取本文件，与自动计算的编剧、布景、守夜、试映合并，
 # 生成 community/medals.json 与荣誉榜页面 community.md。规则说明见 community.md。
 #
 # 登记前须获得本人同意，包括公开署名。身份一律以 GitHub 数字 ID 为准，login 只为方便阅读，
 # 改名不影响勋章。数字 ID 可通过 https://api.github.com/users/<登录名> 的 id 字段查询。
 #
-# 勋章键为英文，表示贡献类型，与页面展示名称无关。自动勋章为 code 编剧（官方仓库贡献）、
-# plugin 布景（插件发布），不能在本文件登记。人工勋章由维护者授予，每枚刻一个授予日期：
+# 勋章键为英文，表示贡献类型，与页面展示名称无关。code 编剧（官方仓库贡献）、
+# plugin 布景（插件发布）不能在本文件登记。security 守夜、tester 试映每日自动认定，
+# 也保留人工颁发；同名人工记录优先，沿用原日期。人工勋章由维护者授予，每枚刻一个授予日期：
 #   maintainer  主创  项目的维护者与核心成员
 #   helper      掌灯  长期在社群中帮助他人的用户
 #   security    守夜  负责任地报告安全问题、并协助完成修复的用户
@@ -20,8 +21,8 @@
 #   years    保留字段，可选的整数年份列表；只做格式校验并原样写入 medals.json，页面不展示
 #
 # awards          有 GitHub 账号的人工勋章，每人一条
-# unlinked        没有 GitHub 账号的共建者，只在荣誉榜展示；关联 GitHub 后迁入 awards
-# opt_out         退出自动勋章（编剧、布景）的 GitHub 数字 ID；人工勋章不受影响
+# unlinked        没有 GitHub 账号的共建者，只在荣誉榜展示；关联 GitHub 后补充到 awards，原记录保留
+# opt_out         停止新增四类自动勋章的 GitHub 数字 ID；已颁发记录永久保留
 # bot_exclusions  不计入自动勋章的自动化账号登录名。GitHub 类型为 Bot 的账号，以及登录名以 [bot]、-bot
 #                 结尾（不区分大小写）的账号始终排除，无需登记；这里只登记类型为 User 的自动化或代理账号
 # page_published  荣誉榜页面 community.md 是否在 Wiki 公开（写入页面 front-matter 的 published）。
@@ -30,11 +31,10 @@
 #                 或署名是该市场仓库的贡献者。插件由他人代为提交等原因无法核验时，与本人确认后在此登记，
 #                 该署名即视为 github_id 对应账号。market 可选，填写时只对该市场生效，省略则对所有市场生效。
 #                 每日任务日志会输出未通过核验的署名草稿，可直接复制后补全 github_id 与 login
-# revocations     收回自动勋章（code、plugin）的记录。自动勋章一经获得永久保留：每日任务以上一版 medals.json
-#                 为台账，档位只升不降，规则调整、插件下架、市场移除或署名不再能核验都不会收回已获得的档位。
-#                 只有维护团队确认违规时才在此登记，每条需要 id、login、key、reason（必填，写明原因）；
-#                 tier 可选，填写时封顶到该档（1 至 3），省略则整枚收回。记录须长期保留，删除后次日会按规则重新认定。
-#                 人工勋章的收回直接从 awards 中删除即可。
+# revocations     兼容旧配置名，现仅限制尚未颁发的自动勋章或新升档，不会取消旧奖励。
+#                 每条需要 id、login、key、reason；tier 仅 code/plugin 可选，限制新增档位（1 至 3）。
+#                 省略 tier 则停止新增该勋章。所有人工和自动勋章以上一版 medals.json 为颁发台账，
+#                 只增加、不减少；删改本文件、采集范围变化、重开 Issue 或移除标签都不会撤销旧奖励。
 #
 # 示例（取消注释并替换为真实信息）：
 #

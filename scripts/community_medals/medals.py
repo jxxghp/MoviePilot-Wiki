@@ -35,7 +35,8 @@ CODE_THRESHOLDS = (1, 10, 50, 200)
 PLUGIN_INSTALL_THRESHOLDS = (10_000, 100_000, 1_000_000)
 
 LADDER_KEYS = ("code", "plugin")
-# 人工勋章一律刻一个授予日期 at；years 为保留字段，只校验并原样输出，不参与展示。
+AUTO_KEYS = LADDER_KEYS + ("security", "tester")
+# 守夜、试映支持自动认定，也保留人工颁发；其余人工勋章一律刻授予日期 at。
 MANUAL_KEYS = ("maintainer", "helper", "security", "tester", "pioneer")
 # 单个持有者的勋章输出顺序，保证文件稳定可比对。
 MEDAL_ORDER = LADDER_KEYS + MANUAL_KEYS
@@ -73,12 +74,12 @@ class Awards:
 
     holders: dict[int, dict[str, Any]] = field(default_factory=dict)  # GitHub 数字 ID → {"login", "medals"}
     unlinked: list[dict[str, Any]] = field(default_factory=list)  # 无 GitHub 账号的署名与勋章
-    opt_out: frozenset[int] = frozenset()  # 退出自动勋章与荣誉榜自动部分的 GitHub 数字 ID
+    opt_out: frozenset[int] = frozenset()  # 停止新增自动勋章的 GitHub 数字 ID；既有奖励仍保留
     bot_exclusions: frozenset[str] = frozenset()  # 小写登录名；GitHub type=Bot 账号另行排除
     # 插件署名人工映射：[{"author": 小写署名, "market": 小写 owner/repo 或 None（不限市场）,
     #   "account": {"id", "login", "type"}}]，由维护者与本人确认后登记，视为已核验。
     author_aliases: tuple[dict[str, Any], ...] = ()
-    # 自动勋章收回记录：[{"id", "login", "key", "reason", "tier"（可选，封顶到该档；省略为整枚收回）}]
+    # 兼容原配置名，现仅阻止新颁发或升级，不能取消已经授予的记录。
     revocations: tuple[dict[str, Any], ...] = ()
     page_published: bool = False  # 荣誉榜页面 community.md 是否在 Wiki.js 公开；勋章功能开放前保持 False
 
@@ -118,6 +119,7 @@ def _manual_medal(raw: Any, where: str) -> dict[str, Any]:
 
 
 def _github_id(raw: Any, where: str) -> int:
+    """校验稳定的 GitHub 数字身份，不把布尔值或登录名误认作 ID。"""
     if type(raw) is not int or raw <= 0:
         raise AwardsError(f"{where}: id 必须是 GitHub 数字 ID")
     return raw
@@ -201,16 +203,18 @@ def parse_awards(data: Any) -> Awards:
             raise AwardsError(f"{where}: 不支持的字段 {sorted(unknown_fields)}")
         uid = _github_id(entry.get("id"), where)
         key = entry.get("key")
-        if key not in LADDER_KEYS:
-            raise AwardsError(f"{where}: 只能收回自动勋章 {LADDER_KEYS}；人工勋章请直接从 awards 删除")
+        if key not in AUTO_KEYS:
+            raise AwardsError(f"{where}: 只能限制新增自动勋章 {AUTO_KEYS}")
         login, reason = entry.get("login"), entry.get("reason")
         if not isinstance(login, str) or not login.strip():
             raise AwardsError(f"{where}: 需要 login 便于阅读")
         if not isinstance(reason, str) or not reason.strip():
-            raise AwardsError(f"{where}: 必须写明收回原因 reason")
+            raise AwardsError(f"{where}: 必须写明限制原因 reason")
         tier = entry.get("tier")
+        if tier is not None and key not in LADDER_KEYS:
+            raise AwardsError(f"{where}: {key} 没有档位，不能填写 tier")
         if tier is not None and (type(tier) is not int or not 1 <= tier <= 3):
-            raise AwardsError(f"{where}: tier 为封顶档位 1 至 3；整枚收回请省略 tier")
+            raise AwardsError(f"{where}: tier 为新增档位上限 1 至 3；停止新增该勋章请省略 tier")
         if (uid, key) in seen_revocations:
             raise AwardsError(f"{where}: 同一人同一勋章重复登记")
         seen_revocations.add((uid, key))
@@ -257,6 +261,7 @@ class Contribution:
 
 
 def code_tier(total: int) -> int | None:
+    """按累计贡献单位数返回最高已达档位，未达首档时返回空。"""
     tier = None
     for index, minimum in enumerate(CODE_THRESHOLDS, start=1):
         if total >= minimum:
@@ -368,6 +373,7 @@ def attribute_plugins(
 
 
 def plugin_tier(plugin_count: int, installs: int) -> int | None:
+    """发布插件即达首档，其余档位由累计安装次数决定。"""
     if plugin_count < 1:
         return None
     tier = 1
@@ -467,6 +473,7 @@ def plugin_medal_record(author: Mapping[str, Any], previous: Mapping[str, Any] |
 
 
 def _sort_medals(medals: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """按既定勋章次序稳定排列，避免每日生成无意义的顺序差异。"""
     rank = {key: index for index, key in enumerate(MEDAL_ORDER)}
     return sorted(medals, key=lambda m: (rank.get(m["key"], 99), json.dumps(m, sort_keys=True, ensure_ascii=False)))
 
@@ -518,11 +525,7 @@ def ledger_logins(previous_doc: Mapping[str, Any] | None) -> dict[int, str]:
 def apply_revocations(
     records_by_key: Mapping[str, dict[int, dict[str, Any]]], revocations: Iterable[Mapping[str, Any]],
 ) -> None:
-    """在台账合并之后执行 awards.yaml 中的收回记录，这是降档或移除自动勋章的唯一途径。
-
-    省略 tier 时整枚收回；给出 tier 时封顶到该档。封顶后的 at 无法得知该档的首次日期，
-    沿用原记录日期，表示“最晚在此日已达到该档”。收回记录须长期保留，否则次日会按规则重新认定。
-    """
+    """兼容旧 revocations 配置以过滤待授予结果；发布合并会保留所有已经授予的奖励。"""
     for item in revocations:
         records = records_by_key.get(item["key"])
         if records is None or item["id"] not in records:
@@ -538,16 +541,22 @@ def build_holders(
     plugin_medals: Mapping[int, dict[str, Any]],
     logins: Mapping[int, str],
     awards: Awards,
+    activity_medals: Mapping[int, list[dict[str, Any]]] | None = None,
 ) -> dict[str, dict[str, Any]]:
-    """合并自动与人工勋章；退出名单只移除自动勋章，人工勋章已经本人同意登记。"""
+    """合并四类自动与人工勋章；同名人工记录优先，保留历史授予日期且不重复颁发。"""
     holders: dict[int, dict[str, Any]] = {}
     for source in (code_medals, plugin_medals):
         for uid, record in source.items():
             if uid in awards.opt_out:
                 continue
             holders.setdefault(uid, {"login": logins[uid], "medals": []})["medals"].append(record)
+    for uid, records in (activity_medals or {}).items():
+        if uid not in awards.opt_out and records:
+            holders.setdefault(uid, {"login": logins[uid], "medals": []})["medals"].extend(records)
     for uid, entry in awards.holders.items():
         holder = holders.setdefault(uid, {"login": logins.get(uid, entry["login"]), "medals": []})
+        manual_keys = {record["key"] for record in entry["medals"]}
+        holder["medals"] = [record for record in holder["medals"] if record["key"] not in manual_keys]
         holder["medals"].extend(entry["medals"])
     return {str(uid): {"login": h["login"], "medals": _sort_medals(h["medals"])} for uid, h in sorted(holders.items())}
 
@@ -561,19 +570,58 @@ def _without_facts(doc: Mapping[str, Any]) -> dict[str, Any]:
     return {**{k: v for k, v in doc.items() if k != "generated_at"}, "holders": holders}
 
 
+def _retain_awarded_medals(previous: Iterable[Mapping[str, Any]], current: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """以已颁发记录为底稿追加新勋章；同档保留日期，低档和缺失记录不能覆盖历史。"""
+    records = {record["key"]: json.loads(json.dumps(record)) for record in previous}
+    for candidate in current:
+        key = candidate["key"]
+        old = records.get(key)
+        if old is None or (key in LADDER_KEYS and candidate["tier"] > old["tier"]):
+            records[key] = json.loads(json.dumps(candidate))
+        elif key in LADDER_KEYS and candidate["tier"] == old["tier"]:
+            records[key] = {**old, **candidate, "at": old["at"]}
+        elif key in ("security", "tester") and old.get("basis") == "recognized":
+            # 自动认定的证据也只追加，重开或移除标签不抹去当时的授予依据。
+            facts = {**(old.get("facts") or {}), **(candidate.get("facts") or {})}
+            for field in ("issues", "contributions"):
+                if field in (old.get("facts") or {}) or field in (candidate.get("facts") or {}):
+                    original = (old.get("facts") or {}).get(field, [])
+                    facts[field] = sorted(set(original) | set((candidate.get("facts") or {}).get(field, [])))
+            if facts:
+                records[key] = {**old, "facts": facts}
+    return _sort_medals(list(records.values()))
+
+
+def retain_awarded(
+    holders: Mapping[str, Any], unlinked: list[dict[str, Any]], previous_doc: Mapping[str, Any] | None,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """发布前统一保留所有已颁发勋章，覆盖人工名单删改、过滤和重新统计等路径。"""
+    kept = json.loads(json.dumps((previous_doc or {}).get("holders") or {}))
+    for uid, holder in holders.items():
+        old = kept.get(uid) or {}
+        kept[uid] = {**old, **holder, "medals": _retain_awarded_medals(old.get("medals") or [], holder["medals"])}
+    names = {entry["name"]: json.loads(json.dumps(entry)) for entry in (previous_doc or {}).get("unlinked") or []}
+    for entry in unlinked:
+        old = names.get(entry["name"]) or {}
+        names[entry["name"]] = {**old, **entry, "medals": _retain_awarded_medals(old.get("medals") or [], entry["medals"])}
+    return kept, [names[name] for name in sorted(names)]
+
+
 def finalize_document(
     holders: Mapping[str, Any], unlinked: list[dict[str, Any]], previous_doc: Mapping[str, Any] | None, now: str,
     *, refresh_facts: bool = False,
 ) -> dict[str, Any]:
-    """决定本次是否输出新名单，避免每日安装量等波动数字产生提交。
+    """只追加或升级已发布的奖励，再决定是否输出新名单，避免每日波动数字产生提交。
 
+    - 上一版持有者、人工或自动勋章、未关联署名永久保留；缺失或低档结果不能收回旧奖励。
     - 持有者、勋章、档位、日期、年份、说明等实质内容有变化：输出新名单，generated_at 取本次时间。
     - 只有 facts 变化：默认原样保留上一版（含旧 facts 与旧 generated_at）；
       refresh_facts 为真（每月 1 日或手动触发）时刷新 facts，generated_at 取本次时间。
     - 完全没有变化：保留上一版 generated_at。
     因此 generated_at 始终表示文件内容最近一次变化的时间。
     """
-    doc = {"schema": SCHEMA, "generated_at": now, "holders": dict(holders), "unlinked": list(unlinked)}
+    holders, unlinked = retain_awarded(holders, unlinked, previous_doc)
+    doc = {"schema": SCHEMA, "generated_at": now, "holders": holders, "unlinked": unlinked}
     if not previous_doc or not previous_doc.get("generated_at"):
         return doc
     if dump_document(_without_facts(previous_doc)) == dump_document(_without_facts(doc)):
@@ -585,6 +633,7 @@ def finalize_document(
 
 
 def _compact(value: Any) -> str:
+    """统一稳定的单行 JSON 编码，便于台账和名单逐条审查。"""
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
@@ -620,15 +669,18 @@ def dump_document(doc: Mapping[str, Any]) -> str:
 
 
 def _front_matter_value(text: str | None, key: str) -> str | None:
+    """沿用 Wiki 页面的创建日期，不因每日生成而改写历史。"""
     match = re.search(rf"^{key}:\s*(.+)$", (text or "").split("\n---", 1)[0], re.MULTILINE)
     return match.group(1).strip() if match else None
 
 
 def _user_link(login: str) -> str:
+    """以已核验的 GitHub 登录名生成公开署名链接。"""
     return f"[{login}](https://github.com/{login})"
 
 
 def _manual_detail(medal: Mapping[str, Any]) -> str:
+    """格式化无档位勋章的授予日期和可选人工说明。"""
     parts = []
     if medal.get("at"):
         parts.append(medal["at"])
@@ -671,8 +723,8 @@ def render_page(doc: Mapping[str, Any], previous_page: str | None = None, *, pub
         "| 布景 | 致敬为 MoviePilot 开发插件的作者。 | 发布首个插件即获得初光；插件累计安装满 1 万、10 万、100 万次，依次获得共建、卓越、核心。 |",
         "| 主创 | 致敬 MoviePilot 的维护者与核心团队。 | 由维护团队颁发给项目的维护者与核心成员。 |",
         "| 掌灯 | 致敬在社群里为他人答疑解惑的热心人。 | 由维护团队颁发给长期在社群中帮助他人的用户。 |",
-        "| 守夜 | 致敬守护 MoviePilot 安全的人。 | 由维护团队颁发给负责任地报告安全问题、并协助完成修复的用户。 |",
-        "| 试映 | 致敬抢先体验并帮助打磨新版本的测试者。 | 由维护团队颁发给参与测试版本、并提交有效问题反馈的用户。 |",
+        "| 守夜 | 致敬守护 MoviePilot 安全的人。 | 后端仓库中，带 security 标签的 PR 被合并，或带此标签的 Issue 被认定为有效问题，每日自动颁发。也保留人工颁发。 |",
+        "| 试映 | 致敬抢先体验并帮助打磨新版本的测试者。 | 后端仓库累计提交超过 5 条（即至少 6 条）有效 Issue，每日自动颁发。也保留人工颁发。 |",
         "| 启幕 | 致敬在 MoviePilot 早期给予支持的人。 | 由维护团队颁发给项目早期的赞助者与贡献者。 |",
         "",
         "## 编剧怎么算",
@@ -681,7 +733,15 @@ def render_page(doc: Mapping[str, Any], previous_page: str | None = None, *, pub
         "- 同一个仓库里，已合并的 PR 数和提交数取较大的一个，再把各仓库加起来，同一份贡献不会算两次。",
         "- 勋章背面刻领域称号。只在一个领域有贡献时刻对应称号，如主程序共建者、界面共建者、官方插件共建者、扩展共建者、资源共建者、服务共建者、官网共建者、文档共建者；跨领域刻生态共建者。",
         "- 没有关联 GitHub 账号的提交，以及机器人和自动化账号不计入。",
-        "- 勋章一经获得永久保留，规则调整或插件下架不会收回已获得的档位；仅在维护团队确认违规时收回。",
+        "- 勋章一经获得永久保留，每日生成只追加或升档，规则调整或插件下架不会撤销或降档。",
+        "",
+        "## 试映与守夜怎么算",
+        "",
+        "- 统计 [MoviePilot 后端仓库](https://github.com/jxxghp/MoviePilot) 的公开记录，按 GitHub 数字 ID 汇总，改名或重复同步不会重复计数。",
+        "- Issue 关闭原因为 **完成（completed）**，或者关联官方后端提交、已合并 PR，即视为有效问题。普通 Issue 不需要额外标签；一个 Issue 只计一次。",
+        "- 试映：累计至少 6 条有效 Issue；守夜：至少一条有效安全 Issue，或至少一个已合并的安全 PR。安全类只需维护 **security** 一个标签，不必叠加采纳标签。",
+        "- 机器人不参与新认定。已经颁发的人工和自动勋章、原授予日期永久保留；移除标签、重开 Issue 或调整门槛不会取消旧勋章。",
+        "- 每日自动检查，首次认定记当天；人工登记同名勋章时优先沿用人工记录。",
         "",
         "## 布景怎么算",
         "",
@@ -690,7 +750,7 @@ def render_page(doc: Mapping[str, Any], previous_page: str | None = None, *, pub
         "- 多人合著的插件，安装量全额计入每位作者。",
         "- 安装量是 MoviePilot 插件统计中的累计安装次数。",
         "- 署名需要能对应到 GitHub 账号：署名是插件仓库的所有者，或是该仓库的贡献者。对不上的署名可以联系维护团队确认后登记。",
-        "- 勋章一经获得永久保留，规则调整或插件下架不会收回已获得的档位；仅在维护团队确认违规时收回。",
+        "- 勋章一经获得永久保留，每日生成只追加或升档，规则调整或插件下架不会撤销或降档。",
         "",
         "## 勋章上的日期",
         "",
@@ -713,7 +773,7 @@ def render_page(doc: Mapping[str, Any], previous_page: str | None = None, *, pub
                 ladder[key].setdefault(medal["tier"], []).append((-medal["facts"]["total"], holder["login"].lower(), f"{_user_link(holder['login'])}（{label}）"))
             elif key == "plugin":
                 ladder[key].setdefault(medal["tier"], []).append((-medal["facts"]["installs"], holder["login"].lower(), _user_link(holder["login"])))
-    lines += ["# 荣誉榜", "", "## 维护团队颁发", ""]
+    lines += ["# 荣誉榜", "", "## 社区共建者", ""]
     any_manual = False
     for key in MANUAL_KEYS:
         if manual_rows[key]:
@@ -742,11 +802,11 @@ def render_page(doc: Mapping[str, Any], previous_page: str | None = None, *, pub
         lines.append("暂无。")
     lines += [
         "",
-        "# 申请与退出",
+        "# 申请与反馈",
         "",
         "- **申请颁发** 向 [MoviePilot-Wiki](https://github.com/jxxghp/MoviePilot-Wiki) 提交 PR，在 `community/awards.yaml` 的 `awards` 里按 GitHub 数字 ID 写上勋章、颁发日期和说明，由维护团队审核。登记前要先征得本人同意，包括公开署名。数字 ID 可以在 `https://api.github.com/users/<登录名>` 查到。",
-        "- **没有 GitHub 账号** 写在 `unlinked` 里，只在本页展示；以后关联了 GitHub，再改到 `awards`。",
-        "- **不想上榜** 编剧和布景根据公开数据自动生成，默认上榜。本人提交 PR，把自己的 GitHub 数字 ID 加入 `opt_out`，第二天起就不再生成这两枚勋章，也不在本页列出。",
+        "- **没有 GitHub 账号** 写在 `unlinked` 里，只在本页展示；以后关联了 GitHub，可以补充登记到 `awards`，原授予记录保留。",
+        "- **停止新增** 编剧、布景、守夜和试映根据公开数据自动颁发。本人可提交 PR，把自己的 GitHub 数字 ID 加入 `opt_out`，停止新增自动勋章；已经颁发的记录仍然保留。",
         "- **数据有误** 比如插件署名对不上、自动化账号被算了进来，请提交 Issue 或 PR 说明。",
         "",
     ]

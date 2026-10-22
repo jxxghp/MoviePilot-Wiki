@@ -452,12 +452,13 @@ def test_dump_is_valid_json_with_one_holder_per_line():
     assert json.loads(empty)["holders"] == {}
 
 
-def test_generated_at_changes_with_content():
+def test_lower_recomputed_tier_does_not_change_published_award():
+    """最终发布入口也阻止降档，不因一次较低的新结果覆盖旧记录。"""
     first = _doc("2026-10-16T00:00:00Z")
     changed = json.loads(medals.dump_document(first))
     changed["holders"]["12"]["medals"][0]["tier"] = 2
     second = _doc("2026-10-17T00:00:00Z", changed)
-    assert second["generated_at"] == "2026-10-17T00:00:00Z"
+    assert second == changed
 
 
 def test_page_lists_holders_by_medal_and_tier():
@@ -562,14 +563,15 @@ def test_retired_field_is_rejected_with_clear_message():
 
 
 def test_page_uses_final_medal_copy():
+    """对外文案应明确自动认定的范围、有效问题口径和阈值。"""
     page = medals.render_page(_doc("2026-10-16T00:00:00Z"))
     for line in (
         "| 编剧 | 致敬为 MoviePilot 写下代码与文档的贡献者。 | 向 MoviePilot 官方仓库提交并被采纳的贡献累计满 1、10、50、200 次，依次获得初光、共建、卓越、核心。 |",
         "| 布景 | 致敬为 MoviePilot 开发插件的作者。 | 发布首个插件即获得初光；插件累计安装满 1 万、10 万、100 万次，依次获得共建、卓越、核心。 |",
         "| 主创 | 致敬 MoviePilot 的维护者与核心团队。 | 由维护团队颁发给项目的维护者与核心成员。 |",
         "| 掌灯 | 致敬在社群里为他人答疑解惑的热心人。 | 由维护团队颁发给长期在社群中帮助他人的用户。 |",
-        "| 守夜 | 致敬守护 MoviePilot 安全的人。 | 由维护团队颁发给负责任地报告安全问题、并协助完成修复的用户。 |",
-        "| 试映 | 致敬抢先体验并帮助打磨新版本的测试者。 | 由维护团队颁发给参与测试版本、并提交有效问题反馈的用户。 |",
+        "| 守夜 | 致敬守护 MoviePilot 安全的人。 | 后端仓库中，带 security 标签的 PR 被合并，或带此标签的 Issue 被认定为有效问题，每日自动颁发。也保留人工颁发。 |",
+        "| 试映 | 致敬抢先体验并帮助打磨新版本的测试者。 | 后端仓库累计提交超过 5 条（即至少 6 条）有效 Issue，每日自动颁发。也保留人工颁发。 |",
         "| 启幕 | 致敬在 MoviePilot 早期给予支持的人。 | 由维护团队颁发给项目早期的赞助者与贡献者。 |",
     ):
         assert line + "\n" in page
@@ -668,10 +670,11 @@ def test_manual_maintainer_awards_render_on_page():
     holders = medals.build_holders({}, {}, {}, awards)
     page = medals.render_page(medals.finalize_document(holders, [], None, "2026-10-16T00:00:00Z"))
     assert "- **主创** [InfinityPacer](https://github.com/InfinityPacer)（2026-10-15）、[jxxghp](https://github.com/jxxghp)（2026-10-15）" in page
-    assert page.count("勋章一经获得永久保留，规则调整或插件下架不会收回已获得的档位；仅在维护团队确认违规时收回。") == 2
+    assert page.count("勋章一经获得永久保留，每日生成只追加或升档，规则调整或插件下架不会撤销或降档。") == 2
 
 
 def test_offline_run_regenerates_from_ledger_and_awards(tmp_path, monkeypatch):
+    """离线重放追加人工奖励，旧版限制配置也不能收回已经颁发的勋章。"""
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
     (tmp_path / "community").mkdir()
     (tmp_path / "plugin.md").write_text("", encoding="utf-8")
@@ -684,7 +687,7 @@ def test_offline_run_regenerates_from_ledger_and_awards(tmp_path, monkeypatch):
     assert generate.main(["--root", str(tmp_path), "--offline"]) == 0
     doc = json.loads((tmp_path / "community" / "medals.json").read_text(encoding="utf-8"))
     assert doc["holders"]["1"]["medals"] == [_code(2, "2024-01-10", 12)]
-    assert "2" not in doc["holders"]
+    assert doc["holders"]["2"] == ledger["holders"]["2"]
     assert doc["holders"]["9"]["medals"] == [{"key": "maintainer", "at": "2026-10-16", "serial": None}]
     assert doc["generated_at"] != ledger["generated_at"]
     assert "\npublished: 0\n" in (tmp_path / "community.md").read_text(encoding="utf-8")
@@ -702,6 +705,7 @@ def _fake_online(monkeypatch, tmp_path, ledger, awards_text=""):
     (tmp_path / "community" / "medals.json").write_text(medals.dump_document(ledger), encoding="utf-8")
     contributions = _contribs(1, "MoviePilot", "pr", ["2025-02-03"])
     monkeypatch.setattr(generate, "collect_contributions", lambda http, bots: (contributions, {1: "a"}, {}))
+    monkeypatch.setattr(generate.activity, "update_state", lambda http, state, now, bots: state)
     monkeypatch.setattr(generate, "collect_markets", lambda http, names: ([], []))
     monkeypatch.setattr(generate.Http, "get", lambda self, url, api: (200, {}, {}))
 

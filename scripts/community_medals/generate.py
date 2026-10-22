@@ -8,8 +8,9 @@
 拉取官方仓库的提交与已合并 PR、各市场插件索引和插件安装统计，写回
 `community/medals.json` 与 `community.md`。只依赖 Python 标准库与 PyYAML。
 
-自动勋章一经获得永久保留：始终以上一版 `community/medals.json` 为台账，档位只升不降，
-降档或移除只能经 awards.yaml 的收回记录。`--offline` 只按台账重新渲染。
+所有勋章一经获得永久保留：始终以上一版 `community/medals.json` 为颁发台账，
+只增加或升档，不覆盖原颁发日期；`community/activity.json` 保存试映、守夜的增量数据。
+`--offline` 只按台账重新渲染。
 
 GitHub 数据一律按仓库分页批量拉取后本地聚合，不按人调用搜索接口；Token 只从
 环境变量 GITHUB_TOKEN 读取，不写入任何输出。
@@ -36,6 +37,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import medals  # noqa: E402
+import activity  # noqa: E402
 
 API = "https://api.github.com"
 RAW = "https://raw.githubusercontent.com"
@@ -46,6 +48,7 @@ MARKET_END = "<!-- plugin-market-repos:end -->"
 
 
 def log(message: str) -> None:
+    """将采集进度写入标准错误，保持生成文件和机器输出不受干扰。"""
     print(message, file=sys.stderr, flush=True)
 
 
@@ -53,20 +56,36 @@ class Http:
     """最小 HTTP 客户端：统计 GitHub API 调用次数，限流时等待重置，服务端错误有限重试。"""
 
     def __init__(self, token: str | None):
+        """保存认证信息和本次调用计数，不输出 Token。"""
         self._token = token
         self.api_calls = 0
 
     def get(self, url: str, *, api: bool) -> tuple[int, Any, dict[str, str]]:
+        """读取 GitHub 或公开资源，沿用统一的超时和有限重试。"""
+        return self._request(url, api=api)
+
+    def graphql(self, query: str) -> dict[str, Any]:
+        """批量查询关联提交；GraphQL 局部错误同样阻止推进同步水位。"""
+        _, payload, _ = self._request(f"{API}/graphql", api=True, data={"query": query})
+        if not isinstance(payload, dict) or payload.get("errors") or not isinstance(payload.get("data"), dict):
+            raise RuntimeError("GitHub 关联记录查询失败，保留原统计台账")
+        return payload["data"]
+
+    def _request(self, url: str, *, api: bool, data: dict[str, Any] | None = None) -> tuple[int, Any, dict[str, str]]:
+        """执行只读 REST GET 或 GraphQL POST，失败重试且不返回残缺响应。"""
         headers = {"User-Agent": "MoviePilot-Wiki-community-medals"}
         if api:
             headers["Accept"] = "application/vnd.github+json"
             headers["X-GitHub-Api-Version"] = "2022-11-28"
             if self._token:
                 headers["Authorization"] = f"Bearer {self._token}"
+        body = json.dumps(data).encode("utf-8") if data is not None else None
+        if body is not None:
+            headers["Content-Type"] = "application/json"
         for attempt in range(5):
             if api:
                 self.api_calls += 1
-            request = urllib.request.Request(url, headers=headers)
+            request = urllib.request.Request(url, headers=headers, data=body)
             try:
                 with urllib.request.urlopen(request, timeout=60) as response:
                     body = response.read()
@@ -104,7 +123,8 @@ class Http:
             return None
         return wait if wait <= 1200 else None
 
-    def paginate(self, path: str, params: dict[str, Any]) -> list[Any]:
+    def paginate(self, path: str, params: dict[str, Any], *, single_page: bool = False) -> list[Any]:
+        """按 Link 完整分页；事件流可逐页读取并在上次水位处停止。"""
         url = f"{API}{path}?{urllib.parse.urlencode({**params, 'per_page': 100})}"
         items: list[Any] = []
         while url:
@@ -112,11 +132,14 @@ class Http:
             if status == 404:
                 raise RuntimeError(f"仓库或分支不存在: {path}")
             items.extend(payload or [])
+            if single_page:
+                break
             url = _next_link(headers)
         return items
 
 
 def _next_link(headers: dict[str, str]) -> str | None:
+    """读取 GitHub 下一页链接，兼容不同响应头大小写。"""
     link = next((v for k, v in headers.items() if k.lower() == "link"), "")
     for part in link.split(","):
         if 'rel="next"' in part:
@@ -245,6 +268,7 @@ def format_unverified(unverified: list[tuple[str, str]]) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """刷新贡献名单和增量台账，所有采集成功后才写出可一起提交的产物。"""
     root_default = Path(__file__).resolve().parents[2]
     parser = argparse.ArgumentParser(description="生成 MoviePilot 社区勋章名单")
     parser.add_argument("--root", type=Path, default=root_default, help="Wiki 仓库根目录")
@@ -261,6 +285,7 @@ def main(argv: list[str] | None = None) -> int:
     awards_path = root / "community" / "awards.yaml"
     json_path = root / "community" / "medals.json"
     page_path = root / "community.md"
+    activity_path = root / "community" / "activity.json"
 
     started = time.monotonic()
     token = os.environ.get("GITHUB_TOKEN")
@@ -274,14 +299,21 @@ def main(argv: list[str] | None = None) -> int:
     ledger_doc = previous_doc
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
     today = now.date().isoformat()
+    now_text = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     http = Http(token)
+    activity_state = activity.load_state(json.loads(activity_path.read_text(encoding="utf-8")) if activity_path.exists() else None)
+    if not args.offline:
+        activity_state = activity.update_state(http, activity_state, now_text, awards.bot_exclusions)
+    activity_medals, activity_logins = activity.compute_medals(activity_state, ledger_doc, today, awards.bot_exclusions)
 
     if args.offline:
-        # 离线模式不访问网络：自动勋章完全取自台账，只重新合并人工名单、收回记录并渲染页面。
+        # 离线模式不访问网络：重放台账与人工名单；最终合并始终保留所有已颁发记录。
         contributions, logins, contributors = [], {}, {}
     else:
         contributions, logins, contributors = collect_contributions(http, awards.bot_exclusions)
     code_medals = medals.compute_code_medals(contributions)
+    for uid, login in activity_logins.items():
+        logins.setdefault(uid, login)
 
     market_names = read_markets((root / "plugin.md").read_text(encoding="utf-8"))
     if args.offline:
@@ -308,20 +340,27 @@ def main(argv: list[str] | None = None) -> int:
         if record:
             plugin_medals[uid] = record
 
-    # 一经获得，永久保留：以上一版名单为台账只升不降，再执行 awards.yaml 中的收回记录。
+    # 先按台账合并阶梯勋章，再过滤尚未颁发的记录；发布入口兜底保留全部旧奖励。
     code_medals = medals.merge_ledger("code", code_medals, ledger_doc, awards.bot_exclusions)
     plugin_medals = medals.merge_ledger("plugin", plugin_medals, ledger_doc, awards.bot_exclusions)
     medals.apply_revocations({"code": code_medals, "plugin": plugin_medals}, awards.revocations)
+    for revocation in awards.revocations:
+        uid, key = revocation["id"], revocation["key"]
+        if key in activity.ACTIVITY_KEYS:
+            activity_medals[uid] = [record for record in activity_medals.get(uid, []) if record["key"] != key]
     for uid, login in medals.ledger_logins(ledger_doc).items():
         logins.setdefault(uid, login)
-    holders = medals.build_holders(code_medals, plugin_medals, logins, awards)
+    holders = medals.build_holders(code_medals, plugin_medals, logins, awards, activity_medals)
     refresh_facts = args.refresh_facts or now.day == 1
     doc = medals.finalize_document(
-        holders, awards.unlinked, previous_doc, now.strftime("%Y-%m-%dT%H:%M:%SZ"), refresh_facts=refresh_facts,
+        holders, awards.unlinked, previous_doc, now_text, refresh_facts=refresh_facts,
     )
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(medals.dump_document(doc), encoding="utf-8")
     page_path.write_text(medals.render_page(doc, previous_page, published=awards.page_published), encoding="utf-8")
+    if not args.offline:
+        activity_path.write_text(activity.dump_state(activity_state), encoding="utf-8")
+        log(f"试映/守夜: 台账 {len(activity_state['items'])} 条，已同步到 {activity_state['synced_at']}")
 
     for key in medals.LADDER_KEYS:
         tiers = [m["tier"] for h in doc["holders"].values() for m in h["medals"] if m["key"] == key]

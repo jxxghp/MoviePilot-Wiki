@@ -2,7 +2,7 @@
 title: 社区荣誉
 description: MoviePilot 社区勋章的规则与荣誉榜
 published: 1
-date: 2026-10-21T21:46:26Z
+date: 2026-10-22T10:34:07Z
 tags:
 editor: markdown
 dateCreated: 2026-10-15T08:04:58Z
@@ -13,7 +13,7 @@ dateCreated: 2026-10-15T08:04:58Z
 > 本页由 [community_medals 定时任务](https://github.com/jxxghp/MoviePilot-Wiki/tree/main/scripts/community_medals) 每日自动生成，请勿直接编辑。维护团队颁发的勋章记录在 [community/awards.yaml](https://github.com/jxxghp/MoviePilot-Wiki/blob/main/community/awards.yaml)。
 {.is-info}
 
-名单更新于 2026-10-21。在 MoviePilot 中配置 GitHub Token 后，超级管理员可以在头像菜单里看到自己的勋章。
+名单更新于 2026-10-22。在 MoviePilot 中配置 GitHub Token 后，超级管理员可以在头像菜单里看到自己的勋章。
 
 # 勋章
 
@@ -23,8 +23,8 @@ dateCreated: 2026-10-15T08:04:58Z
 | 布景 | 致敬为 MoviePilot 开发插件的作者。 | 发布首个插件即获得初光；插件累计安装满 1 万、10 万、100 万次，依次获得共建、卓越、核心。 |
 | 主创 | 致敬 MoviePilot 的维护者与核心团队。 | 由维护团队颁发给项目的维护者与核心成员。 |
 | 掌灯 | 致敬在社群里为他人答疑解惑的热心人。 | 由维护团队颁发给长期在社群中帮助他人的用户。 |
-| 守夜 | 致敬守护 MoviePilot 安全的人。 | 由维护团队颁发给负责任地报告安全问题、并协助完成修复的用户。 |
-| 试映 | 致敬抢先体验并帮助打磨新版本的测试者。 | 由维护团队颁发给参与测试版本、并提交有效问题反馈的用户。 |
+| 守夜 | 致敬守护 MoviePilot 安全的人。 | 后端仓库中，带 security 标签的 PR 被合并，或带此标签的 Issue 被认定为有效问题，每日自动颁发。也保留人工颁发。 |
+| 试映 | 致敬抢先体验并帮助打磨新版本的测试者。 | 后端仓库累计提交超过 5 条（即至少 6 条）有效 Issue，每日自动颁发。也保留人工颁发。 |
 | 启幕 | 致敬在 MoviePilot 早期给予支持的人。 | 由维护团队颁发给项目早期的赞助者与贡献者。 |
 
 ## 编剧怎么算
@@ -33,7 +33,15 @@ dateCreated: 2026-10-15T08:04:58Z
 - 同一个仓库里，已合并的 PR 数和提交数取较大的一个，再把各仓库加起来，同一份贡献不会算两次。
 - 勋章背面刻领域称号。只在一个领域有贡献时刻对应称号，如主程序共建者、界面共建者、官方插件共建者、扩展共建者、资源共建者、服务共建者、官网共建者、文档共建者；跨领域刻生态共建者。
 - 没有关联 GitHub 账号的提交，以及机器人和自动化账号不计入。
-- 勋章一经获得永久保留，规则调整或插件下架不会收回已获得的档位；仅在维护团队确认违规时收回。
+- 勋章一经获得永久保留，每日生成只追加或升档，规则调整或插件下架不会撤销或降档。
+
+## 试映与守夜怎么算
+
+- 统计 [MoviePilot 后端仓库](https://github.com/jxxghp/MoviePilot) 的公开记录，按 GitHub 数字 ID 汇总，改名或重复同步不会重复计数。
+- Issue 关闭原因为 **完成（completed）**，或者关联官方后端提交、已合并 PR，即视为有效问题。普通 Issue 不需要额外标签；一个 Issue 只计一次。
+- 试映：累计至少 6 条有效 Issue；守夜：至少一条有效安全 Issue，或至少一个已合并的安全 PR。安全类只需维护 **security** 一个标签，不必叠加采纳标签。
+- 机器人不参与新认定。已经颁发的人工和自动勋章、原授予日期永久保留；移除标签、重开 Issue 或调整门槛不会取消旧勋章。
+- 每日自动检查，首次认定记当天；人工登记同名勋章时优先沿用人工记录。
 
 ## 布景怎么算
 
@@ -42,7 +50,7 @@ dateCreated: 2026-10-15T08:04:58Z
 - 多人合著的插件，安装量全额计入每位作者。
 - 安装量是 MoviePilot 插件统计中的累计安装次数。
 - 署名需要能对应到 GitHub 账号：署名是插件仓库的所有者，或是该仓库的贡献者。对不上的署名可以联系维护团队确认后登记。
-- 勋章一经获得永久保留，规则调整或插件下架不会收回已获得的档位；仅在维护团队确认违规时收回。
+- 勋章一经获得永久保留，每日生成只追加或升档，规则调整或插件下架不会撤销或降档。
 
 ## 勋章上的日期
 
@@ -52,12 +60,12 @@ dateCreated: 2026-10-15T08:04:58Z
 
 # 荣誉榜
 
-## 维护团队颁发
+## 社区共建者
 
 - **主创** [Aqr-K](https://github.com/Aqr-K)（2026-10-16）、[DDSRem](https://github.com/DDSRem)（2026-10-16）、[InfinityPacer](https://github.com/InfinityPacer)（2026-10-15）、[jxxghp](https://github.com/jxxghp)（2026-10-15）、[thsrite](https://github.com/thsrite)（2026-10-16）
 - **掌灯** [4Nest](https://github.com/4Nest)（2026-10-16）、[Aqr-K](https://github.com/Aqr-K)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[DDSRem](https://github.com/DDSRem)（2026-10-16）、[foreveruand](https://github.com/foreveruand)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[qsxazcv](https://github.com/qsxazcv)（2026-10-16）、[wq2020wdm](https://github.com/wq2020wdm)（2026-10-16）、[xyswordzoro](https://github.com/xyswordzoro)（2026-10-16）、[z2561221](https://github.com/z2561221)（2026-10-16）
-- **守夜** [InfinityPacer](https://github.com/InfinityPacer)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）
-- **试映** [21667758](https://github.com/21667758)（2026-10-16）、[22143966](https://github.com/22143966)（2026-10-16）、[andyxu8023](https://github.com/andyxu8023)（2026-10-16）、[CHANTXU64](https://github.com/CHANTXU64)（2026-10-16）、[cng10001](https://github.com/cng10001)（2026-10-16）、[CRY1221](https://github.com/CRY1221)（2026-10-16）、[cyx222800](https://github.com/cyx222800)（2026-10-16）、[dlovew](https://github.com/dlovew)（2026-10-16）、[fansID512](https://github.com/fansID512)（2026-10-16）、[iamchq](https://github.com/iamchq)（2026-10-16）、[JaylenMar](https://github.com/JaylenMar)（2026-10-16）、[JiangChenrui](https://github.com/JiangChenrui)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[kai456789](https://github.com/kai456789)（2026-10-16）、[lg1-09](https://github.com/lg1-09)（2026-10-16）、[niumeng07](https://github.com/niumeng07)（2026-10-16）、[PoiYuudachi](https://github.com/PoiYuudachi)（2026-10-16）、[qianyueping1211](https://github.com/qianyueping1211)（2026-10-16）、[qin9125](https://github.com/qin9125)（2026-10-16）、[qqcomeup](https://github.com/qqcomeup)（2026-10-16）、[qsxazcv](https://github.com/qsxazcv)（2026-10-16）、[Secular2026](https://github.com/Secular2026)（2026-10-16）、[Whys8182](https://github.com/Whys8182)（2026-10-16）、[xslidi](https://github.com/xslidi)（2026-10-16）、[yangn0](https://github.com/yangn0)（2026-10-16）、[z2561221](https://github.com/z2561221)（2026-10-16）、[zkmydgth](https://github.com/zkmydgth)（2026-10-16）
+- **守夜** [AAtomical](https://github.com/AAtomical)（2026-10-22）、[AboutCXJ](https://github.com/AboutCXJ)（2026-10-22）、[Aqr-K](https://github.com/Aqr-K)（2026-10-22）、[BnqDzj](https://github.com/BnqDzj)（2026-10-22）、[cddjr](https://github.com/cddjr)（2026-10-22）、[CodeBlackwell](https://github.com/CodeBlackwell)（2026-10-22）、[cwd0204](https://github.com/cwd0204)（2026-10-22）、[geo-chen](https://github.com/geo-chen)（2026-10-22）、[H1dery](https://github.com/H1dery)（2026-10-22）、[iamchq](https://github.com/iamchq)（2026-10-22）、[InfinityPacer](https://github.com/InfinityPacer)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[KoWming](https://github.com/KoWming)（2026-10-22）、[lingjiameng](https://github.com/lingjiameng)（2026-10-22）、[LLL001a](https://github.com/LLL001a)（2026-10-22）、[lswang6](https://github.com/lswang6)（2026-10-22）、[MiCat-S](https://github.com/MiCat-S)（2026-10-22）、[PKC278](https://github.com/PKC278)（2026-10-22）、[pure-white-ice-cream](https://github.com/pure-white-ice-cream)（2026-10-22）、[reputati0n](https://github.com/reputati0n)（2026-10-22）、[thsrite](https://github.com/thsrite)（2026-10-22）、[wikrin](https://github.com/wikrin)（2026-10-22）、[ziwiwiz](https://github.com/ziwiwiz)（2026-10-22）
+- **试映** [21667758](https://github.com/21667758)（2026-10-16）、[22143966](https://github.com/22143966)（2026-10-16）、[4Nest](https://github.com/4Nest)（2026-10-22）、[88866888](https://github.com/88866888)（2026-10-22）、[907739769](https://github.com/907739769)（2026-10-22）、[AboutCXJ](https://github.com/AboutCXJ)（2026-10-22）、[achinese888](https://github.com/achinese888)（2026-10-22）、[aiwu12](https://github.com/aiwu12)（2026-10-22）、[AkimioJR](https://github.com/AkimioJR)（2026-10-22）、[andyxu8023](https://github.com/andyxu8023)（2026-10-16）、[AWdress](https://github.com/AWdress)（2026-10-22）、[BrettDean](https://github.com/BrettDean)（2026-10-22）、[carolcoral](https://github.com/carolcoral)（2026-10-22）、[CHANTXU64](https://github.com/CHANTXU64)（2026-10-16）、[CleverMod](https://github.com/CleverMod)（2026-10-22）、[cng10001](https://github.com/cng10001)（2026-10-16）、[CookieJaySJ](https://github.com/CookieJaySJ)（2026-10-22）、[CRY1221](https://github.com/CRY1221)（2026-10-16）、[cyx222800](https://github.com/cyx222800)（2026-10-16）、[dandkong](https://github.com/dandkong)（2026-10-22）、[Devinaille](https://github.com/Devinaille)（2026-10-22）、[dlovew](https://github.com/dlovew)（2026-10-16）、[Doraemonsan](https://github.com/Doraemonsan)（2026-10-22）、[dwhmofly](https://github.com/dwhmofly)（2026-10-22）、[echowiz](https://github.com/echowiz)（2026-10-22）、[evolsnow](https://github.com/evolsnow)（2026-10-22）、[fansID512](https://github.com/fansID512)（2026-10-16）、[Gannicus1994](https://github.com/Gannicus1994)（2026-10-22）、[ghost](https://github.com/ghost)（2026-10-22）、[gm-fire](https://github.com/gm-fire)（2026-10-22）、[gravitation-ch](https://github.com/gravitation-ch)（2026-10-22）、[HamBosco](https://github.com/HamBosco)（2026-10-22）、[hbq0405](https://github.com/hbq0405)（2026-10-22）、[hh0610](https://github.com/hh0610)（2026-10-22）、[hn315](https://github.com/hn315)（2026-10-22）、[horseytr](https://github.com/horseytr)（2026-10-22）、[huojinming-1997](https://github.com/huojinming-1997)（2026-10-22）、[iamchq](https://github.com/iamchq)（2026-10-16）、[iceucn](https://github.com/iceucn)（2026-10-22）、[InfinityPacer](https://github.com/InfinityPacer)（2026-10-22）、[j506130598](https://github.com/j506130598)（2026-10-22）、[JaylenMar](https://github.com/JaylenMar)（2026-10-16）、[JiangChenrui](https://github.com/JiangChenrui)（2026-10-16）、[jinhua523](https://github.com/jinhua523)（2026-10-22）、[jinshenganyuci](https://github.com/jinshenganyuci)（2026-10-22）、[jkelove](https://github.com/jkelove)（2026-10-22）、[junyuyuan](https://github.com/junyuyuan)（2026-10-22）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[kai456789](https://github.com/kai456789)（2026-10-16）、[kimcaiyuan](https://github.com/kimcaiyuan)（2026-10-22）、[kingcard1131](https://github.com/kingcard1131)（2026-10-22）、[kingtalk](https://github.com/kingtalk)（2026-10-22）、[leeima](https://github.com/leeima)（2026-10-22）、[lg1-09](https://github.com/lg1-09)（2026-10-16）、[LGuangming](https://github.com/LGuangming)（2026-10-22）、[LONGHEIHEI](https://github.com/LONGHEIHEI)（2026-10-22）、[LunaticXJ](https://github.com/LunaticXJ)（2026-10-22）、[Lyzd1](https://github.com/Lyzd1)（2026-10-22）、[lzcer](https://github.com/lzcer)（2026-10-22）、[MichaelYXQ](https://github.com/MichaelYXQ)（2026-10-22）、[Mister-album](https://github.com/Mister-album)（2026-10-22）、[mjsoftking](https://github.com/mjsoftking)（2026-10-22）、[MMAX5358](https://github.com/MMAX5358)（2026-10-22）、[NASA0719](https://github.com/NASA0719)（2026-10-22）、[nathandingx](https://github.com/nathandingx)（2026-10-22）、[Next-Page-Vi](https://github.com/Next-Page-Vi)（2026-10-22）、[niumeng07](https://github.com/niumeng07)（2026-10-16）、[NOwin111](https://github.com/NOwin111)（2026-10-22）、[Nutiar](https://github.com/Nutiar)（2026-10-22）、[paysenyu](https://github.com/paysenyu)（2026-10-22）、[PoiYuudachi](https://github.com/PoiYuudachi)（2026-10-16）、[qianyueping1211](https://github.com/qianyueping1211)（2026-10-16）、[qin9125](https://github.com/qin9125)（2026-10-16）、[qqcomeup](https://github.com/qqcomeup)（2026-10-16）、[qsxazcv](https://github.com/qsxazcv)（2026-10-16）、[rdself](https://github.com/rdself)（2026-10-22）、[Sebastian2333](https://github.com/Sebastian2333)（2026-10-22）、[Secular2026](https://github.com/Secular2026)（2026-10-16）、[seeson](https://github.com/seeson)（2026-10-22）、[ShiharaX](https://github.com/ShiharaX)（2026-10-22）、[shyblacktea](https://github.com/shyblacktea)（2026-10-22）、[suerb](https://github.com/suerb)（2026-10-22）、[sxiaolong45](https://github.com/sxiaolong45)（2026-10-22）、[syscc](https://github.com/syscc)（2026-10-22）、[termzh](https://github.com/termzh)（2026-10-22）、[tianting123](https://github.com/tianting123)（2026-10-22）、[TimoYoung](https://github.com/TimoYoung)（2026-10-22）、[tonymoses10](https://github.com/tonymoses10)（2026-10-22）、[uploadrclone](https://github.com/uploadrclone)（2026-10-22）、[Whichbfj28](https://github.com/Whichbfj28)（2026-10-22）、[Whys8182](https://github.com/Whys8182)（2026-10-16）、[wq2020wdm](https://github.com/wq2020wdm)（2026-10-22）、[xiaobaiwaf](https://github.com/xiaobaiwaf)（2026-10-22）、[xp9477](https://github.com/xp9477)（2026-10-22）、[xslidi](https://github.com/xslidi)（2026-10-16）、[xwndo](https://github.com/xwndo)（2026-10-22）、[xxtyyq](https://github.com/xxtyyq)（2026-10-22）、[yangn0](https://github.com/yangn0)（2026-10-16）、[yellowstrong](https://github.com/yellowstrong)（2026-10-22）、[yesugao](https://github.com/yesugao)（2026-10-22）、[youyifentian](https://github.com/youyifentian)（2026-10-22）、[z2561221](https://github.com/z2561221)（2026-10-16）、[zero617](https://github.com/zero617)（2026-10-22）、[zhengyi1314](https://github.com/zhengyi1314)（2026-10-22）、[zkmydgth](https://github.com/zkmydgth)（2026-10-16）、[zraxx](https://github.com/zraxx)（2026-10-22）、[zyt0339](https://github.com/zyt0339)（2026-10-22）
 - **启幕** [4Nest](https://github.com/4Nest)（2026-10-16）、[Aqr-K](https://github.com/Aqr-K)（2026-10-16）、[baozaodetudou](https://github.com/baozaodetudou)（2026-10-16）、[boeto](https://github.com/boeto)（2026-10-16）、[DDSRem](https://github.com/DDSRem)（2026-10-16）、[EkkoG](https://github.com/EkkoG)（2026-10-16）、[hbq0405](https://github.com/hbq0405)（2026-10-16）、[jxxghp](https://github.com/jxxghp)（2026-10-16）、[thsrite](https://github.com/thsrite)（2026-10-16）、[wq2020wdm](https://github.com/wq2020wdm)（2026-10-16）
 
 ## 编剧
@@ -100,9 +108,9 @@ dateCreated: 2026-10-15T08:04:58Z
 
 暂无。
 
-# 申请与退出
+# 申请与反馈
 
 - **申请颁发** 向 [MoviePilot-Wiki](https://github.com/jxxghp/MoviePilot-Wiki) 提交 PR，在 `community/awards.yaml` 的 `awards` 里按 GitHub 数字 ID 写上勋章、颁发日期和说明，由维护团队审核。登记前要先征得本人同意，包括公开署名。数字 ID 可以在 `https://api.github.com/users/<登录名>` 查到。
-- **没有 GitHub 账号** 写在 `unlinked` 里，只在本页展示；以后关联了 GitHub，再改到 `awards`。
-- **不想上榜** 编剧和布景根据公开数据自动生成，默认上榜。本人提交 PR，把自己的 GitHub 数字 ID 加入 `opt_out`，第二天起就不再生成这两枚勋章，也不在本页列出。
+- **没有 GitHub 账号** 写在 `unlinked` 里，只在本页展示；以后关联了 GitHub，可以补充登记到 `awards`，原授予记录保留。
+- **停止新增** 编剧、布景、守夜和试映根据公开数据自动颁发。本人可提交 PR，把自己的 GitHub 数字 ID 加入 `opt_out`，停止新增自动勋章；已经颁发的记录仍然保留。
 - **数据有误** 比如插件署名对不上、自动化账号被算了进来，请提交 Issue 或 PR 说明。
