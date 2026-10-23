@@ -1,8 +1,8 @@
 {
-"event_id":33958346491,
+"event_id":34070207341,
 "repository":"jxxghp/MoviePilot",
 "schema":1,
-"synced_at":"2026-10-22T21:40:35Z",
+"synced_at":"2026-10-23T21:27:46Z",
 "items":{
 "60":{"id":51367628,"kind":"issue","login":"paysenyu","security":false},
 "62":{"id":129346715,"kind":"issue","login":"gravitation-ch","security":false},
@@ -3377,6 +3377,7 @@
 "6785":{"id":19278184,"kind":"issue","login":"beauyang","security":false},
 "6786":{"id":32663226,"kind":"issue","login":"Explorer1092","security":false},
 "6787":{"id":63895332,"kind":"issue","login":"AAZhe1997","security":false},
+"6788":{"id":86452332,"kind":"issue","login":"chenlu964","security":false},
 "6789":{"id":167119584,"kind":"issue","login":"movieuu","security":false},
 "6790":{"id":55034021,"kind":"issue","login":"mirrorhui520","security":false},
 "6791":{"id":32502941,"kind":"issue","login":"qin9125","security":false},
@@ -3547,6 +3548,12 @@
 "7133":{"id":160988576,"kind":"pr","login":"InfinityPacer","security":true},
 "7134":{"id":82251495,"kind":"issue","login":"wangshicheng2020","security":false},
 "7136":{"id":160988576,"kind":"pr","login":"InfinityPacer","security":true},
-"7137":{"id":160988576,"kind":"pr","login":"InfinityPacer","security":true}
+"7137":{"id":160988576,"kind":"pr","login":"InfinityPacer","security":true},
+"7139":{"id":175718726,"kind":"issue","login":"MeikleHub","security":false},
+"7156":{"id":20766799,"kind":"issue","login":"Monk15721285","security":false},
+"7158":{"commit":"https://github.com/jxxghp/MoviePilot/commit/4d32f25fe4eca2a74dcfe29c8f7e5db7105200c8","id":31338729,"kind":"issue","login":"dawei233","security":false},
+"7160":{"id":47934785,"kind":"issue","login":"xpf01","security":false},
+"7162":{"id":56897834,"kind":"issue","login":"sharawolf","security":false},
+"7164":{"commit":"https://github.com/jxxghp/MoviePilot/commit/e1b0d5b4bf86846dc644d1bc213cd703b5fa89be","id":152520897,"kind":"issue","login":"andyxu8023","security":false}
 }
 }
