@@ -26,6 +26,26 @@ dateCreated: 2024-06-11T22:35:11.803Z
 > 插件开发者请从插件仓库的 [MoviePilot 插件开发指南（V3）](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Plugin_Development.md) 开始。已有 V2 插件迁移、旧导入兼容、媒体身份和存量数据问题，再查看 [V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)；API 与 Vue 远程组件另见 [插件 API 专题](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
 {.is-info}
 
+## 安装前查看使用说明
+
+使用前端 v3.2.2 或更新版本，并将后端更新到包含此功能的版本后，打开插件市场详情，可在安装按钮附近点击「使用说明」，先了解配置要求和注意事项；文档在新页面打开。切换安装来源后，说明入口也随所选仓库切换。
+
+插件作者可在 `package.v3.json`、`package.v2.json` 或基础 `package.json` 的条目中声明可选字段：
+
+```json
+{
+  "DemoPlugin": {
+    "name": "示例插件",
+    "version": "1.0.0",
+    "plugin_readme": "https://example.com/docs/demo"
+  }
+}
+```
+
+`plugin_readme` 优先，也兼容 `homepage`、`project_url`；仅接受不含账号密码的 HTTP(S) 地址，最长 2048 字符。`author_url` 仍表示作者主页，不作为使用说明。
+
+未声明时，宿主会在打开详情时按实际索引代际探测仓库 `main` 分支中的 `plugins.v3/<插件ID小写>/README.md`、`plugins.v2/<插件ID小写>/README.md` 或 `plugins/<插件ID小写>/README.md`。探测沿用 GitHub 代理配置，总超时 5 秒，结果缓存 5 分钟；文档不存在或请求失败时隐藏入口，不影响安装。本地来源仅显示显式声明的链接，不读取本地 README。
+
 **官方插件库：**
 - https://github.com/jxxghp/MoviePilot-Plugins
 
