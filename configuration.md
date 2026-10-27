@@ -412,6 +412,8 @@ V3 新刮削的影视图片根据实际内容选择小写后缀：JPEG 使用 `.
 - **PLUGIN_MARKET：** 插件市场仓库地址，仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看[MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins)项目的fork，或者查看频道置顶了解更多第三方插件仓库。详情参照 [插件](/plugin)。
 
 - **PLUGIN_AUTO_RELOAD：** 是否开启插件热加载，默认为 `false`
+- **PLUGIN_INSTALL_FROM_RELEASE：** V3 插件默认安装方式，`true`/`false`，默认 `true`。对声明 `release: true` 的插件优先安装 Release 资产；设为 `false` 时直接安装当前索引对应的文件列表，跳过 Release 请求。手动选择历史版本时仍安装指定 Release，不会改装当前索引版本。
+- **PLUGIN_RELEASE_TIMEOUT：** V3 插件 Release 元数据及资产每个出口的请求超时，单位为秒，默认 `30`，范围 `1` 至 `300`。弱网下可适当降低该值以缩短失败等待；它不是整个插件安装过程的总时限。
 - **PLUGIN_LOCAL_REPO_PATHS：** 本地插件仓库路径，多个路径使用`,`分隔，默认为空
 
 ## 分享
@@ -542,6 +544,8 @@ V3 新刮削的影视图片根据实际内容选择小写后缀：JPEG 使用 `.
 | 后台服务 | `MP_SERVER_HOST` | `https://movie-pilot.org` | 环境变量/配置文件 | MoviePilot Server 地址 |
 | 插件 | `PLUGIN_MARKET` | 官方市场 | `插件 -> 插件市场设置` | 插件市场地址 |
 | 插件 | `PLUGIN_AUTO_RELOAD` | `false` | `设定 -> 系统 -> 进阶设置` | 插件热加载 |
+| 插件 | `PLUGIN_INSTALL_FROM_RELEASE` | `true` | 环境变量/配置文件 | 默认优先 Release；`false` 直接安装当前索引文件 |
+| 插件 | `PLUGIN_RELEASE_TIMEOUT` | `30` | 环境变量/配置文件 | Release 各出口请求超时，单位秒，范围 1 至 300 |
 | 插件 | `PLUGIN_LOCAL_REPO_PATHS` | 空 | `设定 -> 系统 -> 进阶设置` | 本地插件仓库路径 |
 | 分享 | `PLUGIN_STATISTIC_SHARE` / `WORKFLOW_STATISTIC_SHARE` | `true` / `true` | `设定 -> 系统 -> 进阶设置` | 插件与工作流匿名统计 |
 | 技能 | `SKILL_MARKET` | 内置市场列表 | 环境变量/配置文件 | `/skills` 命令使用的技能源 |

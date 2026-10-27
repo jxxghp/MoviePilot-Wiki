@@ -162,6 +162,19 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 详情参见 [配置参考](/configuration) 相关变量说明。
 
+## V3 Release 插件的下载与安装方式
+
+后端更新到包含此功能的版本后，声明 `release: true` 的插件默认优先安装 Release ZIP。配置 `GITHUB_PROXY` 时，资产先通过镜像下载公开的 `github.com/.../releases/download/...` 地址；镜像请求不携带 GitHub Token 或 Cookie。镜像连接失败、返回 HTTP 错误或非 ZIP 内容时，回退原资产 API，使用原有仓库 Token，并遵循 `PROXY_HOST` 的 HTTP 代理配置；未配置 HTTP 代理时直连。
+
+Release 元数据等普通 GitHub API 请求继续使用原有 Token 与 HTTP 代理/直连，不套用静态文件镜像。镜像须支持 GitHub Release 下载；仅支持 raw 文件的镜像不一定能加速发布包。私有资产无法匿名从镜像读取时，仍通过带令牌的原资产 API 下载。
+
+可通过环境变量或 `/config/app.env` 配置以下选项：
+
+- `PLUGIN_INSTALL_FROM_RELEASE=false`：默认安装和更新直接使用当前索引文件列表，省去 Release 尝试。默认值为 `true`；手动选择历史版本时仍按所选 Release 安装，失败不会回退成当前版本。
+- `PLUGIN_RELEASE_TIMEOUT=10`：将 Release 元数据和资产每个出口的请求超时设为 10 秒；默认 30 秒，允许 1 至 300 秒。多个出口和后续文件列表仍各自执行，这不是整个安装过程的总时限。
+
+当前索引的 Release 安装失败时仍会回退文件列表。配置说明详见 [插件相关配置](/configuration#插件)。
+
 # 插件数据和仪表板
 
 部门插件支持展示数据，点击插件后可查看**插件数据页面**；部分插件支持显示**仪表板组件**，启用插件后可在仪表板中开启使用。
