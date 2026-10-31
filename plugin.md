@@ -148,6 +148,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/hbq0405/MoviePilot-Plugins
 - https://github.com/chens-hi/MoviePilot-Plugins
 - https://github.com/po9873/MoviePilot-Plugins
+- https://github.com/XGxin/MoviePilot-SiteHealthGuard
 <!-- plugin-market-repos:end -->
 
 以上清单可在插件市场设置中点击“同步 Wiki”自动合并到本地配置。同步时会与本地已有仓库去重，保留本地顺序并追加 Wiki 中新增的公开仓库。
