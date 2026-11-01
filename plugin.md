@@ -149,6 +149,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/chens-hi/MoviePilot-Plugins
 - https://github.com/po9873/MoviePilot-Plugins
 - https://github.com/zoom521241/MoviePilot-Plugins
+- https://github.com/XGxin/MoviePilot-SiteHealthGuard
 - https://github.com/JontyLee/MoviePilot-Plugins
 <!-- plugin-market-repos:end -->
 
