@@ -150,6 +150,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/po9873/MoviePilot-Plugins
 - https://github.com/zoom521241/MoviePilot-Plugins
 - https://github.com/XGxin/MoviePilot-SiteHealthGuard
+- https://github.com/JontyLee/MoviePilot-Plugins
 - https://github.com/ReelCoreHQ/moviepilot-plugin-colapt
 <!-- plugin-market-repos:end -->
 

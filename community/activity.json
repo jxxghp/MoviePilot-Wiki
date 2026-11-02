@@ -1,8 +1,8 @@
 {
-"event_id":34788059396,
+"event_id":34845151864,
 "repository":"jxxghp/MoviePilot",
 "schema":1,
-"synced_at":"2026-10-31T21:40:10Z",
+"synced_at":"2026-11-01T22:05:54Z",
 "items":{
 "60":{"id":51367628,"kind":"issue","login":"paysenyu","security":false},
 "62":{"id":129346715,"kind":"issue","login":"gravitation-ch","security":false},
@@ -3592,6 +3592,8 @@
 "7252":{"commit":"https://github.com/jxxghp/MoviePilot/commit/a43290647503e8cd2039ec30059ed486bacc9b82","id":152520897,"kind":"issue","login":"andyxu8023","security":false},
 "7257":{"id":76564834,"kind":"pr","login":"qingyukb","security":true},
 "7258":{"id":31299496,"kind":"issue","login":"JoshuaKin","security":false},
-"7259":{"id":31299496,"kind":"issue","login":"JoshuaKin","security":false}
+"7259":{"id":31299496,"kind":"issue","login":"JoshuaKin","security":false},
+"7261":{"id":89365655,"kind":"issue","login":"easonlao","security":false},
+"7267":{"id":31982854,"kind":"issue","login":"JontyLee","security":false}
 }
 }
