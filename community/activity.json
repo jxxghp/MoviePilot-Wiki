@@ -1,8 +1,8 @@
 {
-"event_id":35223534682,
+"event_id":35271192716,
 "repository":"jxxghp/MoviePilot",
 "schema":1,
-"synced_at":"2026-11-05T13:52:09Z",
+"synced_at":"2026-11-05T23:40:11Z",
 "items":{
 "60":{"id":51367628,"kind":"issue","login":"paysenyu","security":false},
 "62":{"id":129346715,"kind":"issue","login":"gravitation-ch","security":false},
