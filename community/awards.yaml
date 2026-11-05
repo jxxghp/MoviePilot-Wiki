@@ -313,6 +313,14 @@ awards:
       - key: tester
         at: "2026-10-16"
 
+  - id: 13061892
+    login: zhu0823
+    medals:
+      - key: pioneer
+        at: "2026-11-05"
+      - key: helper
+        at: "2026-11-05"
+
 unlinked: []
 
 opt_out: []
