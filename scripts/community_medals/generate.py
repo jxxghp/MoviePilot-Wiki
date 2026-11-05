@@ -64,11 +64,24 @@ class Http:
         """读取 GitHub 或公开资源，沿用统一的超时和有限重试。"""
         return self._request(url, api=api)
 
-    def graphql(self, query: str) -> dict[str, Any]:
-        """批量查询关联提交；GraphQL 局部错误同样阻止推进同步水位。"""
+    def graphql(self, query: str, *, missing_issues: tuple[int, ...] = ()) -> dict[str, Any]:
+        """批量查询关联提交；仅允许指定 Issue 已不存在，其余局部错误阻止推进水位。"""
         _, payload, _ = self._request(f"{API}/graphql", api=True, data={"query": query})
-        if not isinstance(payload, dict) or payload.get("errors") or not isinstance(payload.get("data"), dict):
+        if not isinstance(payload, dict) or not isinstance(payload.get("data"), dict):
             raise RuntimeError("GitHub 关联记录查询失败，保留原统计台账")
+        repository = payload["data"].get("repository")
+        allowed = {f"i{number}" for number in missing_issues}
+        for error in payload.get("errors") or []:
+            path = error.get("path") or []
+            # 删除或转移 Issue 后，事件流仍可能保留旧编号；只放行该查询别名上的 NOT_FOUND。
+            if not (
+                error.get("type") == "NOT_FOUND" and len(path) == 2
+                and path[0] == "repository" and path[1] in allowed
+                and isinstance(repository, dict) and path[1] in repository
+                and repository[path[1]] is None
+            ):
+                raise RuntimeError("GitHub 关联记录查询失败，保留原统计台账")
+            log(f"Issue {path[1][1:]} 已不存在或不可读取，跳过旧事件的关联查询")
         return payload["data"]
 
     def _request(self, url: str, *, api: bool, data: dict[str, Any] | None = None) -> tuple[int, Any, dict[str, str]]:

@@ -54,7 +54,7 @@ def linked_commit(nodes: list[dict[str, Any]]) -> str | None:
 
 
 def collect_links(http: Any, numbers: list[int]) -> dict[int, str]:
-    """只为未完成的更新 Issue 批量查关联事件，每批 40 条，不逐人或逐条搜索。"""
+    """每批 40 条查询未完成 Issue 的关联；跳过旧事件中已不存在的 Issue。"""
     links: dict[int, str] = {}
     fields = (
         "__typename ... on ReferencedEvent {commit {oid url repository {nameWithOwner}}} "
@@ -73,12 +73,15 @@ def collect_links(http: Any, numbers: list[int]) -> dict[int, str]:
                     f'itemTypes:[REFERENCED_EVENT,CLOSED_EVENT,CROSS_REFERENCED_EVENT]) '
                     f'{{nodes {{{fields}}} pageInfo {{hasNextPage endCursor}}}}}}'
                 )
-            payload = http.graphql('query {repository(owner:"jxxghp",name:"MoviePilot") {' + " ".join(parts) + "}}")
+            payload = http.graphql(
+                'query {repository(owner:"jxxghp",name:"MoviePilot") {' + " ".join(parts) + "}}",
+                missing_issues=tuple(pending),
+            )
             following = {}
             for number in pending:
                 issue = payload["repository"][f"i{number}"]
                 if issue is None:
-                    raise RuntimeError(f"无法读取 Issue #{number} 的关联记录")
+                    continue
                 timeline = issue["timelineItems"]
                 proof = linked_commit(timeline["nodes"])
                 if proof:

@@ -51,7 +51,7 @@ class FakeHttp:
         assert path.endswith("/issues")
         return self.items
 
-    def graphql(self, query):
+    def graphql(self, query, **kwargs):
         """只返回请求中出现的 Issue，默认表示没有已采纳关联。"""
         import re
         self.queries.append(query)
@@ -186,7 +186,7 @@ def test_graphql_error_does_not_mutate_the_previous_watermark():
     """任一批关联查询失败时保留调用者的原台账，可以安全重试。"""
     http = FakeHttp([issue(1, completed=False)])
     previous = activity.empty_state()
-    http.graphql = lambda query: (_ for _ in ()).throw(RuntimeError("temporary failure"))
+    http.graphql = lambda query, **kwargs: (_ for _ in ()).throw(RuntimeError("temporary failure"))
     with pytest.raises(RuntimeError, match="temporary failure"):
         activity.update_state(http, previous, NOW, frozenset())
     assert previous == activity.empty_state()
@@ -197,6 +197,39 @@ def test_graphql_partial_errors_are_not_treated_as_an_empty_timeline(monkeypatch
     monkeypatch.setattr(generate.Http, "_request", lambda *args, **kwargs: (200, {"data": {}, "errors": [{"message": "unavailable"}]}, {}))
     with pytest.raises(RuntimeError, match="关联记录查询失败"):
         generate.Http("test-token").graphql("query {}")
+
+
+def test_deleted_issue_in_event_stream_does_not_block_other_links(monkeypatch):
+    """旧事件中的 Issue 返回 NOT_FOUND 时，仍采纳同批其他 Issue 的有效关联。"""
+    payload = {
+        "data": {"repository": {
+            "i7": None,
+            "i8": {"timelineItems": {"nodes": [commit_node()], "pageInfo": {"hasNextPage": False}}},
+        }},
+        "errors": [{"type": "NOT_FOUND", "path": ["repository", "i7"], "message": "Could not resolve Issue 7"}],
+    }
+    monkeypatch.setattr(generate.Http, "_request", lambda *args, **kwargs: (200, payload, {}))
+    assert activity.collect_links(generate.Http("test-token"), [7, 8]) == {
+        8: f"https://github.com/{activity.REPOSITORY}/commit/abc",
+    }
+
+
+@pytest.mark.parametrize("errors, repository", [
+    ([{"type": "FORBIDDEN", "path": ["repository", "i7"]}], {"i7": None}),
+    ([{"type": "RATE_LIMITED", "path": ["repository", "i7"]}], {"i7": None}),
+    ([{"type": "NOT_FOUND", "path": ["repository"]}], None),
+    ([{"type": "NOT_FOUND", "path": ["repository", "i9"]}], {"i9": None}),
+    ([{"type": "NOT_FOUND", "path": ["repository", "i7"]}], {}),
+    ([{"type": "NOT_FOUND", "path": ["repository", "i7"]}], {"i7": {}}),
+    ([{"type": "NOT_FOUND", "path": ["repository", "i7"]},
+      {"type": "INTERNAL", "path": ["repository", "i8"]}], {"i7": None, "i8": None}),
+])
+def test_missing_issue_exception_does_not_hide_other_graphql_errors(monkeypatch, errors, repository):
+    """只放行当前查询中明确为空的 Issue，其他局部错误仍阻止推进水位。"""
+    payload = {"data": {"repository": repository}, "errors": errors}
+    monkeypatch.setattr(generate.Http, "_request", lambda *args, **kwargs: (200, payload, {}))
+    with pytest.raises(RuntimeError, match="关联记录查询失败"):
+        activity.collect_links(generate.Http("test-token"), [7, 8])
 
 
 def test_older_seed_does_not_overwrite_a_newer_security_label_event():
@@ -213,7 +246,7 @@ def test_link_query_follows_pagination_until_an_old_commit_is_found():
     http = FakeHttp()
     queries = []
 
-    def response(query):
+    def response(query, **kwargs):
         """第一页给出游标，第二页才给出官方修复提交。"""
         queries.append(query)
         following = len(queries) == 1
