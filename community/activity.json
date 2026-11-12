@@ -1,8 +1,8 @@
 {
-"event_id":35739460342,
+"event_id":35857160229,
 "repository":"jxxghp/MoviePilot",
 "schema":1,
-"synced_at":"2026-11-10T23:26:38Z",
+"synced_at":"2026-11-12T00:47:25Z",
 "items":{
 "60":{"id":51367628,"kind":"issue","login":"paysenyu","security":false},
 "62":{"id":129346715,"kind":"issue","login":"gravitation-ch","security":false},
@@ -3599,6 +3599,7 @@
 "7261":{"id":89365655,"kind":"issue","login":"easonlao","security":false},
 "7267":{"id":31982854,"kind":"issue","login":"JontyLee","security":false},
 "7269":{"id":49979564,"kind":"issue","login":"Kev1nT","security":false},
+"7274":{"commit":"https://github.com/jxxghp/MoviePilot/commit/eaf833445f42dba38b5f5e18e8365ea214874718","id":109057357,"kind":"issue","login":"RexCcwll","security":false},
 "7275":{"id":45343967,"kind":"issue","login":"NeeSDev","security":false},
 "7277":{"commit":"https://github.com/jxxghp/MoviePilot/commit/dd43022cd3cdb066a81d14f40d39c291e1abbf9c","id":34737308,"kind":"issue","login":"lzj1010","security":false},
 "7278":{"id":61444826,"kind":"issue","login":"ShiharaX","security":false},
@@ -3624,6 +3625,11 @@
 "7350":{"commit":"https://github.com/jxxghp/MoviePilot/commit/48b20d3dfb6a6d220d65c621b868b4595cae80a5","id":93302908,"kind":"issue","login":"MountainLee8527","security":false},
 "7351":{"id":30650281,"kind":"issue","login":"ShawsFOR","security":false},
 "7353":{"id":7929884,"kind":"issue","login":"rebron1900","security":false},
-"7354":{"id":90684410,"kind":"issue","login":"No-200605330004","security":false}
+"7354":{"id":90684410,"kind":"issue","login":"No-200605330004","security":false},
+"7358":{"id":30990861,"kind":"issue","login":"bonnyandsky","security":false},
+"7360":{"id":66826612,"kind":"issue","login":"JaylenMar","security":false},
+"7363":{"commit":"https://github.com/jxxghp/MoviePilot/commit/2e0fc486460504f4161af8e7b1bd25335ea62ae2","id":93302908,"kind":"issue","login":"MountainLee8527","security":false},
+"7367":{"commit":"https://github.com/jxxghp/MoviePilot/commit/1fd1743667690236765ac4765b74eb4aa64e9cae","id":93302908,"kind":"issue","login":"MountainLee8527","security":false},
+"7370":{"id":152520897,"kind":"issue","login":"andyxu8023","security":false}
 }
 }
