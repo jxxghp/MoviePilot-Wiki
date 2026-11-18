@@ -2,7 +2,7 @@
 title: 开始
 description: 
 published: 1
-date: 2026-08-07T23:11:28.061Z
+date: 2026-11-18T12:28:51.000Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T04:38:01.345Z
@@ -10,7 +10,14 @@ dateCreated: 2024-05-30T04:38:01.345Z
 
 > MoviePilot 基于 NAStool 部分代码重新设计，聚焦自动化核心需求，减少问题同时更易于扩展和维护。
 **项目介绍：** https://movie-pilot.org
-**项目地址：** https://github.com/jxxghp/MoviePilot 、https://github.com/jxxghp/MoviePilot-Frontend 、https://github.com/jxxghp/MoviePilot-Plugins 、https://github.com/jxxghp/MoviePilot-Resources
+**项目仓库：**
+
+- [:movie_camera: 主程序 *MoviePilot 后端与运行时。*](https://github.com/jxxghp/MoviePilot)
+- [:art: 前端 *MoviePilot Web 界面。*](https://github.com/jxxghp/MoviePilot-Frontend)
+- [:jigsaw: 官方插件 *MoviePilot 官方插件与市场索引。*](https://github.com/jxxghp/MoviePilot-Plugins)
+- [:package: 运行时资源 *MoviePilot 站点索引与认证资源。*](https://github.com/jxxghp/MoviePilot-Resources)
+- [:iphone: iOS 客户端 *MoviePilot 原生 iOS App。*](https://github.com/jxxghp/MoviePilot-App)
+{.links-list}
 **API文档：** https://api.movie-pilot.org
 **发布频道：** https://t.me/moviepilot_channel
 {.is-success}
