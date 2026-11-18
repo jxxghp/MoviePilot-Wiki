@@ -246,7 +246,7 @@ api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,r
 - **WRITE_TIMEOUT：** 写入超时时间（秒），默认为 `3.0`
 
 ## 安全
-- **SECURITY_IMAGE_DOMAINS：** 允许的图片缓存域名，默认为 `["image.tmdb.org", "static-mdb.v.geilijiasu.com", "bing.com", "doubanio.com", "lain.bgm.tv", "raw.githubusercontent.com", "github.com", "thetvdb.com", "cctvpic.com", "iqiyipic.com", "hdslb.com", "cmvideo.cn", "ykimg.com", "qpic.cn"]`
+- **SECURITY_IMAGE_DOMAINS：** 允许的图片缓存域名，默认为 `["image.tmdb.org", "images.tmdb.org", "static-mdb.v.geilijiasu.com", "bing.com", "doubanio.com", "lain.bgm.tv", "bgm.tv", "bangumi.tv", "bangumi.lol", "raw.githubusercontent.com", "github.com", "avatars.githubusercontent.com", "thetvdb.com", "cctvpic.com", "iqiyipic.com", "hdslb.com", "cmvideo.cn", "ykimg.com", "qpic.cn", "anilist.co", "coverartarchive.org", "archive.org", "theaudiodb.com", "commons.wikimedia.org", "upload.wikimedia.org"]`
 - **SECURITY_IMAGE_SUFFIXES：** 允许的图片文件后缀格式，默认为 `[".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif"]`
 - **ENCODING_DETECTION_PERFORMANCE_MODE：** V2新增配置项，编码探测性能模式，默认为`true`，优先提升探测效率，但可能降低编码探测的准确性
 - **ENCODING_DETECTION_MIN_CONFIDENCE：** 编码探测最低置信度，默认为 `0.8`
