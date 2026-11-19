@@ -1,46 +1,42 @@
 ---
 title: 配置参考
-description: 所有支持的配置项说明
+description: V3 配置来源、界面入口、部署变量与常用设置
 published: 1
-date: 2026-05-15T01:04:59.000Z
-tags: 
+date: 2026-11-19T06:47:21.684Z
+tags: 配置, V3
 editor: markdown
 dateCreated: 2024-05-30T09:48:02.073Z
 ---
 
-> V3 配置优先级为：`环境变量` > `app.env（WEB界面写入）` > `secret 文件` > `默认值`。**只要某项已通过环境变量注入，前端界面和 `app.env` 中的同名配置就不会覆盖它。** 因此前端已有入口的设置，建议优先在 WEB 中调整；只有前端没有入口、部署启动参数或需要在首次启动前生效的项目，才建议写环境变量。
+# 先选正确的配置方式
+
+| 内容 | 推荐入口 | 保存在哪里 |
+| --- | --- | --- |
+| 常用标量设置，如代理、识别、LLM、更新开关 | Web 系统设置或 `moviepilot config` | 通常写入实际配置目录的 `app.env` |
+| 下载器、媒体服务器、通知渠道、目录、过滤规则、工作流 | 各自设置页面 | 主数据库中的结构化配置 |
+| 端口、容器运行身份、挂载、数据库首次连接 | Compose、容器或进程环境 | 部署配置 |
+| API Key、数据库密码等部署密钥 | secret 文件或可信部署配置 | 对应 secret 挂载或配置来源 |
+| 站点认证 | 头像菜单中的用户认证 | 按当前资源要求保存 |
+
+完整的主程序配置字段、类型和默认值见[配置项索引](/configuration-reference)。该索引从后端配置模型与目录生成；容器脚本专属变量仍在本页和[安装指引](/install)说明。
+
+> 运行配置优先级为：**显式构造参数 > 进程环境变量 > `<CONFIG_DIR>/app.env` > secret 文件 > 默认值**。日常部署主要关注后四项。界面保存成功不代表它能覆盖同名环境变量；优先使用一种明确的管理来源。
 {.is-warning}
 
-> ❗号标识的为必填项，其它为可选项，可选项可删除配置变量从而使用默认值。
-{.is-info}
-
-> 本地 CLI 安装模式下，绝大多数常用配置均可通过 `moviepilot setup --wizard`、`moviepilot config ...` 或前端界面完成，不再需要手工维护多份配置文件。
-{.is-info}
-
-> V3 全新安装不再提供独立的设置向导：首次启动只需在 Web 初始化页面创建管理员用户名、密码和 API Key，保存后进入登录页面。V3 的下载器、媒体服务器、通知、存储和智能助手等配置在登录后按需完成；V1、V2 的本地 CLI / 设置向导流程保持不变。
-{.is-info}
-
+V3 全新 Web 初始化仅创建管理员和 API Key；登录后再配置连接与业务。**本地 CLI 的 `setup --wizard` 是另一套安装入口**，仍可交互配置数据库、目录、站点、连接与 AI 等内容。
 
 # Docker / Kubernetes Secrets
 
-V3 支持从 `/run/secrets/<配置项名>` 读取主程序部署配置，例如 `API_TOKEN`、`GITHUB_TOKEN`、
-`TMDB_API_KEY`、`DB_POSTGRESQL_PASSWORD`。文件内容不会导出到进程环境，也不会复制到 `app.env`。
-此功能需使用包含 [Issue #7112](https://github.com/jxxghp/MoviePilot/issues/7112) 实现的版本。
+V3 从 `/run/secrets/<配置项名>` 读取主程序部署配置。它不读取插件数据库中的配置，也不把文件内容导出为环境变量或复制到 `app.env`。
 
-- 默认目录 `/run/secrets` 不存在时静默回落。可通过进程环境变量 `MOVIEPILOT_SECRETS_DIR`
-  更换路径，兼容 `SECRETS_DIR`，前者优先；显式设为空字符串、`false`、`off`、`0` 可关闭。
-  开关在程序导入时读取，不能写在 `app.env` 中；`CONFIG_DIR` 仍需通过进程环境提供。
-- 文件名大小写必须与配置项完全一致。内容为 UTF-8 裸值，不带 dotenv 外层引号，允许 BOM，
-  去除首尾空白并保留内部换行；list / dict 配置使用 JSON。
-- 空文件、非法编码、非法 JSON、类型或字段约束错误会告警并跳过该项，不输出密钥原文。
-  `API_TOKEN` 至少 16 位，无其他有效来源时保持未配置，请修正 secret。
-- 存在同名 secret 的项由外部管理：界面/CLI 不覆盖写入，自动修正也不会写回 `app.env`。
-  轮换文件后须重启，支持 Kubernetes 的投影符号链接。
-- 迁移时需手工删除环境变量和 `app.env` 的同名旧值，否则它们仍优先。界面“清空”可能写入
-  默认值，不等于删行。要恢复本地管理，移除对应 secret 挂载并重启。
-- 暂不支持 `XXX_FILE`，可将单个文件挂载到 secrets 目录中的对应配置名。
-
-Compose 的服务中声明 `secrets`，以 `target` 指定配置名，不把密钥写进 YAML：
+- 文件名大小写必须与配置项一致，例如 `API_TOKEN`、`DB_POSTGRESQL_PASSWORD`。
+- 文件使用 UTF-8 裸值，不照搬 dotenv 的外层引号；首尾空白会被去除。
+- 列表和字典使用 JSON，例如 `["https://mp.example.com"]`。
+- 空文件、非法编码、类型约束错误等会按项告警并跳过，不打印密钥原文。
+- 同名 secret 项由外部管理，Web/CLI 不为其写回 `app.env`，即使它被更高优先级来源遮蔽。
+- 轮换后须重启。迁移时应从环境变量和 `app.env` 删除同名旧值，否则它们继续优先。
+- 目录开关 `MOVIEPILOT_SECRETS_DIR` 必须在进程环境设置，兼容 `SECRETS_DIR`；前者优先。显式空值、`false`、`off`、`0` 可关闭读取。
+- 不支持通用的 `XXX_FILE` 命名约定；通过挂载成配置项同名文件实现。
 
 ```yaml
 services:
@@ -51,666 +47,223 @@ services:
     secrets:
       - source: moviepilot_api_token
         target: API_TOKEN
+
 secrets:
   moviepilot_api_token:
     file: ./private/api_token
 ```
 
-把真实密钥文件排除在版本管理之外，并确保容器运行用户有读取权限。Swarm 可使用 external secret，
-Kubernetes 可将 Secret 的 key 以配置名投影到 `/run/secrets`。
-更多说明见[主仓 secrets 部署文档](https://github.com/jxxghp/MoviePilot/blob/v3/docs/secrets.md)。
+这是 secret 挂载片段，完整容器模板见[安装指引](/install)。把实际密钥文件排除在版本管理之外，并保证运行用户可读。完整规则见[主仓 secrets 文档](https://github.com/jxxghp/MoviePilot/blob/v3/docs/secrets.md)。
 
 # 环境变量
 
-认证站点和认证参数等个别参数需要通过环境变量设置，才能正常使用MoviePilot，没有❗标识的可以不用设置。
+环境变量适合启动前必须确定的设置。修改 Compose 后需要重新创建容器才能应用新环境，不是只在容器内修改文件或点击普通重启。
 
 ## 站点认证
 
-> 不再持续更新，在MoviePilot中点击用头像，弹出菜单中 `用户认证` 可选择的站点即代表支持该站点认证。
-{.is-info}
+`AUTH_SITE` 及站点专属参数由当前认证资源决定。优先使用 `用户认证` 界面，界面会动态显示可用站点和必填参数；不要按多年前的固定站点表判断现在是否支持。
 
-> 本地 CLI 安装模式下，初始化向导也支持直接配置用户站点认证，会自动列出当前资源支持的站点并写入系统配置。
-{.is-success}
-
-- **❗AUTH_SITE：** **认证站点**（认证通过后才能使用站点相关功能），支持配置多个认证站点，使用`,`分隔，如：`iyuu,hhclub`，会依次执行认证操作，直到有一个站点认证成功。 
-
-    > v2.0.7及以上版本，已支持通过UI进行用户认证：点击用户头像 -> 用户认证，无需配置环境变量。
-    {.is-success}
-
-    **根据下表配置`AUTH_SITE`，以及对应站点的认证参数（最新支持情况以系统显示为准）：**
-    
-
-|  站点名   |  AUTH_SITE   |                                环境变量                                 |
-|:------:|:------------:|:-------------------------------------------------------------------:|
-|  IYUU  |     iyuu     |                        `IYUU_SIGN`：IYUU登录令牌                         |
-|   憨憨   |    hhclub    |            `HHCLUB_USERNAME`：用户名<br/>`HHCLUB_PASSKEY`：密钥            |
-|   观众   |  audiences   |           `AUDIENCES_UID`：用户ID<br/>`AUDIENCES_PASSKEY`：密钥           |
-|  高清杜比  |   hddolby    |             `HDDOLBY_ID`：用户ID<br/>`HDDOLBY_PASSKEY`：密钥              |
-|   织梦   |     zmpt     |                `ZMPT_UID`：用户ID<br/>`ZMPT_PASSKEY`：密钥                |
-|  自由农场  |   freefarm   |            `FREEFARM_UID`：用户ID<br/>`FREEFARM_PASSKEY`：密钥            |
-|  红豆饭   |    hdfans    |              `HDFANS_UID`：用户ID<br/>`HDFANS_PASSKEY`：密钥              |
-|   冬樱   | wintersakura |        `WINTERSAKURA_UID`：用户ID<br/>`WINTERSAKURA_PASSKEY`：密钥        |
-|  红叶PT  |    leaves    |              `LEAVES_UID`：用户ID<br/>`LEAVES_PASSKEY`：密钥              |
-| 1PTBA  |     ptba     |                `PTBA_UID`：用户ID<br/>`PTBA_PASSKEY`：密钥                |
-|  冰淇淋   |   icc2022    |             `ICC2022_UID`：用户ID<br/>`ICC2022_PASSKEY`：密钥             |
-|   杏坛   |   xingtan    |             `XINGTAN_UID`：用户ID<br/>`XINGTAN_PASSKEY`：密钥             |
-|   象站   |   ptvicomo   |            `PTVICOMO_UID`：用户ID<br/>`PTVICOMO_PASSKEY`：密钥            |
-| AGSVPT |    agsvpt    |              `AGSVPT_UID`：用户ID<br/>`AGSVPT_PASSKEY`：密钥              |
-|   麒麟   |    hdkyl     |               `HDKYL_UID`：用户ID<br/>`HDKYL_PASSKEY`：密钥               |
-|   青蛙   |    qingwa    |              `QINGWA_UID`：用户ID<br/>`QINGWA_PASSKEY`：密钥              |
-|   蝶粉   |   discfan    |             `DISCFAN_UID`：用户ID<br/>`DISCFAN_PASSKEY`：密钥             |
-|  海胆之家  |    haidan    |              `HAIDAN_ID`：用户ID<br/>`HAIDAN_PASSKEY`：密钥               |
-| Rousi  |    rousi     |               `ROUSI_UID`：用户ID<br/>`ROUSI_PASSKEY`：密钥               |
-| Sunny  |    sunny     |               `SUNNY_UID`：用户ID<br/>`SUNNY_PASSKEY`：密钥               |
-|   咖啡   |    ptcafe    |              `PTCAFE_UID`：用户ID<br/>`PTCAFE_PASSKEY`：密钥              |
-| PTZone |    ptzone    |              `PTZONE_UID`：用户ID<br/>`PTZONE_PASSKEY`：密钥              |
-|   库非   |    kufei     |               `KUFEI_UID`：用户ID<br/>`KUFEI_PASSKEY`：密钥               |
-| YemaPT |    yemapt    |     `YEMAPT_UID`：用户ID<br/>`YEMAPT_AUTH`：密钥<br/>注意：需v2.2.0或以上版本      |
- |   回声   |     hspt     |       `HSPT_UID`：用户ID<br/>`HSPT_AUTH`：密钥        |
-|  星陨阁   |  xingyunge   | `XINGYUNGE_UID`：用户ID<br/>`XINGYUNGE_PASSKEY`：密钥 |
-|   财神   |     cspt     |      `CSPT_UID`：用户ID<br/>`CSPT_PASSKEY`：密钥      |
-|   唐门   |     tmpt     |      `TMPT_UID`：用户ID<br/>`TMPT_PASSKEY`：密钥      |
-|   雨    |   raingfh    |   `RAINGFH_UID`：用户ID<br/>`RAINGFH_PASSKEY`：密钥   |
-|   GTK    |   gtkpw    |   `GTKPW_UID`：用户ID<br/>`GTKPW_PASSKEY`：密钥   |
-|   PTLGS    |   ptlgs    |   `PTLGS_UID`：用户ID<br/>`PTLGS_PASSKEY`：密钥   |
-|   HDBAO    |   hdbao    |   `HDBAO_UID`：用户ID<br/>`HDBAO_PASSKEY`：密钥   |
-|   下水道    |   sewerpt    |   `SEWERPT_UID`：用户ID<br/>`SEWERPT_PASSKEY`：密钥   |
-|   PTS    |   ptskit    |   `PTSKIT_UID`：用户ID<br/>`PTSKIT_PASSKEY`：密钥   |
+环境变量方式仍适用于自动化部署，参数名与含义应以当前认证界面和资源说明为准。认证资格与某站 Cookie/API Key 的有效性分别检查，详见[基础](/basic)、[站点](/site)。
 
 ## 基础设置
-- **❗NGINX_PORT**：WEB服务端口，默认`3000`，可自行修改，不能与API服务端口冲突
-- **❗PORT**：API服务端口，默认`3001`，可自行修改，不能与WEB服务端口冲突
-- **PUID**：运行程序用户的`uid`，默认`0`
-- **PGID**：运行程序用户的`gid`，默认`0`
-- **UMASK**：掩码权限，默认`000`，可以考虑设置为`022`
-- **HOST**：API监听地址，默认为 `0.0.0.0`
-- **CONFIG_DIR**：配置文件目录。Docker / 套件环境通常为 `/config`；本地 CLI 安装默认使用程序目录外的系统配置目录：
-  - macOS：`~/Library/Application Support/MoviePilot`
-  - Linux：`${XDG_CONFIG_HOME:-~/.config}/moviepilot`
-- **TZ**：时区，默认为 `Asia/Shanghai`
-- **START_NOGOSU**：以不切换容器内用户的方式启动容器，这有助于缓解无根容器的用户权限问题。例如，使用 Podman 的 `--group-add keep-groups`（需要 crun 运行时支持）以将宿主用户的附加组权限侧漏到容器中，同时使用 `START_NOGOSU=true` 避免容器内切换用户导致 `initgroups()` 被调用，使得侧漏进来的补充组权限被清空。将此环境变量设置为 `true` 会导致 `PUID` 与 `PGID` 环境变量失效，因为容器内不再会进行用户切换。默认为 `false`。
 
+| 变量 | 用途与注意事项 |
+| --- | --- |
+| `NGINX_PORT` / `PORT` | 默认 Web 3000、API 3001；不能冲突。容器内端口与宿主端口映射分别维护 |
+| `HOST` | 后端监听地址，默认 `0.0.0.0`，不是浏览器访问 URL |
+| `CONFIG_DIR` | 配置目录；Docker 通常为 `/config`，CLI 默认外置目录见下文 |
+| `TZ` | 实例时区，默认 `Asia/Shanghai`，影响 Cron 等时间解释 |
+| `PUID` / `PGID` / `UMASK` | Docker 运行身份和新文件权限，需与宿主机目录权限及 ACL 配合 |
+| `START_NOGOSU` | 容器不切换运行用户，适用于明确了解无根容器权限的场景；此时 `PUID/PGID` 不生效 |
+| `NGINX_CLIENT_MAX_BODY_SIZE` | Docker 内置代理的请求体大小限制，需与外层代理一起核对 |
+
+V3 不通过 `SUPERUSER_PASSWORD` 部署变量初始化管理员密码。新 Web 实例按初始化页面创建；CLI 自动化使用它自己的显式参数。不要将管理员明文密码作为长期环境配置。
 
 ## HTTPS访问
-- **ENABLE_SSL：** 是否启动https访问，`true`/`false`，启用后需要设置完整相关参数，否则无法正常访问后台，**仅支持Docker环境**
-- **SSL_DOMAIN：** SSL域名，用于申请证书，需要与实际的后台访问域名一致
-- **SSL_NGINX_PORT：** https访问端口，默认443
-- **SSL_EMAIL：** SSL证书申请使用的邮箱地址
-- **AUTO_ISSUE_CERT：** 是否自动签发证书，`true`/`false`，启用后会自动安装acme.sh签发证书并定时更新，仅支持DNS认证方式，需要同时以`ACME_ENV_`开关设置好DNS认证相关参数；不启用时，需要手动准备SSL证书文件，以文件名：`/config/certs/latest/fullchain.pem`、`/config/certs/latest/privkey.pem` 存放
-- **DNS_PROVIDER：** acme.sh DNS认证方式，相关参数设置参考：[wiki](https://github.com/acmesh-official/acme.sh/wiki/说明)
-- **ACME_ENV_xx:** acme.sh对应的DNS认证方式的相关参数，参数必须以`ACME_ENV_`开头才会被正常使用，比如 `ACME_ENV_CF_Token`
 
+可以由外层反向代理管理 HTTPS，也可按 Docker 内置证书功能配置：
+
+| 变量 | 用途 |
+| --- | --- |
+| `ENABLE_SSL` | Docker 内置 HTTPS 开关 |
+| `SSL_DOMAIN` / `SSL_NGINX_PORT` | 证书域名与 HTTPS 监听端口 |
+| `SSL_EMAIL` | 证书申请邮箱 |
+| `AUTO_ISSUE_CERT` | 自动签发证书开关，启用时需准备 DNS 验证 |
+| `DNS_PROVIDER` / `ACME_ENV_*` | acme.sh DNS 服务商及其授权参数 |
+
+手工证书使用 `/config/certs/latest/fullchain.pem` 和 `privkey.pem`。证书申请能力只解决证书与监听，不替代域名解析、端口转发或访问控制。反向代理、流式响应和通行密钥要求见[域名与反向代理](/reverse-proxy)。
 
 # 配置文件
 
-V1版本有些进阶配置参数需要通过配置文件进行配置（不配置会自动使用默认值），配置文件名：`app.env`，放配置文件根目录，点击 [此处](https://raw.githubusercontent.com/jxxghp/MoviePilot/main/config/app.env) 可下载模板。
+实际配置目录中的 `app.env` 使用 dotenv 格式。不要在另一个空目录新建同名文件后误以为它会自动生效，也不要把旧 `main` 分支模板当作 V3 完整参数表。
 
-> **V2 版本变化说明** <br> v2.0.0+ 版本后，常用设置优先通过前端维护：`设定 -> 系统` 覆盖基础、进阶、搜索、订阅、站点、目录等入口；下载器、媒体服务器、通知渠道、存储目录、过滤规则等结构化配置也都应在对应页面配置。下面仍保留环境变量说明，主要用于前端没有入口的高级项、Docker 启动项、首次启动前必须生效的项目，以及批量部署场景。
-{.is-info}
+```env
+APP_DOMAIN=https://mp.example.com
+PROXY_HOST=http://192.168.1.2:7890
+AI_AGENT_ENABLE=false
+```
+
+上述仅示范格式，不要为不需要的功能添加无效地址。手工改文件后按对应配置要求重启；可热更新项优先在界面保存并回读。
+
+本地配置目录默认位置：
+
+- macOS：`~/Library/Application Support/MoviePilot`
+- Linux：`${XDG_CONFIG_HOME:-~/.config}/moviepilot`
+
+```shell
+moviepilot config path
+moviepilot config keys
+moviepilot config describe API_TOKEN
+moviepilot config get PORT
+```
+
+列表或字典参数使用合法 JSON。不要把包含完整密钥的 `config list` 输出直接公开。
 
 ## 前端配置入口
 
-| 前端入口 | 建议在此配置的项目 |
+| 入口 | 常见内容 |
 | --- | --- |
-| `设定 -> 系统 -> 基础设置` | 应用域名、API 密钥、壁纸、媒体服务器同步、识别来源、Github Token、OCR 服务、智能助手、LLM、音频输入、语音输出、AI 推荐 |
-| `设定 -> 系统 -> 进阶设置` | 辅助认证、全局图片缓存、统计分享、大内存模式、SQLite WAL、自动更新、数据清理、代理、DOH、TMDB、Fanart、日志、插件热加载、编码探测、整理线程 |
-| `设定 -> 系统 -> 搜索设置` | 搜索来源、过滤规则组、索引站点、种子标签、自动择优用户、搜索多个名称、下载站点字幕 |
-| `设定 -> 系统 -> 订阅设置` | 订阅模式、订阅搜索、搜索间隔、RSS 间隔、本地存在检查、订阅站点与订阅过滤规则 |
-| `设定 -> 系统 -> 站点设置` | CookieCloud、站点数据刷新、站点消息、浏览器仿真、FlareSolverr |
-| `设定 -> 系统 -> 目录设置` | 刮削来源、电影/电视剧重命名格式、存储、目录、媒体分类 |
-| `插件 -> 插件市场设置` | 插件市场地址 `PLUGIN_MARKET` |
-| `设定 -> 通知` | Telegram、企业微信、飞书等通知渠道配置；飞书 AppId、AppSecret、EncryptKey、VerificationToken 建议在这里填，不再作为全局环境变量维护 |
+| `设定 → 系统` | 基础、进阶、网络、搜索、订阅、站点、智能助手与实验室等分组 |
+| `设定 → 连接` | 下载器与媒体服务器 |
+| `设定 → 目录` | 存储、来源与目标目录、整理、刮削与自动分类 |
+| `设定 → 通知` | 通知渠道、消息类型和发送范围 |
+| 用户管理与个人信息 | 用户权限、渠道授权、OTP、通行密钥与账号绑定 |
+| 插件与插件市场设置 | 已安装插件、配置、插件市场地址 |
+| 工作流 | 流程、动作与触发方式 |
 
-> 下载器、媒体服务器、通知渠道、存储目录、过滤规则、工作流等属于结构化系统配置，不建议写环境变量。环境变量更适合部署参数、密钥兜底、数据库/缓存连接、低层安全开关和前端暂未提供入口的高级项。
-{.is-info}
+具体分组会随兼容前端调整，名称以当前实例为准；结构化设置不能仅靠添加同名环境变量创建。
 
 ## 基础配置
-- **PROJECT_NAME：** 项目名称，默认为 `MoviePilot`，会影响进程名、OpenAPI 标题和部分 Cookie 名称，一般无需修改
-- **API_V1_STR：** API 路由前缀，默认为 `/api/v1`，一般无需修改
-- **FRONTEND_PATH：** 前端静态文件路径，默认为 `/public`，Docker 官方镜像和本地 CLI 会自动维护
-- **❗SUPERUSER：** 超级管理员用户名。V1、V2 默认`admin`且仅在首次安装时生效；V3 默认为空，首次访问 Web 初始化页面并保存后写入运行时配置。
-- **SUPERUSER_PASSWORD：** 超级管理员初始密码。V2.8+ 的 V1、V2 版本支持通过环境变量预置，未配置时按原版本规则生成；V3 默认为空，启动时不会生成或写入数据库，仅在初始化页面提交后保存密码哈希。
-- **❗API_TOKEN：** API 密钥。V1 默认`moviepilot`；V2 仍要求大于等于 16 位的复杂字符串，不符合要求时按原版本规则重新生成；V3 全新安装由初始化页面生成并保存。该值用于媒体服务器 Webhook、微信回调、MoviePilot MCP 和兼容 Agent API 认证，请按管理员级 secret 保护。
-- **DEBUG：** 是否调试模式，默认为 `false`
-- **APP_DOMAIN：** 应用域名，格式为 `https://movie-pilot.org`，默认为空
-- **ADVANCED_MODE：** 仅 V1、V2 支持，`v2.8.0+` 默认 `true`；V3 已移除该变量，登录后直接使用完整设置页面。
-- **DEV:** 开发者模式，`true`/`false`，默认`false`，仅用于本地开发使用，开启后会暂停所有定时任务，且插件代码文件的修改无需重启会自动重载生效
+
+`APP_DOMAIN` 是用户实际访问的域名根地址；`API_V1_STR` 默认 `/api/v1`，通常不需修改；`FRONTEND_PATH` 由镜像或 CLI 安装流程管理。管理员、普通用户与 API Key 的区别见[用户与安全](/security)。
 
 ## 网络&代理
-- **PROXY_HOST：** 网络代理，访问themoviedb或者重启更新需要使用代理访问，格式为`http(s)://ip:port`、`socks5://user:pass@host:port`、`socks5h://user:pass@host:port`
-- **DOH_ENABLE：** DNS over HTTPS开关，`true`/`false`，默认`false`，开启后会使用DOH对设定域名进行解析，以减少被DNS污染的情况，提升网络连通性
-- **DOH_DOMAINS：** DOH域名清单，多个使用`,`分隔，默认为：
-```
-api.themoviedb.org,api.tmdb.org,webservice.fanart.tv,api.github.com,github.com,raw.githubusercontent.com,codeload.github.com,api.telegram.org
-```
-- **DOH_RESOLVERS：** DOH 解析服务器列表，多个使用`,`分隔，默认为 `1.0.0.1,1.1.1.1,9.9.9.9,149.112.112.112`
-- **GITHUB_TOKEN：** Github token，提高自动更新、插件安装等请求Github Api的限流阈值，格式：ghp_**** 或 github_pat_****
-- **GITHUB_PROXY：** Github代理地址，用于加速版本及插件升级安装，格式：`https://mirror.ghproxy.com/`
-- **PIP_PROXY：** pip镜像站点，格式：`https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple`
-- **REPO_GITHUB_TOKEN：** 指定的仓库Github token，多个仓库使用,分隔，格式：`{user1}/{repo1}:ghp_****,{user2}/{repo2}:github_pat_****`
+
+`PROXY_HOST`、`DOH_ENABLE`、`DOH_DOMAINS`、`DOH_RESOLVERS` 处理不同层面的问题。先判断是 DNS、TLS、HTTP 状态还是目标服务拒绝，不要一次改变全部参数。
+
+`GITHUB_PROXY` 用于 GitHub 下载中转，`GITHUB_TOKEN` 用于相应 GitHub 访问认证，二者不是同一功能。不要把含私有 Token 的 URL 交给不可信中转服务。网络依赖见[环境准备](/ready)。
 
 ## 系统重启&更新
-- **MOVIEPILOT_AUTO_UPDATE：** 重启时自动更新，`true`/`release`/`dev`/`false`，默认`release`，需要能正常连接Github **注意：如果出现网络问题可以配置`PROXY_HOST`**
-- **AUTO_UPDATE_RESOURCE**：启动时自动检测和更新资源包（站点索引及认证等），`true`/`false`，默认`true`，需要能正常连接Github。Docker 环境可直接依赖该机制；本地 CLI 安装模式通常使用 `moviepilot update all` 来同步程序和资源
-- **DOCKER_CLIENT_API：** V1/V2 Docker 环境用于实现旧版内建重启功能，默认为：`tcp://127.0.0.1:38379`；V3 镜像改由容器内 supervisor 托管前端 Nginx 和后端进程，Web 重启不访问 Docker API，也不需要映射 Docker Socket。本地 CLI 安装模式由 `moviepilot start` 管理的进程控制器完成重启
+
+- `MOVIEPILOT_AUTO_UPDATE`：布尔值，默认 `false`，开启稳定版本检查与提醒，不自动下载或安装。
+- `AUTO_UPDATE_RESOURCE`：独立控制站点资源检查；资源安装仍需确认并在重启时应用。
+- `MOVIEPILOT_UPDATE_DEV`：独立开发模式开关；Docker 启动跟踪开发分支，本地 CLI 影响手动 `update` 的默认模式。
+
+普通重启、稳定升级与镜像重建分别说明在[升级](/upgrade)。旧值 `dev/release` 的兼容转换不能作为当前填写方式。
 
 ## 缓存
-- **CACHE_BACKEND_TYPE：** V2新增配置项，缓存类型，支持 `cachetools` 和 `redis`，默认使用 `cachetools`
-- **CACHE_BACKEND_URL：** V2新增配置项，缓存连接字符串，仅外部缓存（如 Redis）需要，格式为`redis://:password@host:port`，默认为`redis://localhost:6379`
-- **CACHE_REDIS_MAXMEMORY：** V2新增配置项，`Redis` 缓存最大内存限制，为 `0` 时不限制，未配置时，如开启大内存模式时为 `1024mb`，未开启时为 `256mb`
-- **GLOBAL_IMAGE_CACHE：** 全局图片缓存，将媒体图片缓存到本地，默认为 `false`
-- **GLOBAL_IMAGE_CACHE_DAYS：** 全局图片缓存保留天数，默认`7`天
-- **TEMP_FILE_DAYS：**  临时文件保留天数，默认`3`天
-- **META_CACHE_EXPIRE：** 元数据识别缓存过期时间（小时），数字型，不配置或者配置为`0`时使用系统默认（普通模式为24小时，大内存模式为72小时），调大该值可减少themoviedb的访问次数
 
-使用 redis 作为缓存时时参考 [安装Redis](#安装Redis) 安装配置Redis环境。
+默认 `CACHE_BACKEND_TYPE=cachetools`。Redis 通过 `CACHE_BACKEND_URL` 连接，不替代主数据库。图片、包与临时文件缓存还有各自容量或保留配置，见[数据库与缓存](/database)和[运行维护](/operations)。
 
 ## 数据库配置
-- **DB_TYPE：** 数据库类型，支持 `sqlite` 和 `postgresql`（仅v2.7.3+），默认使用 `sqlite`
-- **DB_ECHO：** 是否在控制台输出 SQL 语句，默认关闭
-- **DB_WAL_ENABLE：** 是否启用 WAL 模式，仅适用于SQLite，默认为 `true`，可提升读写并发性能，但可能在异常情况下增加数据丢失风险
-- **DB_TIMEOUT：** SQLite 的 busy_timeout 参数，默认为 `60` 秒
-- **DB_POOL_TYPE：** 数据库连接池类型，支持 `QueuePool` 和 `NullPool`，默认为 `QueuePool`
-- **DB_POOL_PRE_PING：** 是否在获取连接时进行预先 ping 操作，默认为 `true`
-- **DB_POOL_RECYCLE：** 数据库连接的回收时间（秒），默认为 `300`
-- **DB_POOL_TIMEOUT：** 数据库连接池获取连接的超时时间（秒），默认为 `30`
-- **DB_SQLITE_POOL_SIZE：** SQLite 连接池大小，默认为 `10`
-- **DB_SQLITE_MAX_OVERFLOW：** SQLite 连接池溢出数量，默认为 `50`
-- **DB_POSTGRESQL_HOST：** PostgreSQL 主机地址，默认为 `localhost`
-- **DB_POSTGRESQL_PORT：** PostgreSQL 端口，默认为 `5432`
-- **DB_POSTGRESQL_DATABASE：** PostgreSQL 数据库名，默认为 `moviepilot`
-- **DB_POSTGRESQL_USERNAME：** PostgreSQL 用户名，默认为 `moviepilot`
-- **DB_POSTGRESQL_PASSWORD：** PostgreSQL 密码，默认为 `moviepilot`
-- **DB_POSTGRESQL_POOL_SIZE：** PostgreSQL 连接池大小，默认为 `10`
-- **DB_POSTGRESQL_MAX_OVERFLOW：** PostgreSQL 连接池溢出数量，默认为 `50`
 
-使用 PostgreSQL 数据库时参考 [安装Postgresql](#安装Postgresql) 安装配置数据库环境。
+默认 SQLite；使用 PostgreSQL 配置 `DB_TYPE` 和 `DB_POSTGRESQL_*`。切换连接不会迁移旧数据，不要手工修改 `alembic_version` 绕过结构迁移。部署与迁移边界见[数据库与缓存](/database)，自动备份配置见[备份与恢复](/backup)。
 
 ## 安全认证配置
-- **SECRET_KEY：** 系统密钥，用于加密等安全操作，默认为随机生成的32位安全字符串
-- **RESOURCE_SECRET_KEY：** 资源密钥，用于资源访问控制，默认为随机生成的32位安全字符串
-- **ALLOWED_HOSTS：** 允许的域名列表，默认为 `["*"]`，表示允许所有域名
-- **ACCESS_TOKEN_EXPIRE_MINUTES：** TOKEN过期时间（分钟），默认为 `11520`（8天）
-- **RESOURCE_ACCESS_TOKEN_EXPIRE_SECONDS：** 资源访问TOKEN过期时间（秒），默认为 `1800`（30分钟）
-- **AUXILIARY_AUTH_ENABLE：** 辅助认证开关，允许通过外部服务进行认证、单点登录以及自动创建用户，默认为 `false`
+
+`API_TOKEN` 至少 16 字符，按管理员级集成密钥保护。`ALLOWED_HOSTS` 在当前配置中表达允许的跨域来源，不是 NAS 防火墙或客户端 IP 白名单。`API_DOCS_ENABLE` 控制实例 API 文档入口，默认关闭。
 
 ## 日志配置
-- **LOG_LEVEL：** 日志级别，支持 `DEBUG`、`INFO`、`WARNING`、`ERROR` 等，默认为 `INFO`
-- **LOG_MAX_FILE_SIZE：** 日志文件最大大小（单位：MB），默认为 `5`
-- **LOG_BACKUP_COUNT：** 备份的日志文件数量，默认为 `10`
-- **LOG_CONSOLE_FORMAT：** 控制台日志格式，默认为 `%(leveltext)s[%(name)s] %(asctime)s %(message)s`
-- **LOG_FILE_FORMAT：** 文件日志格式，默认为 `【%(levelname)s】%(asctime)s - %(message)s`
-- **ASYNC_FILE_QUEUE_SIZE：** 异步文件写入队列大小，默认为 `1000`
-- **ASYNC_FILE_WORKERS：** 异步文件写入线程数，默认为 `2`
-- **BATCH_WRITE_SIZE：** 批量写入大小，默认为 `50`
-- **WRITE_TIMEOUT：** 写入超时时间（秒），默认为 `3.0`
+
+日志等级、轮转大小与保留份数由 `LOG_LEVEL`、`LOG_MAX_FILE_SIZE`、`LOG_BACKUP_COUNT` 等控制。日志格式和异步写入兼容项见[配置项索引](/configuration-reference)，读取与脱敏见[运行维护](/operations)。
 
 ## 安全
-- **SECURITY_IMAGE_DOMAINS：** 允许的图片缓存域名，默认为 `["image.tmdb.org", "images.tmdb.org", "static-mdb.v.geilijiasu.com", "bing.com", "doubanio.com", "lain.bgm.tv", "bgm.tv", "bangumi.tv", "bangumi.lol", "raw.githubusercontent.com", "github.com", "avatars.githubusercontent.com", "thetvdb.com", "cctvpic.com", "iqiyipic.com", "hdslb.com", "cmvideo.cn", "ykimg.com", "qpic.cn", "anilist.co", "coverartarchive.org", "archive.org", "theaudiodb.com", "commons.wikimedia.org", "upload.wikimedia.org"]`
-- **SECURITY_IMAGE_SUFFIXES：** 允许的图片文件后缀格式，默认为 `[".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif"]`
-- **ENCODING_DETECTION_PERFORMANCE_MODE：** V2新增配置项，编码探测性能模式，默认为`true`，优先提升探测效率，但可能降低编码探测的准确性
-- **ENCODING_DETECTION_MIN_CONFIDENCE：** 编码探测最低置信度，默认为 `0.8`
-- **META_CACHE_EXPIRE：** 元数据识别缓存过期时间（小时），数字型，不配置或者配置为`0`时使用系统默认（普通模式为24小时，大内存模式为72小时）
-- **PASSKEY_REQUIRE_UV：** 通行密钥登录是否要求用户验证，默认为 `true`
-- **PASSKEY_ALLOW_REGISTER_WITHOUT_OTP：** 是否允许在未启用 OTP 时直接注册通行密钥，v2.9.5版本新增，默认为`false`
+
+图片代理域名与私网放行配置影响 SSRF 防护；只为明确需要的来源配置，不用通配方式排除全部检查。插件代码、MCP 密钥与 AI 附件的数据范围见[用户与安全](/security)。
 
 ## 智能助手
 
-> 智能助手的页面级说明参考 [智能助手](/agent)。这里仅列出主要配置项。
-{.is-info}
+最小配置为启用 `AI_AGENT_ENABLE`，并选择可用的 `LLM_PROVIDER`、`LLM_MODEL`、`LLM_API_KEY` 与必要的 `LLM_BASE_URL`。模型目录会变化，以界面加载和连接测试为准。
 
-- **AI_AGENT_ENABLE：** 是否启用智能助手总开关，默认为 `false`
-- **AI_AGENT_GLOBAL：** 是否启用全局智能助手入口，默认为 `false`
-- **AI_AGENT_VERBOSE：** 是否输出更详细的智能助手执行过程，默认为 `false`
-- **AI_AGENT_JOB_INTERVAL：** 智能助手定时任务检查间隔（小时），`0` 代表关闭，默认为 `0`
-- **AI_AGENT_RETRY_TRANSFER：** 是否允许智能助手自动重试整理失败记录，默认为 `false`
-- **SKILL_MARKET：** 技能市场源列表，多个地址使用 `,` 分隔，供消息渠道中的 `/skills` 命令浏览和安装市场技能；默认包含 `https://clawhub.ai`、`https://github.com/openai/skills`、`https://github.com/anthropics/skills`、`https://github.com/vercel-labs/agent-skills`
-- **LLM_PROVIDER：** LLM 提供商，默认为 `deepseek`，可选值以前端 `LLM提供商` 下拉和当前后端 provider 列表为准
-- **LLM_MODEL：** LLM 模型名称，默认为 `deepseek-chat`
-- **LLM_THINKING_LEVEL：** 模型思考强度，默认为 `off`，可选值以当前前端下拉和模型能力为准
-- **LLM_SUPPORT_IMAGE_INPUT：** 是否启用图片输入能力，默认为 `true`
-- **LLM_SUPPORT_AUDIO_INPUT：** 是否启用音频输入能力，默认为 `false`
-- **LLM_SUPPORT_AUDIO_OUTPUT：** 是否启用语音输出能力，默认为 `false`
-- **LLM_API_KEY：** LLM API 密钥
-- **LLM_BASE_URL：** LLM 接口基础地址；使用 OpenAI 兼容接口或第三方中转时需要配置
-- **LLM_BASE_URL_PRESET：** 前端基础地址预设标识，通常由 WEB 下拉选择后自动保存，手工维护时可留空
-- **LLM_MAX_CONTEXT_TOKENS：** 上下文窗口大小，单位为 `K`，默认为 `64`
-- **LLM_TEMPERATURE：** LLM 温度参数，默认为 `0.3`
-- **LLM_MAX_ITERATIONS：** 单次智能助手任务允许的最大迭代次数，默认为 `128`
-- **LLM_TOOL_TIMEOUT：** 单次工具调用超时时间（秒），默认为 `300`
-- **LLM_VERBOSE：** 是否输出底层 LLM 更详细日志，默认为 `false`
-- **LLM_MAX_MEMORY_MESSAGES：** 智能助手记忆消息数量上限，默认为 `30`
-- **LLM_MEMORY_RETENTION_DAYS：** 本地记忆保留天数，默认为 `1`
-- **LLM_REDIS_MEMORY_RETENTION_DAYS：** Redis 记忆保留天数，默认为 `7`
-- **LLM_MAX_TOOLS：** 工具选择中间件最大工具数量，`0` 代表关闭，默认为 `0`
-- **TAVILY_API_KEY：** Tavily 搜索 API Key，多个 Key 可用`,`分隔；通常不需要手工配置，只有更换搜索能力或自备额度时使用
-- **EXA_API_KEY：** Exa 搜索 API Key，通常不需要手工配置，只有更换搜索能力或自备额度时使用
-- **AI_RECOMMEND_ENABLED：** 是否启用资源搜索 `AI智能推荐`，默认为 `false`
-- **AI_RECOMMEND_USER_PREFERENCE：** 智能推荐时的用户偏好描述，默认为空
-- **AI_RECOMMEND_MAX_ITEMS：** 单次智能推荐返回条目上限，默认为 `50`
+- `LLM_API_PROTOCOL`：`auto`、`chat_completions` 或 `responses`，按兼容端点能力选择。
+- `LLM_WEB_SEARCH_MODE`：`local`、`builtin`、`auto`、`disabled`；服务端搜索还取决于模型目录声明和实际提供商能力。
+- `LLM_TEMPERATURE`：留空不覆盖提供商默认值，显式 `0` 与留空不同。
+- 图片输入、语音输入、语音输出分别开关；音频还需独立填写 `AUDIO_INPUT_*`、`AUDIO_OUTPUT_*`。
+- 超时、上下文、工具与定时任务参数见配置索引，不为追求速度随意放开全部资源限制。
 
-### 图片与附件
-
-- 当 `LLM_SUPPORT_IMAGE_INPUT=true` 时，图片会按多模态方式直接发送给模型
-- 当 `LLM_SUPPORT_IMAGE_INPUT=false` 时，图片不会被拒绝，而是按本地附件保存并以 `local_path` 形式交给智能助手
-- 用户上传的文件会落盘到临时目录，路径位于 `TEMP_PATH/agent_uploads/<session_id>/...`
-- 临时文件清理保留时间由 `TEMP_FILE_DAYS` 控制
-
-### 语音
-
-- **AUDIO_INPUT_PROVIDER：** 音频转写提供商，默认为 `openai`，当前支持 `openai`、`openai_chat_audio`、`mimo`
-- **AUDIO_INPUT_API_KEY：** 音频转写 API 密钥；该项独立于 `LLM_API_KEY`，如果同服务商也需要在音频字段中填写
-- **AUDIO_INPUT_BASE_URL：** 音频转写基础地址；OpenAI 官方接口可留空，OpenAI 兼容服务需填写对应 `/v1` 地址
-- **AUDIO_INPUT_MODEL：** 音频转写模型，默认为 `gpt-4o-mini-transcribe`
-- **AUDIO_INPUT_LANGUAGE：** 音频转写语言提示，默认为 `zh`
-- **AUDIO_OUTPUT_PROVIDER：** 语音合成提供商，默认为 `openai`，当前支持 `openai`、`openai_chat_audio`、`mimo`
-- **AUDIO_OUTPUT_API_KEY：** 语音合成 API 密钥；该项独立于 `LLM_API_KEY`
-- **AUDIO_OUTPUT_BASE_URL：** 语音合成基础地址；OpenAI 官方接口可留空，OpenAI 兼容服务需填写对应 `/v1` 地址
-- **AUDIO_OUTPUT_MODEL：** 语音合成模型，默认为 `gpt-4o-mini-tts`
-- **AUDIO_OUTPUT_VOICE：** 语音合成发音人，默认为 `alloy`
-- **AUDIO_OUTPUT_INCLUDE_TEXT：** 回复语音时是否同时附带文字说明，默认为 `false`
-
-> 音频输入和语音输出是两组独立配置：只需要“用户发语音，系统转成文字继续对话”时，打开 `LLM_SUPPORT_AUDIO_INPUT` 并配置 `AUDIO_INPUT_*` 即可；还希望智能助手回传语音时，再打开 `LLM_SUPPORT_AUDIO_OUTPUT` 并配置 `AUDIO_OUTPUT_*`。
-{.is-info}
+使用场景与渠道说明见[智能助手](/agent)。
 
 ## 媒体整理
-- **RMT_MEDIAEXT：** 支持的媒体文件后缀格式，默认为 `['.mp4', '.mkv', '.ts', '.iso', '.rmvb', '.avi', '.mov', '.mpeg', '.mpg', '.wmv', '.3gp', '.asf', '.m4v', '.flv', '.m2ts', '.strm', '.tp', '.f4v']`
-- **RMT_SUBEXT：** 支持的字幕文件后缀格式，默认为 `['.srt', '.ass', '.ssa', '.sup']`
-- **RMT_AUDIOEXT：** 支持的音频文件后缀格式，默认为 `['.aac', '.ac3', '.amr', '.caf', '.cda', '.dsf', '.dff', '.kar', '.m4a', '.mp1', '.mp2', '.mp3', '.mid', '.mod', '.mka', '.mpc', '.nsf', '.ogg', '.pcm', '.rmi', '.s3m', '.snd', '.spx', '.tak', '.tta', '.vqf', '.wav', '.wma', '.aifc', '.aiff', '.alac', '.adif', '.adts', '.flac', '.midi', '.opus', '.sfalc']`
-- **MOVIE_RENAME_FORMAT：** 电影重命名格式，默认内置了以下命名格式，如需自定义可参考 [进阶](/advanced) 自定义重命名格式章节说明。
-  ```jinja2
-  {{title}}{% if year %} ({{year}}){% endif %}/{{title}}{% if year %} ({{year}}){% endif %}{% if part %}-{{part}}{% endif %}{% if videoFormat %} - {{videoFormat}}{% endif %}{{fileExt}}
-  ```
 
-- **TV_RENAME_FORMAT：** 电视剧重命名格式，默认内置了以下命名格式，如需自定义可参考 [进阶](/advanced) 自定义重命名格式章节说明。
-  
-  ```jinja2
-  {{title}}{% if year %} ({{year}}){% endif %}/Season {{season}}/{{title}} - {{season_episode}}{% if part %}-{{part}}{% endif %}{% if episode %} - 第 {{episode}} 集{% endif %}{{fileExt}}
-  ```
-
-- **RENAME_FORMAT_S0_NAMES：** 重命名时支持的S0别名，默认为 `["Specials", "SPs"]`
-- **DEFAULT_SUB：** 为指定默认字幕添加.default后缀，默认为 `zh-cn`
-- **SCRAP_FOLLOW_TMDB：** 新增已入库媒体是否跟随TMDB信息变化，默认为 `true`
-- **RECOGNIZE_PLUGIN_FIRST：** 识别时是否优先使用插件识别结果，默认为 `false`
-- **MEDIA_RECOGNIZE_SHARE：** 是否匿名分享媒体识别数据，默认为 `true`
-- **TRANSFER_THREADS：** 文件整理线程数，v2.9.5新增，默认为 `1` ，设为 `1` 关闭多线程整理  
+目录页面维护来源、目标、监控方式、整理方式与覆盖模式。`MOVIE_RENAME_FORMAT`、`TV_RENAME_FORMAT`、`MUSIC_RENAME_FORMAT` 影响命名；整理线程、任务超时、失败重试另有独立参数。先预览再执行，见[目录与路径](/directories)、[文件整理](/reorganize)。
 
 ## 媒体识别
-- **SEARCH_SOURCE：** 媒体信息来源，支持 `themoviedb`/`douban`/`bangumi`，多个用`,`分隔，默认为 `themoviedb`。前端可在 `设定 -> 系统 -> 搜索设置` 中调整
-- **RECOGNIZE_SOURCE：** 媒体识别来源，支持 `themoviedb`/`douban`，默认为 `themoviedb`
-- **ANIME_GENREIDS：** 电视剧动漫的分类genre_ids，默认为 `[16]`
-- **SCRAP_SOURCE：** 刮削来源，支持 `themoviedb`/`douban`，默认为 `themoviedb`
-- **SCRAP_SEASON_IMAGE_TO_ROOT：** V3 季图片是否同时写入剧集根目录，默认为 `true`，保持根目录 `season01-poster.jpg` / `season-specials-poster.jpg` 和季目录 `poster.jpg` 双写。前端入口为 `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置 -> 季` 中的「季图片同时写入剧集根目录」。关闭后季图片仅写入季目录，保留 `poster`、`banner`、`thumb`、`backdrop`、`landscape` 等通用名，是否额外写入兼容别名由 `SCRAP_IMAGE_ALIAS` 控制。此开关不删除已有图片；「仅缺失」对根目录和季目录等各个启用位置独立判断，同类型图片已存在时跳过，缺失时补齐。也可通过环境变量或配置文件设为 `false`；修改部署环境变量后需重启生效。
-- **SCRAP_IMAGE_ALIAS：** 是否额外写入图片兼容别名，默认为 `true`。前端入口为 `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置` 中的「写入图片兼容别名」。开启时保留 `backdrop` / `fanart`、`thumb` / `landscape` 别名；关闭后每张图片只使用来源的规范名称，不删除已有文件。同一次图片刮削的相同 URL 只下载一次，多个保存目标优先使用同存储硬链接，不支持时从本地下载副本上传。
-- **SCRAP_4K_BACKGROUND：** 是否获取 Fanart 的 `show4kbackground` / `movie4kbackground`，默认为 `true`，前端与图片别名开关位于同一处。启用后使用媒体服务器支持的 `background` 文件名，普通 Fanart 背景仍使用 `fanart`；关闭只过滤 4K 背景，普通背景和其它艺术图照常处理。`clearlogo` 归一为 `logo`。图片按去扩展名后的精确名称识别类型，未知名称不再因包含 `background`、`logo` 等片段而落盘。
 
-V3 新刮削的影视图片根据实际内容选择小写后缀：JPEG 使用 `.jpg`，PNG 使用 `.png`，WebP 转为 PNG 并保留透明度，避免远程 URL 后缀或大小写产生多份文件。「仅缺失」在每个目标位置按图片类型识别已有图片，兼容 `.jpg` / `.jpeg` / `.png` / `.webp` 及大小写形式，也识别 `backdrop` / `fanart` 等同类型名称。已有图片不会自动清理或重命名；覆盖策略仍可能保留历史其它名称或后缀的文件。
-
-### TMDB
-- **TMDB_IMAGE_DOMAIN：** TMDB图片地址，默认为 `image.tmdb.org`
-- **TMDB_API_DOMAIN：** TMDB API地址，默认为 `api.themoviedb.org`
-- **TMDB_LOCALE：** TMDB元数据语言，默认为 `zh`
-- **TMDB_SCRAP_ORIGINAL_IMAGE：** 刮削使用TMDB原始语种图片，默认为 `false`
-- **TMDB_API_KEY：** TMDB API Key，不配置使用默认值
-
-### TVDB
-- **TVDB_V4_API_KEY：** TVDB API Key，不配置使用默认值
-- **TVDB_V4_API_PIN：** TVDB API PIN，默认为空
-
-### Fanart
-- **FANART_ENABLE：** Fanart开关，默认为 `true`
-- **FANART_LANG：** Fanart语言，多个用`,`分隔，默认为 `zh,en`
-- **FANART_API_KEY：** Fanart API Key，不配置使用默认值
+`RECOGNIZE_SOURCE`、`SEARCH_SOURCE`、`SCRAP_SOURCE` 分别影响识别、搜索与刮削，不能理解为切换其中一项就替换所有来源。影视和音乐身份在 V3 中使用来源与原生 ID 配对表达。TMDB、TVDB、Bangumi、Fanart 与音乐来源高级参数见索引。
 
 ## 媒体服务器
-- **MEDIASERVER_SYNC_INTERVAL：** 媒体服务器同步间隔（小时），默认为 `6`
+
+连接参数在连接页面配置，`MEDIASERVER_SYNC_INTERVAL` 为全局同步间隔相关项。库存同步、请求扫描和播放跳转分别检查，见[媒体服务器](/mediaserver)。
 
 ## 订阅
-- **SUBSCRIBE_MODE：** 订阅模式，默认为 `spider`
-- **SUBSCRIBE_RSS_INTERVAL：** RSS订阅模式刷新时间间隔（分钟），默认为 `30`
-- **SUBSCRIBE_STATISTIC_SHARE：** 是否匿名分享订阅数据，用于统计和展示用户热门订阅，`true`/`false`，默认`true`
-- **SUBSCRIBE_SEARCH：** 订阅搜索开关，默认为 `false`
-- **SUBSCRIBE_SEARCH_INTERVAL：** 订阅搜索间隔（小时），默认为 `24`
 
-单条订阅可在编辑窗口的「搜索周期」中选择「跟随系统」或「自定义」，设置 1–8760 的整数小时数。
-例如电影设为 24 小时、连载剧集设为 6 小时；电影、电视剧和音乐的默认订阅规则也可分别设置。
-独立周期需要开启 `SUBSCRIBE_SEARCH`。系统每五分钟检查到期订阅，再按站点限流安排搜索，站点忙时可能延后。
-最近一次主动搜索的开始时间会持久保存，重启不会重新计时；旧订阅尚无搜索记录时从添加时间起算。
-新增订阅首次搜索、手动搜索及 RSS 刷新不受独立周期限制，手动主动搜索会更新最近搜索时间。
-选择「跟随系统」并保存即可恢复全局间隔。
-
-- **LOCAL_EXISTS_SEARCH：** 检查本地媒体库是否存在资源开关，默认为 `true`
+`SUBSCRIBE_MODE` 选择自动抓取或 RSS 模式，`SUBSCRIBE_SEARCH` 与 `SUBSCRIBE_SEARCH_INTERVAL` 控制主动搜索，`LOCAL_EXISTS_SEARCH` 与已有媒体检查有关。刷新与搜索不是同一个周期，详见[订阅](/subscribe)。
 
 ## 站点
-- **SITEDATA_REFRESH_INTERVAL：** 站点数据刷新间隔（小时），默认为 `6`
-- **SITE_MESSAGE：** 读取和发送站点消息，默认为 `true`
-- **NO_CACHE_SITE_KEY：** 不缓存资源的站点域名关键字，多个使用`,`分隔，默认留空，即所有站点使用资源缓存。馒头也默认使用缓存，刷新会更新下载请求信息，实际下载时再换取临时链接，无需每次清空缓存并重新识别。如旧配置中显式设置了 `m-team`，需将此项清空才能采用新的默认策略。
-- **BROWSER_EMULATION：** 站点浏览器仿真类型，支持 `playwright` 或 `flaresolverr`，默认为 `playwright`
-- **FLARESOLVERR_URL：** FlareSolverr 服务地址，例如 `http://127.0.0.1:8191`，默认为空
+
+站点详情维护凭据、RSS、优先级及连接参数。浏览器仿真、FlareSolverr 等是特定场景能力，不等于所有站点都必须启用。查看当前资源支持与错误类型，见[站点](/site)。
 
 ## 搜索&下载
-- **SEARCH_MULTIPLE_NAME：** 搜索多个名称，默认为 `false`
-- **MAX_SEARCH_NAME_LIMIT：** 最大搜索名称数量，默认为 `3`，前端暂未提供入口，如需调整请使用环境变量或配置文件
-- **DOWNLOAD_TMPEXT：** 下载器临时文件后缀，默认为 `['.!qb', '.part']`
-- **TORRENT_TAG：** 种子标签，默认为 `MOVIEPILOT`
-- **DOWNLOAD_SUBTITLE：** 下载站点字幕，`true`/`false`，默认`true`
-- **AUTO_DOWNLOAD_USER：** 远程交互搜索时自动择优下载的用户ID（消息通知渠道的用户ID），多个用户使用,分割，设置为 `all` 代表全部用户自动择优下载，未设置需要手动选择资源或者回复`0`才自动择优下载
+
+全局搜索来源、过滤规则与具体订阅条件共同影响结果。下载器和目录通过各自页面维护；`SEARCH_RESOURCE_PAGES` 等高级项的实际类型与默认值见索引。手动下载的当前目录选择见[下载](/download)。
 
 ## CookieCloud
-- **COOKIECLOUD_ENABLE_LOCAL：** CookieCloud是否启动本地服务，默认为 `false`
-- **COOKIECLOUD_HOST：** CookieCloud服务器地址，默认为 `https://movie-pilot.org/cookiecloud`
-- **COOKIECLOUD_KEY：** CookieCloud用户KEY，默认为空
-- **COOKIECLOUD_PASSWORD：** CookieCloud端对端加密密码，默认为空
-- **COOKIECLOUD_INTERVAL：** CookieCloud同步间隔（分钟），默认为 `1440`（24小时）
-- **COOKIECLOUD_BLACKLIST：** CookieCloud同步黑名单，多个域名,分割，默认为空
+
+界面维护服务地址、用户 Key、端到端加密密码与同步间隔；内置服务由 `COOKIECLOUD_ENABLE_LOCAL` 控制。CookieCloud 用于同步浏览器 Cookie，不替代站点认证、下载器或媒体服务器账号。
 
 ## 后台服务
-- **OCR_HOST：** OCR识别服务器地址，格式：`http(s)://ip:port`，用于识别站点验证码实现自动登录获取Cookie等，不配置默认使用内建服务器`https://movie-pilot.org`，可使用 [这个镜像](https://hub.docker.com/r/jxxghp/moviepilot-ocr) 自行搭建。
-- **MP_SERVER_HOST：** 服务器地址，对应 https://github.com/jxxghp/MoviePilot-Server 项目，默认为 `https://movie-pilot.org`
+
+任务 ID 以当前调度清单为准，可通过 `moviepilot scheduler list` 查看。`MP_SERVER_HOST` 指外围中心服务，不是本机后端 API 地址，相关边界见[外部集成](/integrations)。
 
 ## 插件
-- **PLUGIN_MARKET：** 插件市场仓库地址，仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看[MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins)项目的fork，或者查看频道置顶了解更多第三方插件仓库。详情参照 [插件](/plugin)。
 
-- **PLUGIN_AUTO_RELOAD：** 是否开启插件热加载，默认为 `false`
-- **PLUGIN_INSTALL_FROM_RELEASE：** V3 插件默认安装方式，`true`/`false`，默认 `true`。对声明 `release: true` 的插件优先安装 Release 资产；设为 `false` 时直接安装当前索引对应的文件列表，跳过 Release 请求。手动选择历史版本时仍安装指定 Release，不会改装当前索引版本。
-- **PLUGIN_RELEASE_TIMEOUT：** V3 插件 Release 元数据及资产每个出口的请求超时，单位为秒，默认 `30`，范围 `1` 至 `300`。弱网下可适当降低该值以缩短失败等待；它不是整个插件安装过程的总时限。
-- **PLUGIN_LOCAL_REPO_PATHS：** 本地插件仓库路径，多个路径使用`,`分隔，默认为空
+插件市场与插件各自配置分别维护。`PLUGIN_INSTALL_FROM_RELEASE`、`PLUGIN_RELEASE_TIMEOUT`、`PLUGIN_AUTO_RELOAD` 等控制宿主安装和开发行为；V3 依赖与兼容要求见[插件](/plugin)、[插件开发](/plugindev)。
 
 ## 分享
-- **PLUGIN_STATISTIC_SHARE：** 是否匿名分享插件安装统计数据，用于统计和显示插件下载安装次数，`true`/`false`，默认`true`
-- **WORKFLOW_STATISTIC_SHARE：** 工作流数据共享，用于统计和展示用户工作流使用情况，`true`/`false`，默认`true`
+
+使用统计、插件统计、订阅和工作流分享有各自开关。开启前了解发送范围，不分享凭据、私有 RSS 或未脱敏工作流。中心服务职责见[项目与功能地图](/projects)。
 
 ## 网盘
-- **RCLONE_SNAPSHOT_CHECK_FOLDER_MODTIME：** 对rclone进行快照对比时，是否检查文件夹的修改时间，默认为 `true`
-- **OPENLIST_SNAPSHOT_CHECK_FOLDER_MODTIME：** 对OpenList进行快照对比时，是否检查文件夹的修改时间，默认为 `true`
-- **ALIPAN_SNAPSHOT_CHECK_FOLDER_MODTIME：** 对阿里云盘进行快照对比时，是否检查文件夹的修改时间，默认为 `false`
+
+阿里云盘、115 与聚合存储先在目录页面完成授权和访问验证。主程序开放平台标识不是用户自己的登录凭据；不要仅修改全局标识来替代实际账号授权。见[存储与文件管理](/storage)。
 
 ## 个性化
-- **WALLPAPER：** 登录页面电影海报，支持 `tmdb`/`bing`/`mediaserver`，默认为 `tmdb`
-- **CUSTOMIZE_WALLPAPER_API_URL：** 自定义壁纸api地址，默认为空
+
+主题、壁纸、主色等设置存在用户或客户端适用范围，App 与普通网页的可调项目也有差异。先确认正在调整当前账号与当前入口，见[iOS 与 PWA](/mobile)及[主题风格](/themedev)。
 
 ## 性能
-- **BIG_MEMORY_MODE：** 大内存模式，默认为`false`，开启后会增加缓存数量，占用更多的内存，但响应速度会更快
-- **ENCODING_DETECTION_PERFORMANCE_MODE：** 是否启用编码探测的性能模式，默认为 `true`，优先提升探测效率，但可能降低编码探测的准确性
-- **ENCODING_DETECTION_MIN_CONFIDENCE：** 编码探测的最低置信度阈值，默认为 `0.8`
-- **MEMORY_GC_INTERVAL：** 主动内存回收时间间隔（分钟），默认 `30`，`0` 为不启用
+
+`RUST_ACCEL`、`BIG_MEMORY_MODE`、编码探测和后台并发影响不同环节。先看负载与瓶颈，再调整单项；不要通过提高 `API_WORKERS` 增加全功能实例的后台进程数。见[运行维护](/operations)。
 
 ## 数据清理
-- **DATA_CLEANUP_ENABLE：** 是否启用历史数据自动清理，默认为 `false`
-- **DATA_CLEANUP_MESSAGE_DAYS：** 消息记录保留天数，默认为 `90`
-- **DATA_CLEANUP_DOWNLOAD_HISTORY_DAYS：** 下载历史保留天数，默认为 `180`
-- **DATA_CLEANUP_SITE_USERDATA_DAYS：** 站点用户数据保留天数，默认为 `180`
-- **DATA_CLEANUP_TRANSFER_HISTORY_DAYS：** 整理历史保留天数，默认为 `1095`
+
+`DATA_CLEANUP_ENABLE` 及各类 `*_DAYS` 控制历史记录保留；主数据库备份使用独立的 `DB_BACKUP_*`。清理记录、清理缓存和删除媒体文件不是同一动作，先备份并核对目标范围。
 
 # 设置项与变量对照表
 
-> 表中“推荐入口”为 WEB 的项目，优先在前端配置；标为“环境变量/配置文件”的项目，通常是前端暂无入口、Docker 启动项、首次启动前生效项或低层高级项。
-{.is-info}
+完整静态字段、类型、默认值和来源提交见[配置项索引](/configuration-reference)。需要确认当前实例具体参数时：
 
-| 分类 | 设置项 / 环境变量 | 默认值 | 推荐入口 | 说明 |
-| --- | --- | --- | --- | --- |
-| 部署 | `NGINX_PORT` | `3000` | 环境变量 | WEB 服务端口 |
-| 部署 | `PORT` | `3001` | 环境变量 | API 服务端口 |
-| 部署 | `HOST` | `0.0.0.0` | 环境变量/配置文件 | API 监听地址 |
-| 部署 | `TZ` | `Asia/Shanghai` | 环境变量 | 容器或进程时区 |
-| 部署 | `CONFIG_DIR` | 自动判断 | 环境变量 | 配置目录 |
-| Docker | `PUID` / `PGID` / `UMASK` | `0` / `0` / `000` | 环境变量 | 容器文件权限 |
-| Docker | `START_NOGOSU` | `false` | 环境变量 | 无根容器权限兼容 |
-| Docker | `ENABLE_SSL` / `SSL_DOMAIN` / `SSL_NGINX_PORT` / `SSL_EMAIL` / `AUTO_ISSUE_CERT` / `DNS_PROVIDER` / `ACME_ENV_*` | 空 | 环境变量 | Docker HTTPS 与证书申请 |
-| Docker | `NGINX_CLIENT_MAX_BODY_SIZE` | `50m` | 环境变量 | Nginx 上传体积限制 |
-| Docker | `DOCKER_CLIENT_API` | `tcp://127.0.0.1:38379` | 环境变量/配置文件 | V1/V2 Docker 内建重启接口；V3 不使用 |
-| Docker | `PLAYWRIGHT_BROWSER_TYPE` | `chromium` | 环境变量/配置文件 | CookieCloud 浏览器类型 |
-| 基础 | `PROJECT_NAME` / `API_V1_STR` / `FRONTEND_PATH` | `MoviePilot` / `/api/v1` / `/public` | 环境变量/配置文件 | 项目名、API 前缀、前端静态目录，一般无需修改 |
-| 基础 | `SUPERUSER` | V1/V2 为 `admin`；V3 为空 | V1/V2 首次启动环境变量/配置文件；V3 初始化页面 | 超级管理员用户名；V3 首次访问时创建 |
-| 基础 | `SUPERUSER_PASSWORD` | V1/V2 按原版本规则；V3 为空 | V1/V2 首次启动环境变量/配置文件；V3 初始化页面 | 超级管理员初始密码；V3 不在启动阶段播种 |
-| 基础 | `APP_DOMAIN` | 空 | `设定 -> 系统 -> 基础设置` | 外部访问域名 |
-| 基础 | `API_TOKEN` | V1/V2 按原版本规则；V3 初始化页面生成 | V1/V2 环境变量/系统设置；V3 初始化页面 | API、Webhook、MCP、兼容 Agent API 认证密钥 |
-| 基础 | `DEBUG` | `false` | `设定 -> 系统 -> 进阶设置` | 调试日志与调试模式 |
-| 基础 | `ADVANCED_MODE` | V1/V2 为 `true`；V3 不适用 | V1/V2 环境变量/配置文件 | V1/V2 是否显示完整设置；V3 已移除 |
-| 基础 | `DEV` | `false` | 环境变量/配置文件 | 本地开发模式 |
-| 认证 | `AUTH_SITE` 与站点认证变量 | 空 | `用户头像 -> 用户认证` | 前端已有认证入口，优先使用前端 |
-| 认证 | `AUXILIARY_AUTH_ENABLE` | `false` | `设定 -> 系统 -> 进阶设置` | 辅助认证 / SSO |
-| 安全 | `SECRET_KEY` | 随机生成 | 环境变量/配置文件 | 系统加密密钥 |
-| 安全 | `RESOURCE_SECRET_KEY` | 随机生成 | 环境变量/配置文件 | 资源访问密钥 |
-| 安全 | `ALLOWED_HOSTS` | `["*"]` | 环境变量/配置文件 | 允许访问域名 |
-| 安全 | `ACCESS_TOKEN_EXPIRE_MINUTES` | `11520` | 环境变量/配置文件 | 登录 Token 有效期 |
-| 安全 | `RESOURCE_ACCESS_TOKEN_EXPIRE_SECONDS` | `1800` | 环境变量/配置文件 | 资源 Token 有效期 |
-| 安全 | `PASSKEY_REQUIRE_UV` | `true` | 环境变量/配置文件 | 通行密钥是否要求用户验证 |
-| 安全 | `PASSKEY_ALLOW_REGISTER_WITHOUT_OTP` | `false` | 环境变量/配置文件 | 未启用 OTP 时是否允许注册通行密钥 |
-| 网络 | `PROXY_HOST` | 空 | `设定 -> 系统 -> 进阶设置` | 网络代理 |
-| 网络 | `DOH_ENABLE` | `false` | `设定 -> 系统 -> 进阶设置` | DNS over HTTPS |
-| 网络 | `DOH_DOMAINS` | 内置域名列表 | `设定 -> 系统 -> 进阶设置` | DOH 解析域名 |
-| 网络 | `DOH_RESOLVERS` | `1.0.0.1,1.1.1.1,9.9.9.9,149.112.112.112` | `设定 -> 系统 -> 进阶设置` | DOH 解析服务器 |
-| Github/PIP | `GITHUB_TOKEN` | 空 | `设定 -> 系统 -> 基础设置` | Github API 限流提升 |
-| Github/PIP | `GITHUB_PROXY` | 空 | `设定 -> 系统 -> 进阶设置` | Github 加速代理 |
-| Github/PIP | `PIP_PROXY` | 空 | `设定 -> 系统 -> 进阶设置` | pip 镜像地址 |
-| Github/PIP | `REPO_GITHUB_TOKEN` | 空 | 环境变量/配置文件 | 指定仓库 Token |
-| 更新 | `MOVIEPILOT_AUTO_UPDATE` | `release` | `设定 -> 系统 -> 进阶设置` | 重启时自动更新 |
-| 更新 | `AUTO_UPDATE_RESOURCE` | `true` | `设定 -> 系统 -> 进阶设置` | 启动时自动更新资源包 |
-| 缓存 | `CACHE_BACKEND_TYPE` | `cachetools` | 环境变量/配置文件 | 缓存后端 |
-| 缓存 | `CACHE_BACKEND_URL` | `redis://localhost:6379` | 环境变量/配置文件 | Redis 连接串 |
-| 缓存 | `CACHE_REDIS_MAXMEMORY` | 自动 | 环境变量/配置文件 | Redis 最大内存 |
-| 缓存 | `GLOBAL_IMAGE_CACHE` | `false` | `设定 -> 系统 -> 进阶设置` | 全局图片缓存 |
-| 缓存 | `GLOBAL_IMAGE_CACHE_DAYS` | `7` | 环境变量/配置文件 | 图片缓存保留天数 |
-| 缓存 | `TEMP_FILE_DAYS` | `3` | 环境变量/配置文件 | 临时文件保留天数 |
-| 缓存 | `META_CACHE_EXPIRE` | `0` | `设定 -> 系统 -> 进阶设置` | `0` 为普通模式24小时、大内存模式72小时 |
-| 数据库 | `DB_TYPE` | `sqlite` | 安装向导/环境变量 | 数据库类型，切换数据库建议在初始化前完成 |
-| 数据库 | `DB_WAL_ENABLE` | `true` | `设定 -> 系统 -> 进阶设置` | SQLite WAL 开关 |
-| 数据库 | `DB_ECHO` / `DB_TIMEOUT` | `false` / `60` | 环境变量/配置文件 | SQL 输出与 SQLite 等待时间 |
-| 数据库 | `DB_POOL_TYPE` / `DB_POOL_PRE_PING` / `DB_POOL_RECYCLE` / `DB_POOL_TIMEOUT` | `QueuePool` / `true` / `300` / `30` | 环境变量/配置文件 | 数据库连接池高级参数 |
-| 数据库 | `DB_SQLITE_POOL_SIZE` / `DB_SQLITE_MAX_OVERFLOW` | `10` / `50` | 环境变量/配置文件 | SQLite 连接池 |
-| 数据库 | `DB_POSTGRESQL_HOST` / `DB_POSTGRESQL_PORT` / `DB_POSTGRESQL_DATABASE` / `DB_POSTGRESQL_USERNAME` / `DB_POSTGRESQL_PASSWORD` | `localhost` / `5432` / `moviepilot` / `moviepilot` / `moviepilot` | 安装向导/环境变量 | PostgreSQL 连接参数 |
-| 数据库 | `DB_POSTGRESQL_POOL_SIZE` / `DB_POSTGRESQL_MAX_OVERFLOW` | `10` / `50` | 环境变量/配置文件 | PostgreSQL 连接池 |
-| 日志 | `LOG_LEVEL` / `LOG_MAX_FILE_SIZE` / `LOG_BACKUP_COUNT` | `INFO` / `5` / `10` | `设定 -> 系统 -> 进阶设置` | 日志级别、单文件大小、备份数量 |
-| 日志 | `LOG_CONSOLE_FORMAT` / `LOG_FILE_FORMAT` | 内置格式 | `设定 -> 系统 -> 进阶设置` | 日志格式 |
-| 日志 | `ASYNC_FILE_QUEUE_SIZE` / `ASYNC_FILE_WORKERS` / `BATCH_WRITE_SIZE` / `WRITE_TIMEOUT` | `1000` / `2` / `50` / `3.0` | 环境变量/配置文件 | 异步日志写入参数 |
-| 媒体源 | `SEARCH_SOURCE` | `themoviedb` | `设定 -> 系统 -> 搜索设置` | 搜索媒体信息来源 |
-| 媒体源 | `RECOGNIZE_SOURCE` | `themoviedb` | `设定 -> 系统 -> 基础设置` | 媒体识别来源 |
-| 媒体源 | `SCRAP_SOURCE` | `themoviedb` | `设定 -> 系统 -> 目录设置` | 媒体刮削来源 |
-| 媒体源 | `SCRAP_SEASON_IMAGE_TO_ROOT` | `true` | `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置` | 季图片是否额外写入剧集根目录；关闭后仅写季目录，不清理已有图片 |
-| 媒体源 | `SCRAP_IMAGE_ALIAS` / `SCRAP_4K_BACKGROUND` | `true` / `true` | `设定 -> 系统 -> 高级设置 -> 媒体 -> 刮削开关设置` | 图片兼容别名与 Fanart 4K 背景独立开关；相同 URL 只下载一次 |
-| 媒体源 | `ANIME_GENREIDS` | `[16]` | 环境变量/配置文件 | 动漫类型 ID |
-| TMDB | `TMDB_IMAGE_DOMAIN` / `TMDB_API_DOMAIN` / `TMDB_LOCALE` / `TMDB_SCRAP_ORIGINAL_IMAGE` | `image.tmdb.org` / `api.themoviedb.org` / `zh` / `false` | `设定 -> 系统 -> 进阶设置` | TMDB 图片、API、语言与原语种图片 |
-| TMDB | `TMDB_API_KEY` | 内置 Key | 环境变量/配置文件 | 自定义 TMDB API Key |
-| TVDB | `TVDB_V4_API_KEY` / `TVDB_V4_API_PIN` | 内置 Key / 空 | 环境变量/配置文件 | TVDB V4 配置 |
-| Fanart | `FANART_ENABLE` / `FANART_LANG` | `true` / `zh,en` | `设定 -> 系统 -> 进阶设置` | Fanart 开关与语言 |
-| Fanart | `FANART_API_KEY` | 内置 Key | 环境变量/配置文件 | 自定义 Fanart Key |
-| 整理 | `RMT_MEDIAEXT` / `RMT_SUBEXT` / `RMT_AUDIOEXT` | 内置列表 | 环境变量/配置文件 | 支持整理的媒体、字幕、音频后缀 |
-| 整理 | `MOVIE_RENAME_FORMAT` / `TV_RENAME_FORMAT` | 内置模板 | `设定 -> 系统 -> 目录设置` | 重命名格式 |
-| 整理 | `RENAME_FORMAT_S0_NAMES` / `DEFAULT_SUB` | `["Specials","SPs"]` / `zh-cn` | 环境变量/配置文件 | S0 别名与默认字幕语言 |
-| 整理 | `SCRAP_FOLLOW_TMDB` | `true` | `设定 -> 系统 -> 进阶设置` | 已入库媒体跟随 TMDB 信息变化 |
-| 整理 | `RECOGNIZE_PLUGIN_FIRST` | `false` | `设定 -> 系统 -> 进阶设置` | 插件识别优先 |
-| 整理 | `MEDIA_RECOGNIZE_SHARE` | `true` | `设定 -> 系统 -> 进阶设置` | 匿名分享识别数据 |
-| 整理 | `MEDIA_RECOGNIZE_SHARE_API` | 空 | 环境变量/配置文件 | 自定义识别共享 API |
-| 整理 | `TRANSFER_THREADS` | `1` | `设定 -> 系统 -> 进阶设置` | 文件整理线程数 |
-| 媒体服务器 | `MEDIASERVER_SYNC_INTERVAL` | `6` | `设定 -> 系统 -> 基础设置` | 媒体服务器同步间隔 |
-| 订阅 | `SUBSCRIBE_MODE` | `spider` | `设定 -> 系统 -> 订阅设置` | 订阅模式 |
-| 订阅 | `SUBSCRIBE_RSS_INTERVAL` | `30` | `设定 -> 系统 -> 订阅设置` | RSS 订阅刷新间隔 |
-| 订阅 | `SUBSCRIBE_STATISTIC_SHARE` | `true` | `设定 -> 系统 -> 进阶设置` | 匿名分享订阅统计 |
-| 订阅 | `SUBSCRIBE_SEARCH` / `SUBSCRIBE_SEARCH_INTERVAL` | `false` / `24` | `设定 -> 系统 -> 订阅设置` | 订阅搜索与间隔 |
-| 订阅 | `LOCAL_EXISTS_SEARCH` | `true` | `设定 -> 系统 -> 订阅设置` | 搜索前检查本地媒体库 |
-| 站点 | `SITEDATA_REFRESH_INTERVAL` | `6` | `设定 -> 系统 -> 站点设置` | 站点数据刷新间隔 |
-| 站点 | `SITE_MESSAGE` | `true` | `设定 -> 系统 -> 站点设置` | 读取和发送站点消息 |
-| 站点 | `NO_CACHE_SITE_KEY` | 空 | 环境变量/配置文件 | 不缓存资源的站点关键字；留空时所有站点使用缓存 |
-| 站点 | `BROWSER_EMULATION` / `FLARESOLVERR_URL` | `playwright` / 空 | `设定 -> 系统 -> 站点设置` | 浏览器仿真与 FlareSolverr |
-| 搜索下载 | `SEARCH_MULTIPLE_NAME` | `false` | `设定 -> 系统 -> 搜索设置` | 搜索多个名称 |
-| 搜索下载 | `MAX_SEARCH_NAME_LIMIT` | `3` | 环境变量/配置文件 | 最大搜索名称数量 |
-| 搜索下载 | `TORRENT_TAG` | `MOVIEPILOT` | `设定 -> 系统 -> 搜索设置` | 种子标签 |
-| 搜索下载 | `DOWNLOAD_SUBTITLE` | `true` | `设定 -> 系统 -> 搜索设置` | 下载站点字幕 |
-| 搜索下载 | `AUTO_DOWNLOAD_USER` | 空 | `设定 -> 系统 -> 搜索设置` | 远程交互自动择优用户 |
-| 搜索下载 | `DOWNLOAD_TMPEXT` | `['.!qb', '.part']` | 环境变量/配置文件 | 下载器临时文件后缀 |
-| CookieCloud | `COOKIECLOUD_ENABLE_LOCAL` / `COOKIECLOUD_HOST` / `COOKIECLOUD_KEY` / `COOKIECLOUD_PASSWORD` / `COOKIECLOUD_INTERVAL` / `COOKIECLOUD_BLACKLIST` | `false` / 官方服务 / 空 / 空 / `1440` / 空 | `设定 -> 系统 -> 站点设置` | CookieCloud 同步 |
-| 后台服务 | `OCR_HOST` | `https://movie-pilot.org` | `设定 -> 系统 -> 基础设置` | OCR 服务地址 |
-| 后台服务 | `MP_SERVER_HOST` | `https://movie-pilot.org` | 环境变量/配置文件 | MoviePilot Server 地址 |
-| 插件 | `PLUGIN_MARKET` | 官方市场 | `插件 -> 插件市场设置` | 插件市场地址 |
-| 插件 | `PLUGIN_AUTO_RELOAD` | `false` | `设定 -> 系统 -> 进阶设置` | 插件热加载 |
-| 插件 | `PLUGIN_INSTALL_FROM_RELEASE` | `true` | 环境变量/配置文件 | 默认优先 Release；`false` 直接安装当前索引文件 |
-| 插件 | `PLUGIN_RELEASE_TIMEOUT` | `30` | 环境变量/配置文件 | Release 各出口请求超时，单位秒，范围 1 至 300 |
-| 插件 | `PLUGIN_LOCAL_REPO_PATHS` | 空 | `设定 -> 系统 -> 进阶设置` | 本地插件仓库路径 |
-| 分享 | `PLUGIN_STATISTIC_SHARE` / `WORKFLOW_STATISTIC_SHARE` | `true` / `true` | `设定 -> 系统 -> 进阶设置` | 插件与工作流匿名统计 |
-| 技能 | `SKILL_MARKET` | 内置市场列表 | 环境变量/配置文件 | `/skills` 命令使用的技能源 |
-| 网盘 | `RCLONE_SNAPSHOT_CHECK_FOLDER_MODTIME` / `OPENLIST_SNAPSHOT_CHECK_FOLDER_MODTIME` / `ALIPAN_SNAPSHOT_CHECK_FOLDER_MODTIME` | `true` / `true` / `false` | 环境变量/配置文件 | 网盘快照是否检查文件夹修改时间 |
-| 网盘 | `U115_APP_ID` / `U115_AUTH_SERVER` / `ALIPAN_APP_ID` | 内置值 | 环境变量/配置文件 | 115、阿里云盘应用配置 |
-| 个性化 | `WALLPAPER` / `CUSTOMIZE_WALLPAPER_API_URL` | `tmdb` / 空 | `设定 -> 系统 -> 基础设置` | 登录壁纸来源与自定义接口 |
-| 性能 | `BIG_MEMORY_MODE` | `false` | `设定 -> 系统 -> 进阶设置` | 大内存模式 |
-| 性能 | `ENCODING_DETECTION_PERFORMANCE_MODE` | `true` | `设定 -> 系统 -> 进阶设置` | 编码探测性能模式 |
-| 性能 | `ENCODING_DETECTION_MIN_CONFIDENCE` | `0.8` | 环境变量/配置文件 | 编码探测最低置信度 |
-| 性能 | `MEMORY_GC_INTERVAL` | `30` | 环境变量/配置文件 | 主动内存回收间隔 |
-| 安全资源 | `SECURITY_IMAGE_DOMAINS` | 内置域名列表 | `设定 -> 系统 -> 进阶设置` | 允许代理缓存的图片域名 |
-| 安全资源 | `SECURITY_IMAGE_SUFFIXES` | 内置后缀列表 | 环境变量/配置文件 | 允许代理缓存的图片后缀 |
-| 数据清理 | `DATA_CLEANUP_ENABLE` | `false` | `设定 -> 系统 -> 进阶设置` | 自动清理总开关 |
-| 数据清理 | `DATA_CLEANUP_MESSAGE_DAYS` / `DATA_CLEANUP_DOWNLOAD_HISTORY_DAYS` / `DATA_CLEANUP_SITE_USERDATA_DAYS` / `DATA_CLEANUP_TRANSFER_HISTORY_DAYS` | `90` / `180` / `180` / `1095` | `设定 -> 系统 -> 进阶设置` | 各类历史数据保留天数 |
-| 智能助手 | `AI_AGENT_ENABLE` / `AI_AGENT_GLOBAL` / `AI_AGENT_VERBOSE` | `false` / `false` / `false` | `设定 -> 系统 -> 基础设置` | 智能助手开关 |
-| 智能助手 | `AI_AGENT_JOB_INTERVAL` | `0` | `设定 -> 系统 -> 基础设置` | 定时唤醒间隔 |
-| 智能助手 | `AI_AGENT_RETRY_TRANSFER` | `false` | `设定 -> 系统 -> 基础设置` | 整理失败智能接管 |
-| LLM | `LLM_PROVIDER` / `LLM_MODEL` | `deepseek` / `deepseek-chat` | `设定 -> 系统 -> 基础设置` | LLM 提供商与模型 |
-| LLM | `LLM_THINKING_LEVEL` | `off` | `设定 -> 系统 -> 基础设置` | 思考强度 |
-| LLM | `LLM_API_KEY` / `LLM_BASE_URL` / `LLM_BASE_URL_PRESET` | 空 / `https://api.deepseek.com` / 空 | `设定 -> 系统 -> 基础设置` | LLM 密钥、地址与前端预设 |
-| LLM | `LLM_SUPPORT_IMAGE_INPUT` | `true` | `设定 -> 系统 -> 基础设置` | 图片输入能力 |
-| LLM | `LLM_SUPPORT_AUDIO_INPUT` / `LLM_SUPPORT_AUDIO_OUTPUT` | `false` / `false` | `设定 -> 系统 -> 基础设置` | 音频输入与语音输出开关 |
-| LLM | `LLM_MAX_CONTEXT_TOKENS` | `64` | `设定 -> 系统 -> 基础设置` | 上下文窗口，单位 K |
-| LLM | `LLM_TEMPERATURE` / `LLM_MAX_ITERATIONS` / `LLM_TOOL_TIMEOUT` / `LLM_VERBOSE` | `0.3` / `128` / `300` / `false` | 环境变量/配置文件 | LLM 高级运行参数 |
-| LLM | `LLM_MAX_MEMORY_MESSAGES` / `LLM_MEMORY_RETENTION_DAYS` / `LLM_REDIS_MEMORY_RETENTION_DAYS` | `30` / `1` / `7` | 环境变量/配置文件 | 智能助手记忆 |
-| LLM | `LLM_MAX_TOOLS` | `0` | 环境变量/配置文件 | 工具选择中间件限制 |
-| AI 搜索 | `TAVILY_API_KEY` / `EXA_API_KEY` | 内置 Key | 环境变量/配置文件 | 智能助手 Web 搜索服务 Key |
-| AI 推荐 | `AI_RECOMMEND_ENABLED` / `AI_RECOMMEND_USER_PREFERENCE` / `AI_RECOMMEND_MAX_ITEMS` | `false` / 空 / `50` | `设定 -> 系统 -> 基础设置` | 搜索结果 AI 推荐 |
-| 音频输入 | `AUDIO_INPUT_PROVIDER` / `AUDIO_INPUT_API_KEY` / `AUDIO_INPUT_BASE_URL` / `AUDIO_INPUT_MODEL` / `AUDIO_INPUT_LANGUAGE` | `openai` / 空 / 空 / `gpt-4o-mini-transcribe` / `zh` | `设定 -> 系统 -> 基础设置` | 音频转写配置 |
-| 音频输出 | `AUDIO_OUTPUT_PROVIDER` / `AUDIO_OUTPUT_API_KEY` / `AUDIO_OUTPUT_BASE_URL` / `AUDIO_OUTPUT_MODEL` / `AUDIO_OUTPUT_VOICE` / `AUDIO_OUTPUT_INCLUDE_TEXT` | `openai` / 空 / 空 / `gpt-4o-mini-tts` / `alloy` / `false` | `设定 -> 系统 -> 基础设置` | 语音回复配置 |
-| 飞书通知 | `FEISHU_APP_ID` / `FEISHU_APP_SECRET` / `FEISHU_OPEN_ID` / `FEISHU_CHAT_ID` / `FEISHU_ADMINS` / `FEISHU_VERIFICATION_TOKEN` / `FEISHU_ENCRYPT_KEY` | 空 | `设定 -> 通知 -> 飞书` | 建议作为通知渠道配置，不再作为全局环境变量维护 |
-| 结构化配置 | `Directories` / `Storages` / `Downloaders` / `MediaServers` / `Notifications` | 无 | 对应 WEB 页面 | 存储、目录、下载器、媒体服务器、通知渠道 |
-| 规则与站点 | `SearchFilterRuleGroups` / `SubscribeFilterRuleGroups` / `BestVersionFilterRuleGroups` / `IndexerSites` / `RssSites` | 无 | 搜索/订阅/站点设置 | 过滤规则、索引站点、RSS 订阅站点 |
+```shell
+moviepilot config keys
+moviepilot config describe <配置项名>
+```
 
+索引不展示真实运行值。外部管理、兼容迁移和环境差异可能影响最终结果，以当前实例说明及保存后的回读为准。
 
 # 安装Redis
 
-> 使用Redis缓存可以进一步减少MoviePilot主程序内存占用，同时会将本地文件缓存自动迁移到Redis中，以提升运行效率。以下提供Docker环境下的Redis安装和配置指南。
-{.is-info}
-
-## 1. 安装Redis容器
-
-**根据需要决定是否开启持久化，不开时重启Redis后缓存数据会丢失，但不会影响程序正常运行（建议设置复杂密码）**
-```bash
-# 创建持久化目录
-mkdir -p /volume1/docker/redis/data
-
-# 启动带持久化的Redis
-docker run \
-  --name my-redis \
-  -p 6379:6379 \
-  -v /volume1/docker/redis/data:/data \
-  -d redis redis-server --save 600 1 --requirepass "你的密码"
-```
-
-## 2. 配置MoviePilot使用Redis
-
-在MoviePilot的环境变量或配置文件中设置以下参数（建议设置复杂密码）：
-
-```bash
-# 缓存类型，支持 cachetools 和 redis，默认使用 cachetools
-CACHE_BACKEND_TYPE=redis
-# 缓存连接字符串，仅Redis缓存需要
-CACHE_BACKEND_URL=redis://:你的密码@localhost:6379
-```
-
-重启MoviePilot生效。
+首次部署不是必需。需要外部缓存时，按[数据库与缓存](/database)设置认证、网络、持久化与连接 URL；完整组合部署见[安装指引](/install)。不要将带密码 Redis 的匿名 `PING` 失败误判为服务没有启动。
 
 # 安装Postgresql
 
-> 使用PostgreSQL数据库可以提升MoviePilot的性能和并发处理能力，特别适合数据量较大的用户。以下提供Docker环境下的PostgreSQL安装和配置指南。
-{.is-info}
-
-## 1. 安装PostgreSQL容器
-
-使用Docker运行PostgreSQL容器（请设置复杂密码，不要使用默认密码）：
-
-```bash
-docker run -d \
-  --name postgresql \
-  -p 5432:5432 \
-  -e POSTGRES_DB=moviepilot \
-  -e POSTGRES_USER=moviepilot \
-  -e POSTGRES_PASSWORD="你的密码" \
-  -v /volume1/docker/postgresql:/var/lib/postgresql/data \
-  postgres
-```
-
-> 请根据实际情况调整端口映射、数据卷路径和PostgreSQL版本。
-{.is-warning}
-
-## 2. 创建用户权限
-
-进入PostgreSQL容器设置用户权限：
-
-```bash
-# 进入容器
-docker exec -it postgresql bash
-
-# 连接到PostgreSQL
-psql -U moviepilot
-
-# 授予用户权限
-GRANT ALL PRIVILEGES ON SCHEMA public TO moviepilot;
-GRANT ALL PRIVILEGES ON DATABASE moviepilot TO moviepilot;
-ALTER USER moviepilot CREATEDB;
-
-# 退出psql
-\q
-```
-
-## 3. 数据迁移（可选）
-
-如果要从SQLite迁移存量数据到PostgreSQL，可以使用pgloader工具，全新安装可忽略：
-
-
-1. 将MoviePilot的 `user.db` 文件放置到 PostgreSQL 的配置目录
-2. 在PostgreSQL容器内执行
-```bash
-# 进入容器
-# docker exec -it postgresql bash
-apt update
-apt install pgloader
-
-pgloader sqlite:////var/lib/postgresql/data/user.db postgresql://moviepilot:你的密码@localhost:5432/moviepilot
-```
-
-> 注意：数据迁移前请备份原有SQLite数据库文件。
-{.is-warning}
-
-## 4. 配置MoviePilot使用PostgreSQL
-
-在MoviePilot的环境变量或配置文件中设置以下参数（请设置复杂密码，不要使用默认密码）：
-
-```bash
-# 数据库类型
-DB_TYPE=postgresql
-
-# PostgreSQL连接参数
-DB_POSTGRESQL_HOST=localhost
-DB_POSTGRESQL_PORT=5432
-DB_POSTGRESQL_DATABASE=moviepilot
-DB_POSTGRESQL_USERNAME=moviepilot
-DB_POSTGRESQL_PASSWORD="你的密码"
-```
-
-## 5. 验证配置
-
-**如果是先升级到了 v2.7.3+ 版本再切换数据库的，在PostgreSQL对应数据库中执行以下语句，并重启MP，以触发数据库升级：**
-```sql
-# 进入容器
-# docker exec -it postgresql bash
-# 连接到PostgreSQL
-# psql -U moviepilot
-update alembic_version set version_num = 'd58298a0879f';
-```
-
-重启MoviePilot后，检查日志确认PostgreSQL连接正常。
+首次部署不是必需。新部署和版本目录差异见[数据库与缓存](/database)；迁移前使用[备份与恢复](/backup)创建一致备份，不照搬旧固定 revision 或清表脚本。
 
 # 对外服务路径
-MoviePilot通过对外提供Api的方式实现消息接入、Webhook等功能，以下是涉及可能需要在其它软件中配置的回调地址。
 
-> **V2版本变化说明** <br> v2.0.0+ 版本后`API_TOKEN`需要设置**16位或以上的复杂字符串** ，如果同一类型的消息和媒体服务器配置了多个，回调请求地址中还需要加上 **&source=配置名称** 参数，其中配置名称建议使用英文，如果配置名称为中文或存在特殊字符（如空格），部分平台（如企业微信）可能需要进行URL编码。为了方便识别和管理，建议统一在所有回调地址中添加`source`参数，以确保各配置间的区分和调用更加清晰。
-{.is-info}
+回调常用路径：
 
-- **消息接收服务**：`/api/v1/message/?token=moviepilot`，微信、SynologyChat、VoceChat的消息回调地址，其中`moviepilot`修改为实际配置中的`API_TOKEN`的值。
-- **Webhook服务**：`/api/v1/webhook?token=moviepilot`，Emby、Jellyfin、Plex等Webhook回调地址，用于接入Webhook请求并传递到MoviePilot内部使用，其中`moviepilot`修改为实际配置中的`API_TOKEN`的值。
-- **下载文件立即整理**：`/api/v1/transfer/now?token=moviepilot`，下载文件自动整理默认轮循下载器间隔为5分钟，如果是使用qbittorrent，可在 `QB设置`->`下载完成时运行外部程序` 处填入：`curl "http://localhost:3000/api/v1/transfer/now?token=moviepilot" `，实现无需等待轮循下载完成后立即整理入库（地址、端口和token按实际调整，curl也可更换为wget）。
+- 消息接收：`/api/v1/message/?token=<API_TOKEN>&source=<配置名称>`。
+- Webhook：`/api/v1/webhook?token=<API_TOKEN>&source=<配置名称>`。
+- HTTP MCP：`/api/v1/mcp`，优先使用 `X-API-KEY` 请求头。
+
+不同通知渠道不一定都使用同一个 HTTP 回调。完整认证和适用范围见[外部集成](/integrations)、[通知](/notification)、[MCP](/mcp)。

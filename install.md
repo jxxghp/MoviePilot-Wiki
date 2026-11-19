@@ -2,13 +2,17 @@
 title: 安装指引
 description: 如何安装MoviePilot
 published: 1
-date: 2026-05-18T05:12:14.807Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:48:38.889Z
 ---
 
 # Docker
+
+> 新用户先按[快速上手](/quickstart)确定目录与配套服务，再选择本页 V3 示例。V1、V2 模板仅为已有实例保留。
+{.is-info}
+
 MoviePilot在docker境像中同时还内置了`虚拟显示`、`浏览器仿真`、`内建重启`、`代理缓存`等特性，**推荐使用docker方式安装**。
 使用 `docker run -itd` 命令安装时，请去除其中的 `#` 开头的注释行，以防报错。
 
@@ -97,96 +101,6 @@ docker run -itd \
 
 ## docker-compose  {.tabset}
 
-### V3-全功能版
-
-下例使用 V3 的全新安装路径。从 V2 切换时无需迁移数据：保留原 `/config` 映射、PostgreSQL 数据卷、Redis 数据卷及对应连接配置，只需将 MoviePilot 镜像更换为 V3 后拉取并重建容器。`pgloader` 默认不启动，仅在需要将 SQLite 转换为 PostgreSQL 时手动启用，与 V2 升级 V3 无关。
-
-```yaml
-services:
-
-  moviepilot:
-    stdin_open: true
-    tty: true
-    container_name: moviepilot-v3
-    hostname: moviepilot-v3
-    ports:
-      - '3000:3000'
-      - '3001:3001'
-    volumes:
-      - '/media:/media' #媒体
-      - '/moviepilot-v3/config:/config' #持久化配置
-      - '/moviepilot-v3/core:/moviepilot/.cloakbrowser' #内核浏览器
-      - '/tr/config/torrents:/torrents' #TR种子位置
-      - '/qbittorrent/data/data/BT_backup:/BT_backup' #QB种子位置
-    environment:
-      - 'NGINX_PORT=3000'
-      - 'PORT=3001'
-      - 'PUID=0'
-      - 'PGID=0'
-      - 'UMASK=000'
-      - 'TZ=Asia/Shanghai'
-      - 'DB_TYPE=postgresql'
-      - 'DB_POSTGRESQL_HOST=postgresql'
-      - 'DB_POSTGRESQL_PORT=5432'
-      - 'DB_POSTGRESQL_DATABASE=moviepilot'
-      - 'DB_POSTGRESQL_USERNAME=moviepilot'
-      - 'DB_POSTGRESQL_PASSWORD=pg_password'
-      - 'CACHE_BACKEND_TYPE=redis'
-      - 'CACHE_BACKEND_URL=redis://:redis_password@redis:6379'
-    restart: always
-    stop_grace_period: 120s
-    depends_on:
-      postgresql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    image: jxxghp/moviepilot-v3:latest
-
-  redis:
-    volumes:
-      - /volume1/docker/redis/data:/data
-    image: redis
-    command: redis-server --save 600 1 --requirepass redis_password
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  postgresql:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: moviepilot
-      POSTGRES_USER: moviepilot
-      POSTGRES_PASSWORD: pg_password
-    volumes:
-      # 仅 postgresql 18.0+ 及以上版本可用，根据版本二选一即可
-      - /volume1/docker/postgresql:/var/lib/postgresql
-      # 仅 postgresql 17.6 及以下版本可用，根据版本二选一即可
-      #- /volume1/docker/postgresql/data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U moviepilot -d moviepilot"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # 可选：仅用于将 SQLite 转换为 PostgreSQL，与 V2 升级 V3 无关
-  pgloader:
-    profiles:
-      - migration
-    image: dimitri/pgloader:latest
-    volumes:
-      - <MP配置文件路径>:/mp_config
-    command: >
-      pgloader
-      sqlite:///mp_config/user.db
-      postgresql://moviepilot:pg_password@postgresql:5432/moviepilot
-    depends_on:
-      postgresql:
-        condition: service_healthy
-```
-
 ### V3-小白版
 
 这个版本适合第一次使用 Docker、只需要单个 MoviePilot 容器的场景。它使用内置的 SQLite 数据库和缓存，不需要另外配置 PostgreSQL、Redis 或 Docker Socket。把下面内容保存为 `docker-compose.yml`，只需要先修改 3 个宿主机目录：
@@ -234,9 +148,84 @@ services:
 docker compose up -d
 ```
 
-启动完成后，在浏览器打开 `http://宿主机IP:3000`。V3 首次启动会显示初始化页面，按页面提示创建管理员账号、设置密码并保存 API Key；模板中不需要填写 `SUPERUSER`、`SUPERUSER_PASSWORD` 或 `API_TOKEN`。以后更新镜像时执行 `docker compose pull && docker compose up --force-recreate -d`。如果修改了宿主机端口，访问地址中的 `3000` 也要改成对应端口。
-
+> 启动完成后，在浏览器打开 `http://宿主机IP:3000`。V3 首次启动会显示初始化页面，按页面提示创建管理员账号、设置密码并保存 API Key；模板中不需要填写 `SUPERUSER`、`SUPERUSER_PASSWORD` 或 `API_TOKEN`。以后更新镜像时执行 `docker compose pull && docker compose up --force-recreate -d`。如果修改了宿主机端口，访问地址中的 `3000` 也要改成对应端口。
 {.is-info}
+
+### V3-全功能版
+
+此模板在 MoviePilot 外增加 PostgreSQL 和 Redis，适合有独立数据库维护需求的用户；普通新安装可以直接选择前一页签的单容器版本。先在同目录的 `.env` 中设置 `MOVIEPILOT_DB_PASSWORD`、`MOVIEPILOT_REDIS_PASSWORD` 两个不同的复杂密码；它们供 Compose 替换模板中的变量，不要提交到公开仓库。
+
+示例固定使用 PostgreSQL 17 的数据目录布局。更换 PostgreSQL 主版本前须按数据库流程备份与迁移；V2 升级 V3 本身不要求更换数据库。已有用户应继续保留原配置映射、数据库连接和数据卷。
+
+```yaml
+services:
+  moviepilot:
+    image: jxxghp/moviepilot-v3:latest
+    container_name: moviepilot-v3
+    hostname: moviepilot-v3
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    volumes:
+      - /media:/media
+      - /moviepilot-v3/config:/config
+      - /moviepilot-v3/core:/moviepilot/.cloakbrowser
+    environment:
+      NGINX_PORT: '3000'
+      PORT: '3001'
+      PUID: '0'
+      PGID: '0'
+      UMASK: '000'
+      TZ: Asia/Shanghai
+      DB_TYPE: postgresql
+      DB_POSTGRESQL_HOST: postgresql
+      DB_POSTGRESQL_PORT: '5432'
+      DB_POSTGRESQL_DATABASE: moviepilot
+      DB_POSTGRESQL_USERNAME: moviepilot
+      DB_POSTGRESQL_PASSWORD: ${MOVIEPILOT_DB_PASSWORD:?Set_MOVIEPILOT_DB_PASSWORD}
+      CACHE_BACKEND_TYPE: redis
+      CACHE_BACKEND_URL: redis://:${MOVIEPILOT_REDIS_PASSWORD:?Set_MOVIEPILOT_REDIS_PASSWORD}@redis:6379/0
+    restart: always
+    stop_grace_period: 120s
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgresql:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: moviepilot
+      POSTGRES_USER: moviepilot
+      POSTGRES_PASSWORD: ${MOVIEPILOT_DB_PASSWORD:?Set_MOVIEPILOT_DB_PASSWORD}
+    volumes:
+      - /moviepilot-v3/postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U moviepilot -d moviepilot']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.4
+    restart: always
+    environment:
+      REDISCLI_AUTH: ${MOVIEPILOT_REDIS_PASSWORD:?Set_MOVIEPILOT_REDIS_PASSWORD}
+    command: ['redis-server', '--save', '600', '1', '--requirepass', '${MOVIEPILOT_REDIS_PASSWORD:?Set_MOVIEPILOT_REDIS_PASSWORD}']
+    volumes:
+      - /moviepilot-v3/redis:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+```
+
+Redis 密码嵌入连接 URL 时，如包含 `@`、`:`、`/` 等保留字符，应使用正确 URL 编码或通过独立 secret 配置连接串。PostgreSQL 与 Redis 不发布公网端口，同网络服务按名称连接。先检查 `docker compose config --quiet`，再执行 `docker compose up -d`。
+
+数据库和缓存不是必装组件；迁移与备份分别见[数据库与缓存](/database)、[备份与恢复](/backup)。
 
 ### V2-全功能版
 ```shell
@@ -488,90 +477,24 @@ DSM7 添加套件源：https://spk7.imnks.com/ ，安装后通过`MoviePilot配�
 
 # 本地 CLI（macOS / Linux）
 
-MoviePilot V2 现已提供本地 CLI 安装模式，适合不使用 Docker、希望直接在本机管理前后端服务的场景。
-
-一键安装命令：
+V3 本地 CLI 统一负责依赖、前端、资源、初始化与进程管理：
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v2/scripts/bootstrap-local.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v3/scripts/bootstrap-local.sh | bash
 ```
 
-脚本会自动：
+当前要求 Python 3.14+ 与 uv 0.12.5+，安装器会尽量准备所需环境。依赖按 `uv.lock` 安装；前端默认选择后端声明的配套 Release；V3 站点资源安装到 `app/application/site/`，不再复制到 `app/helper`。
 
-- 检测操作系统
-- 自动检查并尽量安装 `git`、`curl`、`Python 3.12+`
-- 下载主项目
-- 下载前端 release
-- 下载资源文件并同步到 `app/helper`
-- 自动安装本地 `Node` 运行时
-- 执行初始化向导
-- 创建全局 `moviepilot` 命令
-- 默认启动前后端服务
-
-首次安装完成后，向导会继续引导完成初始化配置。当前初始化向导已覆盖：
-
-- 基础参数
-  - 应用域名
-  - 管理员密码
-  - `API_TOKEN`
-  - `OCR_HOST`
-  - `PROXY_HOST`
-  - `GITHUB_TOKEN`
-- 用户站点认证
-  - 直接读取当前支持的认证站点
-  - 按站点动态展示 `UID`、`Passkey`、用户名等字段
-- 存储目录
-  - 下载目录
-  - 媒体库目录
-  - 整理方式
-  - 覆盖策略
-- 下载器
-- 媒体服务器
-- 通知渠道
-- 智能助手
-  - `AI_AGENT_ENABLE`
-  - `LLM_PROVIDER`
-  - `LLM_MODEL`
-  - `LLM_API_KEY`
-  - `LLM_BASE_URL`
-  - `LLM_THINKING_LEVEL`
-  - `LLM_SUPPORT_IMAGE_INPUT`
-  - `LLM_SUPPORT_AUDIO_INPUT` 与 `AUDIO_INPUT_*`
-  - `LLM_SUPPORT_AUDIO_OUTPUT` 与 `AUDIO_OUTPUT_*`
-  - `AI_RECOMMEND_ENABLED`
-- 资源偏好
-
-安装向导默认使用 `themoviedb` 作为识别来源，不再在首次安装流程中暴露识别源选择，避免误导新用户。
-{.is-info}
-
-安装完成后可直接使用：
+CLI 的 `setup --wizard` 可配置管理员、数据库、目录、站点、连接、通知与 AI 等项目，它与 Web 首次管理员初始化不同。
 
 ```shell
 moviepilot status
-moviepilot logs --frontend
-moviepilot logs --stdio
 moviepilot config path
+moviepilot logs --stdio
+moviepilot logs --frontend
 ```
 
-常用管理命令：
-
-```shell
-moviepilot start
-moviepilot stop
-moviepilot restart
-moviepilot update all
-moviepilot setup --wizard
-moviepilot uninstall
-moviepilot agent 帮我检查当前配置
-```
-
-本地 CLI 默认会将配置目录放在程序目录外：
-
-- macOS：`~/Library/Application Support/MoviePilot`
-- Linux：`${XDG_CONFIG_HOME:-~/.config}/moviepilot`
-
-完整命令和说明参考：[本地 CLI](/cli)
-
+默认配置目录在程序目录外：macOS 为 `~/Library/Application Support/MoviePilot`，Linux 为 `${XDG_CONFIG_HOME:-~/.config}/moviepilot`。升级、备份、开机自启与完整命令见[本地 CLI](/cli)。
 
 # 源代码运行（开发调试）
 
@@ -583,23 +506,7 @@ moviepilot agent 帮我检查当前配置
 不再推荐手工复制前端、资源和依赖后再分别启动多个项目；普通本地运行场景请优先使用 `moviepilot` CLI。
 
 # 反向代理
-如需开启域名访问MoviePilot，则需要搭建反向代理服务。以`nginx`为例，需要添加以下配置项，否则可能会导致部分功能无法访问（`ip:port`修改为实际值）：
-```nginx
-location / {
-    proxy_pass http://ip:port;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-```
-反向代理使用SSL时，还需要开启http2，否则会导致日志加载时间过长或不可用：
-```nginx
-server {
-    listen 443 ssl;
-    http2 on;
-    # ...
-}
-```
 
-**代理服务连接超时时间应尽量长⼀些，比如10分钟，避免代理服务器强制中断请求。**
+需要域名、HTTPS 或外部回调时，按[域名与反向代理](/reverse-proxy)配置。外层代理通常指向 Web 3000 入口，并保留 `/api` 路径；搜索、日志、通知和助手流式响应需要关闭缓冲与共享缓存。
+
+`APP_DOMAIN` 应与实际访问域名一致。通行密钥、Web Push、App 和回调的连接条件不同，配置后逐项验收。

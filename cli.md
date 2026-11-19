@@ -1,104 +1,57 @@
 ---
 title: 本地 CLI
-description: 使用 moviepilot 命令进行本地安装、初始化、更新与服务管理
+description: V3 本地安装、初始化、服务管理、更新、备份与工具调用
 published: 1
-date: 2026-05-15T01:04:59.000Z
-tags: 
+date: 2026-11-19T06:47:21.684Z
+tags: CLI, 安装, 运维
 editor: markdown
 dateCreated: 2026-04-16T12:04:54.839Z
 ---
 
 # 说明
 
-`moviepilot` 是 MoviePilot V2 的本地安装与管理入口，适用于 `macOS` 和 `Linux` 源码部署场景。
+`moviepilot` 是本地源码部署的一体化入口，管理依赖、前端发布包、站点资源、初始化、前后端进程与更新。本文以 **V3** 为准，适用于 macOS、Linux；Windows 原生安装与 WSL 的支持方式应分别查看[安装指引](/install)。
 
-它负责：
-
-- 自动安装本地运行环境
-- 下载前端 release
-- 下载并同步资源文件
-- 初始化配置
-- 卸载本地运行环境
-- 启动、停止、重启前后端服务
-- 更新后端、前端和资源
-- 通过命令行完成配置、调试和 Agent 请求
-
-> Windows 用户如需使用本地 CLI，建议优先在 `WSL` 中运行；原生 Windows 仍建议使用安装版或 Docker。
-{.is-info}
+普通使用不需要单独克隆前端、安装 Rust 工具链或手工复制站点资源。二次开发另见[开发入门](/development)。
 
 # 一键安装
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v2/scripts/bootstrap-local.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jxxghp/MoviePilot/v3/scripts/bootstrap-local.sh | bash
 ```
 
-脚本会自动：
+脚本检查并尽量准备 Git、curl、**uv 0.12.5+、Python 3.14+**，下载源码并按 `uv.lock` 安装依赖；前端默认下载后端 `version.py` 声明的 `FRONTEND_VERSION` 对应发布包；V3 资源从 `resources.v3/` 安装到 `app/application/site/`。
 
-- 检测操作系统
-- 自动检查并尽量安装 `git`、`curl`、`Python 3.12+`
-- 克隆 `MoviePilot`
-- 安装后端依赖
-- 下载 `MoviePilot-Frontend` 最新 release
-- 下载 `MoviePilot-Resources` 资源文件
-- 将 `resources.v2/*` 同步到后端 `app/helper`
-- 自动下载本地 `Node` 运行时并安装前端运行依赖
-- 执行初始化向导
-- 创建全局 `moviepilot` 命令
-- 默认启动前后端服务
+随后准备本地 Node 运行时、初始化配置和全局命令，并按安装流程启动服务。Linux 系统依赖可能需要 sudo；安装前应阅读脚本与提示，已有源码修改不应未经核对就清除。
 
-如果安装完成后当前终端仍提示找不到 `moviepilot`：
-
-- 重新打开终端
-- 如果脚本提示使用了 `~/.local/bin`，执行 `source ~/.zshrc` 或 `source ~/.bashrc`
+如果终端找不到 `moviepilot`，重新打开终端，或根据安装器提示把实际命令目录加入 PATH。不要为了修复 PATH 重复创建不同位置的实例。
 
 # 配置目录
 
-本地 CLI 默认将配置目录放在程序目录外，避免删除程序目录时把配置一并删掉。
+默认配置目录位于程序目录外：
 
 - macOS：`~/Library/Application Support/MoviePilot`
 - Linux：`${XDG_CONFIG_HOME:-~/.config}/moviepilot`
 
-也可以在安装时手动指定：
-
 ```shell
+moviepilot config path
 moviepilot setup --config-dir /path/to/moviepilot-config
 ```
 
-如果当前还没有可用配置目录，执行 `moviepilot setup` 或 `moviepilot init` 时会先展示默认路径并允许你确认或指定其它路径。
-
-查看当前实际配置目录：
-
-```shell
-moviepilot config path
-```
+交互安装未指定目录时会询问并显示默认路径。路径带空格时应加引号。程序代码、前端和运行时可以重新安装，配置目录与外部数据库必须单独备份。
 
 # 初始化向导
 
-`moviepilot setup --wizard` 或 `moviepilot init --wizard` 会进入本地初始化向导。
+```shell
+moviepilot setup --wizard
+moviepilot init --wizard
+```
 
-向导当前支持配置：
+CLI 向导可配置管理员、API Key、数据库、下载与媒体库目录、用户站点认证、下载器、媒体服务器、通知、AI 和开机自启等项目。它与 V3 Web 的首次管理员初始化页面不同。
 
-- `API_TOKEN`
-- 数据库类型
-  - 默认 `SQLite`
-  - 可切换为 `PostgreSQL`，并填写主机、端口、数据库名、用户名、密码
-- 默认下载目录与媒体库目录
-- 下载器
-- 媒体服务器
-- 消息通知渠道
-- 用户站点认证
-  - 可直接选择支持的认证站点
-  - 按站点要求填写 `用户名`、`UID`、`Passkey` 等参数
-- AI Agent
-  - 可按需启用 `AI_AGENT_ENABLE`
-  - 配置 `LLM_PROVIDER`、`LLM_MODEL`、`LLM_API_KEY`、`LLM_BASE_URL`
-  - 配置 `LLM_THINKING_LEVEL`、`LLM_SUPPORT_IMAGE_INPUT`
-  - 配置 `LLM_SUPPORT_AUDIO_INPUT`、`AUDIO_INPUT_*`
-  - 配置 `LLM_SUPPORT_AUDIO_OUTPUT`、`AUDIO_OUTPUT_*`
-  - 配置 `AI_RECOMMEND_ENABLED`
+远程下载器的下载目录按下载器路径保存，不会在本机自动创建同名下载路径；媒体库目录属于 MoviePilot 可访问的存储。路径关系见[目录与路径](/directories)。
 
-> 安装向导默认使用 `themoviedb` 作为识别来源，不再在首次安装流程中要求选择识别源。
-{.is-info}
+已有实例不要为调整某一项反复执行强制初始化；优先使用对应界面或 `config` 子命令。自动化管理员参数可能进入 shell 历史，交互场景优先用向导输入密码。
 
 # 常用命令
 
@@ -108,33 +61,21 @@ moviepilot config path
 moviepilot install deps
 moviepilot install frontend
 moviepilot install resources
+moviepilot install cjk --check
 moviepilot init --wizard
 moviepilot setup --wizard
-moviepilot uninstall
 ```
 
-说明：
+| 命令 | 用途 |
+| --- | --- |
+| `install deps` | 创建所选虚拟环境并按锁文件安装后端依赖 |
+| `install frontend` | 安装配套前端发布包及本地运行依赖 |
+| `install resources` | 安装 V3 站点资源到 `app/application/site/` |
+| `install cjk` | 安装或检查 Agent 中文全文索引扩展 |
+| `init` | 初始化配置，可显式指定配置目录 |
+| `setup` | 串行执行依赖、前端、资源与初始化 |
 
-- `install deps`：创建虚拟环境并安装后端依赖
-- `install frontend`：下载前端 release，并自动安装本地 `Node` 运行时
-- `install resources`：下载 `MoviePilot-Resources` 并同步到 `app/helper`
-- `init`：初始化本地配置
-- `setup`：串行执行依赖安装、前端安装、资源同步和初始化
-- `uninstall`：卸载本地运行环境，默认保留配置目录
-
-## 卸载
-
-```shell
-moviepilot uninstall
-moviepilot uninstall --config-dir /path/to/moviepilot-config
-```
-
-说明：
-
-- 卸载时会进行两次确认
-- 默认不删除配置目录
-- 过程中会询问是否删除配置目录
-- 源码目录不会被删除
+中文索引扩展未就绪时，自动安装流程会告警并保留检索回退；需要补装时看当前命令帮助与[主仓 CLI 文档](https://github.com/jxxghp/MoviePilot/blob/v3/docs/cli.md)，不必反复重装全部组件。
 
 ## 服务管理
 
@@ -143,28 +84,37 @@ moviepilot start
 moviepilot stop
 moviepilot restart
 moviepilot status
-moviepilot logs
-moviepilot logs --frontend
-moviepilot logs --stdio
 moviepilot version
+moviepilot logs --lines 100
+moviepilot logs --stdio
+moviepilot logs --frontend
 ```
 
-说明：
+`start` 先启动后端再启动前端。**普通启动和重启不检查、不下载、不安装更新**；开发模式也不能代替显式更新。
 
-- `start/stop/restart/status` 统一管理本地前后端服务
-- 通过系统内置重启入口触发重启时，如果当前实例是由 `moviepilot start` 管理起来的，本地安装模式也支持内建重启
-- `logs --frontend` 查看前端启动日志
-- `logs --stdio` 查看后端启动标准输出
+需要排查启动问题时：
+
+```shell
+moviepilot doctor
+moviepilot doctor --json
+moviepilot start --safe
+```
+
+Doctor 默认只读；`--fix` 会进行有限修复，具体边界见[Doctor 诊断](/doctor)。
+
+## 开机自启
+
+```shell
+moviepilot startup status
+moviepilot startup enable
+moviepilot startup disable
+```
+
+macOS 使用 LaunchAgent；Linux 优先 systemd 用户服务，不可用时回退到 XDG autostart。注册项调用同一 CLI 启动入口；安装路径、虚拟环境或配置目录变更后应重新核对。
 
 ## 更新
 
-```shell
-moviepilot update backend
-moviepilot update frontend
-moviepilot update all
-```
-
-常见用法：
+推荐先[备份](/backup)，然后：
 
 ```shell
 moviepilot stop
@@ -172,80 +122,96 @@ moviepilot update all
 moviepilot start
 ```
 
-也可以指定版本：
+按需单独更新或选择模式：
 
 ```shell
-moviepilot update backend --ref v2.9.31
-moviepilot update frontend --frontend-version v2.9.31
+moviepilot update backend
+moviepilot update frontend
+moviepilot update all --skip-resources
+moviepilot update all --no-dev
+moviepilot update all --dev
 ```
 
-说明：
+- 非 DEV 模式按后端声明选择配套前端；不要默认所有组件都应盲目选择各自最新分支。
+- DEV 模式跟踪开发分支并下载最新前端发布包，同版本也重新获取，适用于明确接受开发状态的用户。
+- `MOVIEPILOT_UPDATE_DEV` 影响手动更新的默认模式，`--dev` / `--no-dev` 可覆盖。
+- 需要固定版本时，用 `moviepilot help update` 查看 `--ref` 与 `--frontend-version`；版本必须实际存在并兼容。
+- 已跟踪源码有改动时，更新会提示是否清除；拒绝或非交互会取消。确认清理前先保存自己的修改，不要把这一确认理解成无损更新。
 
-- `update backend` 会更新 Git 仓库并重新安装后端依赖
-- `update frontend` 会更新前端 release
-- `update all` 会同时更新后端、前端，并默认同步资源文件
-- 更新前建议先执行 `moviepilot stop`
+稳定版本的后台提醒、下载与重启安装流程见[升级](/upgrade)。
+
+## 数据库备份
+
+```shell
+moviepilot database backup
+moviepilot database list
+moviepilot database verify <filename>
+```
+
+还原使用 `database restore <filename> --confirm`，必须先停止 MoviePilot，核对实例和备份范围。详细流程与 Docker 一次性容器用法见[备份与恢复](/backup)。
 
 ## Agent
 
 ```shell
 moviepilot agent 帮我分析最近一次搜索失败的原因
-moviepilot agent --user-id admin 帮我检查当前下载器配置
 moviepilot agent --session cli-debug-1 帮我看看为什么没有自动整理
+moviepilot agent --new-session 帮我总结配置中明显的问题
 ```
 
-说明：
-
-- `moviepilot agent` 会直接向本地 Agent 发送一次请求
-- 使用前需要先配置 LLM 参数，并开启 `AI_AGENT_ENABLE`
-- 智能助手相关配置说明参考 [智能助手](/agent)
+先启用智能助手并配置可用模型。CLI Agent 在本地独立进程中装配正式能力；相同用户与会话可以恢复持久化历史，不是只读日志查询器。需要限制动作时在需求中明确，详情见[智能助手](/agent)。
 
 ## 配置、工具与调度
 
 ```shell
 moviepilot config path
-moviepilot config list
-moviepilot config get PORT
-moviepilot config set PORT 3001
 moviepilot config keys
 moviepilot config describe API_TOKEN
+moviepilot config get PORT
 
 moviepilot tool list
-moviepilot tool show query_schedulers
-moviepilot tool run query_schedulers
-
+moviepilot tool show moviepilot_api
+moviepilot tool run moviepilot_api operation_id=scheduler.list
 moviepilot scheduler list
-moviepilot scheduler run subscribe_refresh
 ```
+
+当前业务能力统一使用 `moviepilot_api` 的固定 `operation_id`，不再使用 `query_schedulers`、`search_torrents` 等旧独立业务工具名。先用 `tool show` 读取当前参数合同，对象、数组和布尔值使用合法 JSON。
+
+例如只读媒体搜索：
+
+```shell
+moviepilot tool run moviepilot_api operation_id=media.search 'query={"title":"流浪地球","type":"media"}'
+```
+
+要执行调度任务，先从清单取得精确 ID，再运行 `moviepilot scheduler run <job_id>`。下载器与媒体服务器的高级原生能力有专用入口，不能把第三方接口名直接当成 MoviePilot operation。
+
+## 卸载
+
+```shell
+moviepilot uninstall
+```
+
+卸载会停止 CLI 管理的服务、清理其安装产物并处理自启项，源码目录保留；是否删除配置目录需要明确确认，默认不删除。开始前先确认当前实例与备份，不要把卸载当作一般故障排除步骤。
 
 # 帮助与发现
 
-根帮助：
-
 ```shell
 moviepilot --help
-moviepilot help
 moviepilot commands
-```
-
-分级帮助：
-
-```shell
 moviepilot help install
-moviepilot help init
-moviepilot help setup
 moviepilot help update
-moviepilot help agent
 moviepilot help config
-moviepilot help config set
+moviepilot help database
 moviepilot help tool
 moviepilot help scheduler
 ```
+
+命令与字段会演进，当前安装的帮助优先于旧截图。完整参数由[主仓 CLI 文档](https://github.com/jxxghp/MoviePilot/blob/v3/docs/cli.md)维护。
 
 # 完整命令清单
 
 ```text
 moviepilot install deps
+moviepilot install cjk
 moviepilot install frontend
 moviepilot install resources
 moviepilot init
@@ -254,12 +220,16 @@ moviepilot uninstall
 moviepilot update backend
 moviepilot update frontend
 moviepilot update all
+moviepilot startup enable
+moviepilot startup disable
+moviepilot startup status
 moviepilot agent
 moviepilot start
 moviepilot stop
 moviepilot restart
 moviepilot status
 moviepilot logs
+moviepilot doctor
 moviepilot version
 moviepilot config path
 moviepilot config list
@@ -267,6 +237,10 @@ moviepilot config get
 moviepilot config set
 moviepilot config keys
 moviepilot config describe
+moviepilot database backup
+moviepilot database list
+moviepilot database verify
+moviepilot database restore
 moviepilot tool list
 moviepilot tool show
 moviepilot tool run
@@ -276,10 +250,10 @@ moviepilot help
 moviepilot commands
 ```
 
+需要参数的子命令先通过 `moviepilot help <命令>` 查看，不要把清单当作需要顺序全部执行的安装脚本。
+
 # 相关说明
 
-- 本地 CLI 安装模式会自动下载前端 release，不需要单独 clone 前端仓库
-- 资源文件会自动从 `MoviePilot-Resources` 下载，不需要手工复制到 `app/helper`
-- 本地 CLI 安装模式的更新，不依赖 Docker 自动升级机制；请使用 `moviepilot update ...`
-- 如果本地仓库存在已跟踪源码改动，更新命令会停止，避免覆盖本地修改；未跟踪文件不会再阻断更新
-- 如果你要把 MoviePilot 的工具能力接入 OpenClaw、Claude Code 等第三方 Agent，而不是直接在本地 CLI 里执行，可参考 [MCP](/mcp)
+- Docker 部署继续使用容器生命周期；不要在宿主机另启动同配置目录的本地实例。
+- 资源、插件、前端、后端和 Rust 包有各自版本，验收时记录真实组合。
+- 第三方 Agent 使用 HTTP 接入时看[MCP](/mcp)，不把本地 CLI 安装路径填入远程服务器 URL。

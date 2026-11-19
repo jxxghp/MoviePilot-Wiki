@@ -2,13 +2,17 @@
 title: 主题风格
 description: 开发自定义CSS个性化主题
 published: 1
-date: 2025-07-26T15:14:20.791Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:54:41.319Z
 ---
 
 # 主题风格
+
+> 附加 CSS 主要用于普通网页和 PWA。官方 iOS App 使用原生导航与限定的主题设置，不提供同样的附加样式入口。升级后显示异常时先停用自定义 CSS 排查，不直接改写产品页面。
+{.is-info}
+
 
 1. 参考以下代码，开发个性化CSS脚本：
 > 该CSS仅为示例，未持续维护，可能不适配最新版本MoviePilot。

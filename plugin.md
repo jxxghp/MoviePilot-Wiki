@@ -2,7 +2,7 @@
 title: 插件
 description: 使用丰富的插件功能
 published: 1
-date: 2026-10-16T02:26:17.672Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2024-06-11T22:35:11.803Z
@@ -10,17 +10,14 @@ dateCreated: 2024-06-11T22:35:11.803Z
 
 # 插件市场
 
-**MoviePilot目前已有：**
-- **v1.0+：`200+` 个插件**
-- **v2.0+：`400+` 个插件**
-- **v3.0+：`500+` 个插件**
+插件能力由官方与第三方仓库提供，实际可安装数量随主程序版本、代际索引、插件最低版本和已配置市场变化，以当前实例显示为准。
 
-通过在变量`PLUGIN_MARKET`中添加第三方插件仓库地址后（v2版本点击插件页面图标维护），即可在插件市场中看到对应的插件。**通过插件市场下载和更新插件需要良好的网络环境，能正确连接Github，同时需要配置Github Token。**
+在插件市场设置中维护 `PLUGIN_MARKET`。下载与更新需要 MoviePilot 能访问 GitHub 与发布资产；公共访问受到平台限额时可配置自己的 GitHub Token。Token 是凭据，不要放进市场地址或公开截图。
 
 插件市场仓库地址仅支持Github仓库`main`分支，多个地址使用`,`分隔，通过查看 [MoviePilot-Plugins](https://github.com/jxxghp/MoviePilot-Plugins) 项目的fork，或者查看频道置顶了解更多第三方插件仓库。
 
 
-> 插件适配V2版本需要插件开发者进行兼容改造或者在插件代码中声明支持V2，如发现V1版本中的插件在V2版本的插件市场中不显示，需联系插件开发者修改支持。
+> V3 会按代际索引与主程序版本选择兼容实现；并非所有 V2 插件都必须复制一份，但涉及已变更合同的插件需要专用适配。市场不显示时先检查来源、版本范围与代际索引，再联系作者，不要强行复制旧插件目录。
 {.is-info}
 
 > 插件开发者请从插件仓库的 [MoviePilot 插件开发指南（V3）](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Plugin_Development.md) 开始。已有 V2 插件迁移、旧导入兼容、媒体身份和存量数据问题，再查看 [V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)；API 与 Vue 远程组件另见 [插件 API 专题](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_API_Response_Adaptation.md)。
@@ -201,3 +198,13 @@ Release 元数据等普通 GitHub API 请求继续使用原有 Token 与 HTTP �
 
 
 更多精彩，插件市场等你发现！
+
+# 使用与排查顺序
+
+1. 安装前先读使用说明，确认适用主程序、外部服务、权限与依赖。
+2. 安装后保存该插件配置，再启用并做一次小范围验证。安装完成不代表外部服务已经连接。
+3. 远程组件页面异常时，区分插件后端状态、前端资源与模块联邦问题，保留插件和主程序日志。
+4. 插件引起启动异常时，先用[安全模式](/doctor)恢复入口，再定位具体插件。
+5. 重装、卸载或迁移前备份插件配置、文件数据与独立数据库，见[备份与恢复](/backup)。
+
+插件在宿主运行环境执行代码，选择可信作者和仓库；不要因为在公开清单中出现，就认为已经覆盖所有版本与数据安全场景。开发与贡献入口见[插件开发](/plugindev)。

@@ -2,7 +2,7 @@
 title: Doctor 诊断与自救
 description: 使用 moviepilot doctor 收集诊断信息并在异常时进行安全自救
 published: 1
-date: 2026-06-12T07:48:42.000Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2026-06-12T07:48:42.000Z
@@ -35,7 +35,7 @@ moviepilot start --safe
 
 ## Docker
 
-如果容器仍在运行，或已经进入诊断保活状态：
+如果容器仍在运行：
 
 ```shell
 docker exec -it <container> moviepilot doctor
@@ -117,27 +117,23 @@ MOVIEPILOT_SAFE_MODE=true
 
 # Docker 诊断保活
 
-Docker 镜像默认启用：
-
-```env
-MOVIEPILOT_DOCKER_KEEPALIVE_ON_FAILURE=true
-```
-
-当后端主进程非正常退出时，entrypoint 不会立刻退出容器，而是打印一次 doctor 报告并保持容器运行，方便继续执行：
+旧镜像的诊断保活开关不作为当前 V3 进程管理方式。V3 由容器内 supervisor 托管 Nginx 和后端，后端异常退出时由 supervisor 拉起；Docker 的 restart policy 只负责整个容器异常退出或宿主重启后的恢复。
 
 ```shell
 docker exec -it <container> moviepilot doctor
 ```
 
-通过前端内建重启、系统内置重启入口或用户手动触发的正常重启，会被识别为用户意图，不会进入诊断保活，也不会影响原有的内建手动重启流程。
+Docker `HEALTHCHECK` 用于报告容器健康，不等于 Docker 会因任意 unhealthy 状态自动重启。检查实际 supervisor 日志、重启次数与退出原因。
 
-如果需要恢复旧行为，可设置：
+## 就绪与存活探针
 
-```env
-MOVIEPILOT_DOCKER_KEEPALIVE_ON_FAILURE=false
-```
+后端 `/health/live` 仅确认进程与事件循环可响应；`/health/ready` 在迁移、Alembic head 校验和生命周期启动完成后返回 200，启动失败或关停时返回 503。它们无需令牌且不公开数据库路径或异常栈。
 
-Dockerfile 同时提供 `HEALTHCHECK`，用于标记容器健康状态。是否自动重启仍由 Docker Compose、NAS 平台或 Docker restart policy 决定。
+直接访问后端端口，避免把 Web 首页的 HTML 误认成健康结果。命令与分层判断见[运行维护](/operations)。
+
+## API worker 数量
+
+全功能 V3 只支持 `API_WORKERS=1`，启动入口会在迁移与后台服务启动前拒绝更大值，避免调度、监控、工作流和插件重复运行。不要为了性能照搬通用 Web 服务的多 worker 模板；安全模式的临时诊断例外不代表正常部署可以放开。
 
 # Issue 反馈
 

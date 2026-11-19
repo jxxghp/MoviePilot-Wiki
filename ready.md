@@ -1,89 +1,91 @@
 ---
 title: 环境准备
-description: 安装前的准备工作
+description: 安装前确认网络、存储、下载器、媒体服务器与认证条件
 published: 1
-date: 2024-06-12T05:56:20.475Z
-tags: 
+date: 2026-11-19T06:47:21.684Z
+tags: 入门, 安装
 editor: markdown
 dateCreated: 2024-05-30T06:48:30.890Z
 ---
 
 # 网络
-MoviePilot通过调用 [TheMovieDb](https://api.themoviedb.org) 的Api来读取和匹配媒体元数据，通过访问 [Github](https://github.com) 来执行程序升级、安装插件等。有顺畅连接上述网址的网络环境是能流畅使用本软件的前提。**推荐使用前两种方式**，网络质量更加稳定。
+
+MoviePilot 会按功能访问元数据服务、GitHub 发布资源、站点、下载器、媒体服务器、通知平台与模型服务。**浏览器能访问不代表容器或后端进程能访问**，应从实际运行环境验证。
+
+| 目标 | 常见用途 | 失败后的影响 |
+| --- | --- | --- |
+| TMDB 等元数据源 | 搜索、识别、刮削 | 可能无法正确识别或获取媒体信息 |
+| GitHub 与发布资产 | 主程序、前端、插件、站点资源安装和更新 | 安装或下载失败，不宜反复中断后重启 |
+| 站点 | 搜索、RSS、下载链接、用户信息 | 对应站点失败，不代表全部站点不可用 |
+| 下载器与媒体服务器 | 提交任务、读取库存、刷新和播放链接 | 对应业务阶段失败 |
+| 通知、LLM、封面与歌词源 | 可选扩展功能 | 需分别检查网络与凭据 |
 
 ### 单独代理
-搭建代理服务，并将代理地址填入MoviePilot的环境变量中，软件会自动对需要使用代理的请求使用代理服务器。具体可参考 [配置参考](/configuration) 章节设置代理服务器变量。
+
+在实际部署配置或 Web 设置中维护 `PROXY_HOST`。地址必须能从 MoviePilot 访问；容器内的 `127.0.0.1` 指容器自身。需要鉴权或特殊协议时，按当前字段和部署平台要求填写。
+
 ### 全局代理
-将MoviePilot所在的网络接入代理，通过分流规则将软件的网络请求通过代理发出，同时剔除站点相关的网络请求。
+
+在网络侧分流时，区分元数据与 GitHub、PT 站点和局域网服务。不要让下载器、媒体服务器或本地共享误走不可达的代理，也不要默认所有站点都接受代理出口。
+
 ### 防域名污染与中转加速
-- 更换TheMovieDb的Api地址为`api.tmdb.org`、开启`DOH`、本地修改`hosts`文件协持`api.themoviedb.org`域名地址为可访问IP、使用`Cloudflare Workers`搭建代理中转等，综合使用以上方式调优TheMovieDb的网络访问，涉及调整系统设定的参考 [配置参考](/configuration) 章节。
-- 使用Github中转加速服务器来加快Github文件下载请求，具体可参考 [配置参考](/configuration) 章节。
 
-#### Cloudflare Workers 参考代码：
-```javascript
+先分清 DNS、连接超时、TLS 证书、HTTP 状态和服务端拒绝。按需配置 DOH、元数据域名或 `GITHUB_PROXY`，每次只调整可验证的一层。
 
-async function handleRequest(request) {
-  // 从请求URL中获取 API查询参数
-  const url = new URL(request.url)
-  const searchParams = url.searchParams
-
-  // 设置代理API请求的URL地址
-  const apiUrl = `https://api.themoviedb.org/${url.pathname}?${searchParams.toString()}`
-
-  // 设置API请求的headers
-  const headers = new Headers(request.headers)
-  headers.set('Host', 'api.themoviedb.org')
-  
-  // 创建API请求
-  const response = await fetch(apiUrl, {
-    method: request.method,
-    headers: headers
-  })
-
-  // 返回API响应
-  return response
-}
-
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
-```
+第三方中转可接触其转发的内容，应选择可信服务；不要把站点 Cookie、私有下载地址或授权头交给不明代理。具体配置见[配置参考](/configuration)。
 
 # 操作系统
-部分功能基于文件系统监控实现（如`目录监控`等），监控的文件较多时，往往会因为操作系统默认允许的文件句柄数太小导致报错，相关功能失效，需在**宿主机**操作系统上（不是docker容器内）执行以下命令并重启生效：
+
+- 将配置与媒体目录放在可靠、可持久化的存储上，并预留数据库、备份、日志与临时操作空间。
+- 容器部署检查宿主机挂载、用户 UID/GID 与 NAS ACL；仅有宿主机 root 权限不代表容器身份可写。
+- 本地 V3 由安装器准备 Python 3.14+、uv 等环境，详见[本地 CLI](/cli)。
+- 使用目录事件监控时，Linux 需要足够的 inotify 配额。只有日志出现相关不足错误时，再按实际监控规模调整宿主机限制。
+
+Linux 可先只读检查：
+
 ```shell
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
-echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf
-sudo sysctl -p
+sysctl fs.inotify.max_user_watches
+sysctl fs.inotify.max_user_instances
 ```
+
+不要在非 Linux 系统或容器内照抄宿主机内核调优命令，也不要无条件把限制调到极大值。SMB、NFS、网盘挂载的事件支持另见[目录与路径](/directories)。
 
 # 站点
-MoviePilot包括两大部分功能：`文件整理刮削`、`资源订阅下载`，其中`资源订阅下载`功能需要有可用的`PT站点`，**同时这些站点中需要有一个可用于认证**，关于用户认证请参考 [基础](/basic) 章节的相关说明。
+
+只整理已有文件可以先准备可识别的源文件与媒体库目录。使用站点资源搜索、订阅和下载时，还需要可用站点账号及相应用户认证。
+
+认证范围随资源更新，以系统 `用户认证` 中的可选项为准；站点搜索凭据另行维护。不要为了测试认证而公开完整 Cookie、Passkey 或个人下载链接。
 
 # 配套软件
-MoviePilot只是媒体库自动化管理的一环，需要通过调用`下载器`来完成资源的下载，需要通过`媒体服务器`来管理和展示媒体资源，**同时通过媒体服务器Api来查询库存情况控制重复下载**，通过`CookieCloud`来快速同步站点Cookie和新增站点。安装前需要先完成配套软件的安装。
 
 ### 下载器
-- **Qbittorrent**：版本要求 >= `4.3.9`
-- **Transmission**：版本要求 >= `3.0`
+
+内置连接包括 qBittorrent、Transmission 和 rTorrent。先启用对应 Web API / RPC，设置账号、持久化下载目录，再从 MoviePilot 测试连接。具体字段和路径映射见[下载器连接](/downloaders)。
 
 ### 媒体服务器
-- **Emby**：建议版本 >= `4.8.0.45`
-- **Jellyfin**：推荐使用`latest`分支
-- **Plex**：无特定版本要求
+
+用于展示播放、库存查重与入库刷新，可按需求选择实例支持的 Emby、Jellyfin、Plex、极影视、飞牛影视、绿联影视、Navidrome、Vyo 等类型。不同服务能力不同，音乐需选择支持音乐的服务，见[媒体服务器](/mediaserver)。
 
 ### CookieCloud
-- **CookieCloud服务端**：可选，MoviePilot已经内置了CookieCloud服务端，如需独立安装可参考 [easychen/CookieCloud](https://github.com/easychen/CookieCloud) 说明
-- **CookieCloud浏览器插件**：不管是使用CookieCloud独立服务端还是使用内置服务，都需要安装浏览器插件，访问 [此处](https://github.com/easychen/CookieCloud/releases) 下载安装到浏览器。
+
+用于从浏览器同步站点 Cookie，可使用支持的远端服务或 MoviePilot 内置服务。浏览器端仍需安装[CookieCloud 扩展](https://github.com/easychen/CookieCloud)，并维护对应服务地址、用户 Key 和端到端加密密码。同步不代替站点账号和用户认证，见[站点](/site)。
 
 ### Docker管理器
-如果你计划使用docker来部署MoviePilot，请确认你的环境是否可以方便地编辑容器配置，否则建议安装 [portainer](https://github.com/portainer/portainer) 来简化容器操作。
-```shell
-docker run -d --restart=always --name="portainer" -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock 6053537/portainer-ce
 
-```
+能编辑 Compose、查看日志、拉取镜像和重建容器即可使用，不必为了 MoviePilot 额外暴露一个容器管理面板。正式操作前先确认配置目录、数据卷和环境变量能保留。
+
+V3 单容器使用 SQLite 和进程内缓存即可开始；PostgreSQL、Redis 属于可选项，见[数据库与缓存](/database)。
 
 ### Overseerr/Jellyseerr
-如果你希望将MoviePilot的自动化媒体管理能力开放给多个人使用，同时具有用户提交订阅申请与集中审批的功能，可以安装 `Overseerr`/`Jellyseerr`来配合实现更好的选片和申请审批使用体验。MoviePilot通过模拟`Radarr`和`Sonarr`的Api实现无缝集成，`Overseerr`/`Jellyseerr`负责选片和用户权限管理，MoviePilot负责订阅、下载和整理。参考下图：
+
+需要多人选片、申请和审批时，可以评估这类请求管理工具，MoviePilot 通过部分 Radarr/Sonarr 兼容接口衔接订阅。先验证 MoviePilot 自身完整流程，再接外部审批，见[外部集成](/integrations)。
 
 ![seerr.png](/seerr.png)
+
+# 安装前清单
+
+1. 确认部署方式，准备配置目录和媒体共同根目录。
+2. 确认元数据和 GitHub 网络可达，站点访问独立检查。
+3. 确认下载器、媒体服务器地址对后端可达。
+4. 如果使用远程或网盘存储，先验证文件读写与路径关系。
+5. 准备一个小样本，按[快速上手](/quickstart)逐步验收。

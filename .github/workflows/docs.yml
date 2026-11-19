@@ -1,0 +1,44 @@
+name: Wiki documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.md'
+      - '*.png'
+      - '*.jpg'
+      - '*.gif'
+      - 'scripts/docs/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    paths:
+      - '*.md'
+      - '*.png'
+      - '*.jpg'
+      - '*.gif'
+      - 'scripts/docs/**'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wiki-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install documentation dependencies
+        run: python -m pip install -r scripts/docs/requirements.txt 'pytest>=8,<10'
+      - name: Test documentation tools
+        run: python -m pytest scripts/docs/tests -q -p no:cacheprovider
+      - name: Check Wiki pages and links
+        run: python scripts/docs/check.py

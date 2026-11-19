@@ -2,7 +2,7 @@
 title: 智能助手
 description: 配置与使用 MoviePilot 智能助手
 published: 1
-date: 2026-10-11T00:00:00.000Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2026-04-20T12:01:10.386Z
@@ -160,7 +160,7 @@ MoviePilot V2 已内置智能助手能力，可用于：
 
 ## 方式一：安装向导
 
-初始化向导已内置第 7 步 `智能助手`，无论是 WEB 首次安装向导，还是本地 CLI 的 `moviepilot setup --wizard`，都可以直接完成常用 AI 参数配置。
+本地 CLI 的 `moviepilot setup --wizard` 可以完成常用 AI 参数配置。V3 Web 首次初始化只创建管理员与 API Key，智能助手在登录后进入系统设置配置；不要按 V1、V2 的向导步骤编号操作。
 
 ## 方式二：系统设置
 
@@ -210,9 +210,11 @@ MoviePilot V2 已内置智能助手能力，可用于：
 > `支持音频输入` 与 `支持音频输出` 是两个独立开关。真正能否识别语音、是否能回传语音，仍取决于 `AUDIO_INPUT_*` / `AUDIO_OUTPUT_*` 配置是否可用，以及当前消息渠道本身是否支持。
 {.is-info}
 
-未在上表中的高级项，例如 `SKILL_MARKET`、`LLM_TEMPERATURE`、`LLM_MAX_ITERATIONS`、`LLM_TOOL_TIMEOUT`、`LLM_MEMORY_*`、`TAVILY_API_KEY`、`EXA_API_KEY` 等，通常仍通过配置文件、环境变量或部署平台变量维护。完整参数说明参考 [配置参考](/configuration) 中的 `智能助手` 章节。
+完整高级项及实际默认值见[配置项索引](/configuration-reference)；配置来源和界面入口见[配置参考](/configuration)。以当前部署支持的字段为准，不将旧教程里的搜索服务 Key 或模型参数直接套到新版配置。
 
 # 基础配置建议
+
+`LLM_TEMPERATURE` 留空不覆盖提供商默认值；`LLM_API_PROTOCOL` 与 `LLM_WEB_SEARCH_MODE` 应按所选端点和模型能力配置。模型目录、协议和字段默认值见[配置参考](/configuration)与[配置项索引](/configuration-reference)，不要按旧示例假定某个模型始终可用。
 
 最少需要准备以下几项：
 
@@ -248,12 +250,11 @@ MoviePilot V2 已内置智能助手能力，可用于：
 
 ```shell
 moviepilot tool list
-moviepilot tool show query_download_tasks
-moviepilot tool show transfer_file
-moviepilot tool show run_slash_command
+moviepilot tool show moviepilot_api
+moviepilot tool run moviepilot_api operation_id=scheduler.list
 ```
 
-更多说明参考 [本地 CLI](/cli)。
+当前业务工具统一通过 `moviepilot_api` 的 `operation_id` 选择能力，参数以当前 `tool show` 的 Schema 为准，不再使用旧独立业务工具名。外部 MCP 还有专门的下载器、媒体服务器与数据库入口，见[MCP](/mcp)。更多本地命令参考[本地 CLI](/cli)。
 
 ## 技能系统
 
@@ -307,10 +308,11 @@ moviepilot tool show run_slash_command
 
 除了即时对话，智能助手还带有两类辅助机制：
 
-- **记忆：** 会自动保留会话上下文，并可在 `CONFIG_DIR/agent` 下维护长期偏好记忆
-- **Jobs：** 可以在 `CONFIG_DIR/agent/jobs` 中维护待办任务；当 `AI_AGENT_JOB_INTERVAL` 大于 `0` 时，系统会按间隔唤醒智能助手检查并执行待处理任务
+- **会话与记忆：** 会话按用户与会话 ID 保存并校验归属，内存保留与持久历史清理是不同设置；长期偏好与自定义技能按 Agent 目录规则维护。
+- **自主定时任务：** 通过当前 `agent_task` 合同创建、查看、暂停和调整，创建时固定执行账号；后台使用该账号的实时权限，不会自动提升为管理员。
+- **Jobs 心跳：** `CONFIG_DIR/agent/jobs` 中的待办是另一种检查机制，`AI_AGENT_JOB_INTERVAL` 大于 `0` 时启用周期检查；默认 `0` 不启用。不要把它当成所有定时任务都必须开启的总开关。
 
-所以它不仅能回答“现在怎么做”，也能在一定程度上承担“之后继续做”的任务。
+从消息渠道创建定时任务还需对应渠道的任务能力；账号或授权失效会阻止执行，旧任务可能需要原会话重新确认。完整行为见[自主任务执行账号](https://github.com/jxxghp/MoviePilot/blob/v3/docs/agent-execution.md#自主任务执行账号)。
 
 ## 权限边界
 
@@ -320,7 +322,7 @@ moviepilot tool show run_slash_command
 
 - 很多查询类能力可以直接使用
 - 但修改配置、删除记录、执行 `/命令`、触发调度、运行工作流、执行本地命令、编辑文件等高风险操作，通常需要管理员权限
-- 在消息渠道中，代码会根据“渠道管理员名单”或系统管理员身份判断是否允许执行这些工具
+- 消息渠道通过 `用户管理 → 渠道授权` 审批和实时校验成员能力；关联网页账号也不能绕过停用或权限限制，见[用户与安全](/security)
 - 图片、文件、语音、按钮等能力，也取决于当前消息渠道本身是否支持
 
 因此，智能助手是“有工具的智能体”，但不是“无条件的超级管理员”。

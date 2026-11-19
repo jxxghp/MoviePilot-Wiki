@@ -2,11 +2,15 @@
 title: 发行说明
 description: 需要关注的重要版本变更
 published: 1
-date: 2026-08-08T07:53:04.735Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:49:17.992Z
 ---
+
+> 本页保留历史重大版本说明，不是实时完整更新日志。当前可下载版本与变更以[主程序 Releases](https://github.com/jxxghp/MoviePilot/releases)为准；V3 支持范围见[V3 说明](/v3)，升级步骤见[升级](/upgrade)。
+{.is-info}
+
 
 > 访问 [此处](https://github.com/jxxghp/MoviePilot/releases) 了解所有的版本更新日志，此页面只针对历史上的重大变更做一些说明，在进行升级前请了解这些信息并做好准备。
 {.is-success}

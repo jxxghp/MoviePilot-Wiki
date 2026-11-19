@@ -2,7 +2,7 @@
 title: MCP Server
 description: 在第三方 Agent 工具中使用 MoviePilot MCP
 published: 1
-date: 2026-05-07T12:00:00.000Z
+date: 2026-11-19T06:47:21.684Z
 tags:
 editor: markdown
 dateCreated: 2026-05-07T12:00:00.000Z
@@ -81,7 +81,7 @@ curl -H "X-API-KEY: YOUR_API_TOKEN" \
 
 # 通用配置模板
 
-很多 Agent 工具都支持类似 `mcpServers` 的 JSON 配置。只要该工具支持远程 HTTP MCP，通常都可以直接套用下面这组信息。
+下面展示常见 `mcpServers` 配置形状，便于对应 URL 与认证头；不同客户端和版本的配置结构可能不同，实际字段以客户端官方文档为准。MoviePilot 的连接参数以上表为准。
 
 ## 推荐写法：请求头认证
 
@@ -210,12 +210,26 @@ MoviePilot 暴露给 MCP 的工具数量会随着版本变化，也可能因为�
 
 ```bash
 moviepilot tool list
-moviepilot tool show search_torrents
-moviepilot tool show add_subscribe
+moviepilot tool show moviepilot_api
 ```
 
-> 出于安全考虑，MoviePilot 不会通过 MCP 暴露 `execute_command`、`search_web`、`edit_file`、`write_file`、`read_file` 这类本地高风险工具。第三方 Agent 拿到的是 MoviePilot 业务能力相关的工具集，而不是系统级任意读写执行权限。隐藏这些本地高风险工具只是收敛 MCP 暴露面，不代表 `API_TOKEN` 支持按用户划分的细粒度权限。
+> MCP 不开放 `execute_command`、任意本地文件读写和 `read_skill` 等内部工具。但这个入口仍具有管理员级业务能力，隐藏内部工具不等于细粒度权限隔离。每次请求都需认证，实例中还必须存在有效的超级管理员；写操作的用户授权由调用方取得，不应假设会出现内置 Agent 的确认框。
 {.is-info}
+
+## 当前主要入口
+
+| 工具 | 用途 |
+| --- | --- |
+| `moviepilot_api` | 媒体、订阅、搜索、下载、整理、站点、插件、设置、调度和工作流等白名单业务操作 |
+| `downloader_operation` | 已配置下载器的原生高级动作 |
+| `mediaserver_operation` | 已配置媒体服务器的库、扫描、播放等原生动作 |
+| `database_operation` | 明确范围内的数据库查询与已授权修复 |
+
+`moviepilot_api` 按 `operation_id` 选择 Schema 分支，其余三个入口按 `action` 选择。不要把旧 `search_torrents`、`add_subscribe` 等工具名直接提交给新版实例，也不要猜测任意 REST 路径都在白名单内。
+
+模型客户端无法处理大型 Schema 时，可增加 `X-MCP-Schema-Mode: compact`，再从 `GET /api/v1/mcp/tools/{tool_name}/schema` 取得所需完整合同。紧凑模式只改变发现时的展示，不放宽实际参数和权限校验。
+
+REST 辅助端点返回 `success`、`message`、`data` 包装；`/api/v1/mcp` 使用 JSON-RPC，工具内还可能返回业务失败。分别检查 HTTP、协议、业务和任务最终结果，避免因只看 200 就重复提交写操作。完整示例与错误处理见[主仓 MCP 文档](https://github.com/jxxghp/MoviePilot/blob/v3/docs/mcp-api.md)。
 
 # 常见问题
 

@@ -1,0 +1,15 @@
+{
+  "verified_on": "2026-11-19",
+  "repositories": {
+    "MoviePilot": {"branch": "v3", "revision": "0c7932f3f779464a774c8498fd011da96cf535e4"},
+    "MoviePilot-Frontend": {"branch": "v3", "revision": "45bbacff41a88a094ab5c113507ed6ac20446e2c"},
+    "MoviePilot-App": {"branch": "main", "revision": "bf05005705edbe095fefb5f251e184d68c21da34"},
+    "MoviePilot-Plugins": {"branch": "main", "revision": "d35d6181126a99f7255c27bcd28a0596e6b15c1b"},
+    "MoviePilot-Build": {"branch": "main", "revision": "9c38811a9c83bb026bddb9ea907c7e502ed55b6e"},
+    "MoviePilot-Resources": {"branch": "main", "revision": "c2bbe2b7eb065c9f163ae66a92cae72e1b8fd07b"},
+    "MoviePilot-Rust": {"branch": "v3", "revision": "e1818c7c8402948a3afdba485075f02a7052d5d5"},
+    "MoviePilot-Server": {"branch": "main", "revision": "fbe5e93c5b7ad24321febdabba71a9ae1674f972"},
+    "MoviePilot-OCR": {"branch": "main", "revision": "984aae82908a053b278a43ad8006d839a775086d"},
+    "MoviePilot-Web": {"branch": "main", "revision": "fe0c358e1caf229a164e4105e29e4118989d979d"}
+  }
+}

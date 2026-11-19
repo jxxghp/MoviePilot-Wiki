@@ -2,13 +2,15 @@
 title: 周边项目
 description: MoviePilot 相关的客户端与扩展项目
 published: 1
-date: 2026-07-17T09:04:24.000Z
+date: 2026-11-19T06:47:21.684Z
 tags:
 editor: markdown
 dateCreated: 2026-07-17T09:04:24.000Z
 ---
 
 # 周边项目
+
+官方 iOS App、网页与 PWA 的安装、连接、通知和系统小组件，统一见[iOS 与 PWA](/mobile)。各官方仓库的职责见[项目与功能地图](/projects)。
 
 MoviePilot 社区提供了适用于不同平台和使用场景的周边项目，可根据需要选择使用。
 

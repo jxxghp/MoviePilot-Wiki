@@ -2,20 +2,35 @@
 title: 升级
 description: 自动升级新版本
 published: 1
-date: 2024-11-05T11:35:48.960Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2024-05-30T09:56:06.097Z
 ---
 
-> **开启自动升级** 需要你的网络能稳定连接Github，否则可能会导致系统长时间无法启动完成，或者下载文件时间过长，文件未下载完成时如中断退出则可能会造成文件损坏系统无法启动。
+> 升级前先做[数据库与配置备份](/backup)。普通重启、稳定版应用内升级、Docker 镜像重建和开发模式更新是不同操作；先确认当前部署方式与目标版本。
 {.is-warning}
+
+# V3 日常更新
+
+| 操作 | 当前行为 |
+| --- | --- |
+| 普通启动或重启 | 启动当前已安装版本，不代表已经检查和安装更新 |
+| `MOVIEPILOT_AUTO_UPDATE=true` | 后台检查稳定 Release 并提醒，不自动下载或安装 |
+| `AUTO_UPDATE_RESOURCE=true` | 独立检查站点资源，有更新后按页面确认下载与重启安装 |
+| 页面确认升级 | 先下载并校验，准备完成后再次确认重启应用 |
+| 拉取并重建 Docker 镜像 | 同时刷新镜像内系统依赖及打包环境，保留挂载数据 |
+| 本地 `moviepilot update` | 按参数与模式更新后端、配套前端及资源 |
+
+后台稳定版本检查周期为六小时。主程序与资源都需要更新时，当前流程会准备主程序、配套前端和资源，全部就绪后再重启一次；下载完成不代表已安装。
+
+`MOVIEPILOT_UPDATE_DEV` 是独立布尔开关：Docker 启动时跟踪开发分支，本地 CLI 则影响手动更新的默认模式。普通用户不必开启；旧 `dev/release` 配置会兼容转换，不再按旧枚举填写。
 
 ## V3 切换说明
 
 V3 是独立主版本，但兼容 V2 的配置和数据库数据；未使用 V3 变更合同的插件可直接复用，需要适配的插件应安装开发者提供的 V3 专用版本。从 V2 切换到 V3 不需要迁移用户数据，继续映射原 V2 的 `/config` 目录并复用原数据库即可；切换前请先完整备份。这里的兼容是指 **V2 数据库可由 V3 向前升级**：V3 首次启动并完成数据库升级后，不能直接换回 V2 镜像，必须先按下文执行数据库降级。详见 [V3 版本说明](/v3) 和插件仓库的 [V2 插件迁移到 V3](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/V3_Plugin_Adaptation.md)。
 
-V2 容器的内建重启升级不会直接跨主版本升级到 V3。需要先将镜像改为 V3 镜像，重新拉取最新镜像并重建容器。V3 启动后会使用 `resources.v3` 和 `user.sites.v3.bin` 站点资源。
+> V2 容器的内建重启升级不会直接跨主版本升级到 V3。需要先将镜像改为 V3 镜像，重新拉取最新镜像并重建容器。V3 启动后会使用 `resources.v3` 和 `user.sites.v3.bin` 站点资源。
 {.is-danger}
 
 ### V3 Docker 镜像
@@ -135,40 +150,31 @@ docker compose logs -f moviepilot
 
 
 
-#### 重启自动升级
+#### V3 应用内升级
 
-> **注意：** V1版本重启不会自动升级到V2版本。V1版本升级到V2版本需要重新配置，无法复用旧版本的配置文件、数据库文件等。
-{.is-warning}
+开启稳定版检查后，在页面确认下载，等待下载与校验完成，再确认重启。V3 Web 内建重启由容器内 supervisor 完成，不要求映射 Docker Socket。
 
-根据 [配置参考](/configuration) 设置环境变量`MOVIEPILOT_AUTO_UPDATE`为`true`或`release`，`AUTO_UPDATE_RESOURCE`为`true`，开启重启自动升级以及资源包自动更新。此时只需要重启docker容器，或者在WEB管理界面中选择重启菜单（参考 [安装指引](docker.sock) 映射了`docker.sock`的前提下），即可自动重启升级到已发布的最新版本。
-
-`MOVIEPILOT_AUTO_UPDATE` 配置说明：
-- `true`/`release`：自动升级到已发布的最新版本。
-- `false`：不开启重启自动升级。
-- `dev`：自动升级到未发布的最新代码（仅限开发人员使用）。
-
-`AUTO_UPDATE_RESOURCE`配置说明：当该值为`true`时，会自动检测 [资源包项目](https://github.com/jxxghp/MoviePilot-Resources) 是否有更新，如有则会自动下载升级相应的资源文件，独立于`MOVIEPILOT_AUTO_UPDATE`生效，应用于不想升级主程序版本，但想让站点索引及站点认证数据保持最新的场景。当后续主程序功能建设稳定后，更新频度会大幅降低，此时可能只更新资源包但不更新主程序，**建议打开此开关**。
+如果镜像系统基线过旧、系统依赖需要更新，或容器环境已经不完整，请直接拉取并重建 V3 镜像。应用内安装包不能代替所有底层镜像更新。
 
 #### 手动升级
 
-- 使用docker-compose时，使用以下命令更新到最新境像:
+在 Compose 文件所在目录执行，`moviepilot` 为服务名：
 
 ```bash
-docker-compose pull jxxghp/moviepilot-v2:latest
-docker-compose up --force-recreate -d
-```
-- 手动更新镜像到最新版本，**更新完成后需要重置容器才能应用最新镜像**。
-```bash
-docker pull jxxghp/moviepilot-v2:latest
+docker compose pull moviepilot
+docker compose up --force-recreate -d moviepilot
+docker compose logs --tail 100 moviepilot
 ```
 
-不同的docker管理器重置容器的操作方式不同，`群晖docker`可直接在右键菜单中找到`重置`选项；`portainer`为在容器详情中点击`重建`；在正常映射了`/config`目录的前提下，重置/重建容器不会导致配置丢失。
+先确认 `image` 指向所需 V3 镜像，且 `/config`、浏览器内核与媒体挂载保留。其他管理器使用其拉取并重建功能；单独 `docker pull` 不会替换运行中的容器。
+
+#### V1、V2 历史行为
+
+旧版的自动更新与 Docker Socket 约定不作为 V3 操作依据。V1 升到 V2 不能复用全部配置与数据库；V2 切换 V3 请按本页上方流程。不要为跨主版本升级反复点击普通重启。
 
 ### 本地 CLI <i class="mdi mdi-console"></i>
 
-本地 CLI 安装模式不依赖 Docker 自动升级机制，请直接使用 `moviepilot update ...` 命令更新。
-
-推荐流程：
+先备份，再停止并显式更新：
 
 ```shell
 moviepilot stop
@@ -176,29 +182,9 @@ moviepilot update all
 moviepilot start
 ```
 
-也可以分开更新：
+默认稳定模式按后端声明选择配套前端。需要明确覆盖开发模式时可用 `moviepilot update all --no-dev`；只更新某一部分用 `update backend` 或 `update frontend`。
 
-```shell
-moviepilot update backend
-moviepilot update frontend
-moviepilot update all --skip-resources
-```
-
-指定版本示例：
-
-```shell
-moviepilot update backend --ref v2.9.31
-moviepilot update frontend --frontend-version v2.9.31
-```
-
-说明：
-
-- `update backend` 会更新本地 Git 仓库并重新安装后端依赖
-- `update frontend` 会下载并替换前端 release
-- `update all` 会同时更新后端、前端，并默认同步资源文件
-- 如果当前仓库存在已跟踪源码改动，更新命令会停止，避免覆盖本地修改
-- 通过 `moviepilot start` 管理起来的本地实例，现已支持系统内置重启；但程序升级仍建议显式执行 `moviepilot update ...`
-
+`MOVIEPILOT_UPDATE_DEV`、同版本前端重建、源码改动确认与固定版本参数见[本地 CLI](/cli)。确认清除已跟踪源码修改前，先保存自己的工作。
 
 ### Synology套件 <i class="mdi mdi-linux"></i>
 

@@ -1,8 +1,8 @@
 ---
 title: 使用腾讯云cdn实现企业微信反向代理
-description: 
+description: 历史教程：使用腾讯云 CDN 转发企业微信接口
 published: 1
-date: 2024-08-21T04:43:12.276Z
+date: 2026-11-19T06:47:21.684Z
 tags: 
 editor: markdown
 dateCreated: 2024-08-21T04:36:55.554Z
