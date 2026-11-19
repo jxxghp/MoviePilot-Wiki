@@ -1,8 +1,8 @@
 {
-"event_id":36418045185,
+"event_id":36590802522,
 "repository":"jxxghp/MoviePilot",
 "schema":1,
-"synced_at":"2026-11-18T00:59:02Z",
+"synced_at":"2026-11-19T00:26:26Z",
 "items":{
 "60":{"id":51367628,"kind":"issue","login":"paysenyu","security":false},
 "62":{"id":129346715,"kind":"issue","login":"gravitation-ch","security":false},
@@ -3555,6 +3555,7 @@
 "7136":{"id":160988576,"kind":"pr","login":"InfinityPacer","security":true},
 "7137":{"id":160988576,"kind":"pr","login":"InfinityPacer","security":true},
 "7139":{"id":175718726,"kind":"issue","login":"MeikleHub","security":false},
+"7140":{"id":191116909,"kind":"issue","login":"irab-liu","security":false},
 "7156":{"id":20766799,"kind":"issue","login":"Monk15721285","security":false},
 "7158":{"commit":"https://github.com/jxxghp/MoviePilot/commit/4d32f25fe4eca2a74dcfe29c8f7e5db7105200c8","id":31338729,"kind":"issue","login":"dawei233","security":false},
 "7160":{"id":47934785,"kind":"issue","login":"xpf01","security":false},
@@ -3660,6 +3661,14 @@
 "7426":{"id":66826612,"kind":"issue","login":"JaylenMar","security":false},
 "7432":{"id":82438433,"kind":"issue","login":"montrush","security":false},
 "7433":{"commit":"https://github.com/jxxghp/MoviePilot/commit/7a030f5b21931b5e21ee5d84f03db6053f3b1694","id":36758834,"kind":"issue","login":"Robin-KY","security":false},
-"7437":{"id":43510055,"kind":"issue","login":"CHANTXU64","security":false}
+"7437":{"id":43510055,"kind":"issue","login":"CHANTXU64","security":false},
+"7444":{"commit":"https://github.com/jxxghp/MoviePilot/commit/ea4d3cadac747988ad1c7a712d16345f8a7026d9","id":89681733,"kind":"issue","login":"wy19xx","security":false},
+"7446":{"id":61933764,"kind":"issue","login":"Daveccx","security":false},
+"7450":{"id":56748277,"kind":"issue","login":"lichenglongjob","security":false},
+"7451":{"id":298837715,"kind":"issue","login":"ykfc-cpu","security":false},
+"7457":{"id":32502941,"kind":"issue","login":"qin9125","security":false},
+"7458":{"id":142661747,"kind":"issue","login":"iamchq","security":false},
+"7460":{"id":191116909,"kind":"issue","login":"irab-liu","security":false},
+"7461":{"id":28349503,"kind":"issue","login":"bephbin51695","security":false}
 }
 }
