@@ -151,6 +151,7 @@ dateCreated: 2024-06-11T22:35:11.803Z
 - https://github.com/ReelCoreHQ/moviepilot-plugin-colapt
 - https://github.com/Board-King/MoviePilot-ViewingAssistant-Market
 - https://github.com/Smart-zsw/MoviePilot-Plugins
+- https://github.com/workroom2008/MoviePilot-Plugins
 - https://github.com/bonnyandsky/MoviePilot-Plugins
 <!-- plugin-market-repos:end -->
 
