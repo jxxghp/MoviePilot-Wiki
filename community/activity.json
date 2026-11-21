@@ -1,8 +1,8 @@
 {
-"event_id":36716051827,
+"event_id":36875864979,
 "repository":"jxxghp/MoviePilot",
 "schema":1,
-"synced_at":"2026-11-20T00:39:54Z",
+"synced_at":"2026-11-21T23:23:15Z",
 "items":{
 "60":{"id":51367628,"kind":"issue","login":"paysenyu","security":false},
 "62":{"id":129346715,"kind":"issue","login":"gravitation-ch","security":false},
@@ -3667,6 +3667,7 @@
 "7446":{"id":61933764,"kind":"issue","login":"Daveccx","security":false},
 "7450":{"id":56748277,"kind":"issue","login":"lichenglongjob","security":false},
 "7451":{"id":298837715,"kind":"issue","login":"ykfc-cpu","security":false},
+"7456":{"id":61725402,"kind":"issue","login":"tianiue","security":false},
 "7457":{"id":32502941,"kind":"issue","login":"qin9125","security":false},
 "7458":{"id":142661747,"kind":"issue","login":"iamchq","security":false},
 "7460":{"id":191116909,"kind":"issue","login":"irab-liu","security":false},
@@ -3679,6 +3680,14 @@
 "7482":{"id":142661747,"kind":"issue","login":"iamchq","security":false},
 "7483":{"id":23629616,"kind":"issue","login":"xlmc","security":false},
 "7484":{"commit":"https://github.com/jxxghp/MoviePilot/commit/3be0be45a780750d20f0d14d254e816f97c91104","id":142661747,"kind":"issue","login":"iamchq","security":false},
-"7488":{"commit":"https://github.com/jxxghp/MoviePilot/commit/50d41664ee9266880174556592e6f0db972cbe8d","id":142661747,"kind":"issue","login":"iamchq","security":false}
+"7488":{"commit":"https://github.com/jxxghp/MoviePilot/commit/50d41664ee9266880174556592e6f0db972cbe8d","id":142661747,"kind":"issue","login":"iamchq","security":false},
+"7493":{"id":93302908,"kind":"issue","login":"MountainLee8527","security":false},
+"7494":{"id":75433232,"kind":"issue","login":"sal19870615","security":false},
+"7497":{"id":93302908,"kind":"issue","login":"MountainLee8527","security":false},
+"7500":{"id":176053947,"kind":"issue","login":"x421637707","security":false},
+"7502":{"id":123813129,"kind":"issue","login":"xxtyyq","security":false},
+"7504":{"id":142661747,"kind":"issue","login":"iamchq","security":false},
+"7508":{"id":25105540,"kind":"issue","login":"wind306","security":false},
+"7510":{"commit":"https://github.com/jxxghp/MoviePilot/commit/9e0ad7df27a654de3d4eb18891213576db15b746","id":78333781,"kind":"issue","login":"whiteki08","security":false}
 }
 }
