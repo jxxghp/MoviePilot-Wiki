@@ -2,7 +2,7 @@
 title: 配置项索引
 description: 从 V3 源码生成的部署配置类型、默认值与说明
 published: 1
-date: 2026-11-19T12:32:14+08:00
+date: 2026-11-24T14:14:35+08:00
 tags: 配置, 参考, V3
 editor: markdown
 dateCreated: 2026-11-19T00:00:00.000Z
@@ -10,7 +10,7 @@ dateCreated: 2026-11-19T00:00:00.000Z
 
 # 阅读方法
 
-本页共 **274** 个配置项，按 **36** 组列出。配置方法先看[配置参考](/configuration)。
+本页共 **280** 个配置项，按 **36** 组列出。配置方法先看[配置参考](/configuration)。
 下载器、媒体服务器、目录、通知渠道等结构化设置不属于这份标量配置清单，应在对应界面维护。
 
 窄屏可横向滚动表格查看默认值和说明，也可使用浏览器查找定位配置名。
@@ -18,7 +18,7 @@ dateCreated: 2026-11-19T00:00:00.000Z
 > 默认值是源码声明，不代表当前实例生效值；环境变量、app.env、secret、兼容转换与运行环境会影响最终结果。空值和内置密钥不会在本页展开。
 {.is-info}
 
-源码：[MoviePilot `0c7932f3f779`](https://github.com/jxxghp/MoviePilot/tree/0c7932f3f779464a774c8498fd011da96cf535e4)。
+源码：[MoviePilot `3a519c39bbd7`](https://github.com/jxxghp/MoviePilot/tree/3a519c39bbd7a58480cf23ef08bd5c396c5e95fd)。
 本页由 `scripts/docs/generate_configuration.py` 静态生成，不导入后端、不读取 app.env，也不访问真实数据库。
 
 ## 分组导航
@@ -102,6 +102,9 @@ dateCreated: 2026-11-19T00:00:00.000Z
 | `PASSKEY_REQUIRE_UV` | `bool` | `true` | PassKey 是否强制用户验证（生物识别等） |
 | `SECURITY_IMAGE_DOMAINS` | `list[str]` | `["image.tmdb.org", "images.tmdb.org", "static-mdb.v.geilijiasu.com", "bing.com", "doubanio.com", "lain.bgm.tv", "bgm.tv", "bangumi.tv", "bangumi.lol", "raw.githubusercontent.com", "github.com", "avatars.githubusercontent.com", "thetvdb.com", "cctvpic.com", "iqiyipic.com", "hdslb.com", "cmvideo.cn", "ykimg.com", "qpic.cn", "anilist.co", "coverartarchive.org", "archive.org", "theaudiodb.com", "commons.wikimedia.org", "upload.wikimedia.org"]` | 允许的图片缓存域名 |
 | `SECURITY_IMAGE_SUFFIXES` | `list[str]` | `[".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif"]` | 允许的图片文件后缀格式 |
+| `VAPID_PRIVATE_KEY` | `Optional[str]` | 未设置 | Web Push VAPID 私钥（base64url 编码的 P-256 私钥），留空时使用运行期内置默认值；需与 VAPID_PUBLIC_KEY 成对配置 |
+| `VAPID_PUBLIC_KEY` | `Optional[str]` | 未设置 | Web Push VAPID 公钥（base64url 编码的未压缩 P-256 公钥），留空时使用运行期内置默认值；需与 VAPID_PRIVATE_KEY 成对配置 |
+| `VAPID_SUBJECT` | `Optional[str]` | 未设置 | Web Push VAPID 联系主体（mailto: 或 https:// 地址），留空时默认使用超级管理员邮箱地址 |
 
 # 数据库
 
@@ -205,6 +208,7 @@ dateCreated: 2026-11-19T00:00:00.000Z
 | `OCR_HOST` | `str` | `"https://movie-pilot.org"` | OCR服务器地址，用于识别站点验证码 |
 | `SITEDATA_REFRESH_INTERVAL` | `int` | `6` | 站点数据刷新间隔（小时） |
 | `SITE_MESSAGE` | `bool` | `true` | 读取和发送站点消息 |
+| `SITE_USER_AGENT` | `Optional[str]` | 未设置 | 站点默认User-Agent，站点未单独配置时使用；留空则使用全局默认User-Agent |
 
 # CookieCloud
 
@@ -370,6 +374,7 @@ dateCreated: 2026-11-19T00:00:00.000Z
 | `MUSIC_METADATA_TO_SIMPLIFIED` | `bool` | `true` | 是否将识别到的音乐标题、艺术家、专辑等标准元数据转换为简体中文 |
 | `MUSIC_RELEASE_REGION_PRIORITY` | `str` | `"CN,TW,HK"` | MusicBrainz 发行地区优先级，按 ISO 3166-1 两位代码从高到低排列 |
 | `MUSIC_RELEASE_SCRIPT_PRIORITY` | `str` | `"Hans,Hant,Latn"` | MusicBrainz 发行文字字形优先级，按 ISO 15924 四位代码从高到低排列 |
+| `MUSIC_TRACK_MATCH` | `str` | `"strict"` | 自动整理音乐专辑时的曲目对齐方式：strict 严格校验、fallback_ignore_duration 严格校验失败时回落忽略时长、ignore_duration 忽略时长校验 |
 | `THEAUDIODB_API_KEY` | `str` | 内置值（不展示） | TheAudioDB API Key，默认使用官方公开的免费 V1 Key，可通过环境变量覆盖 |
 
 # 插件
@@ -408,6 +413,7 @@ dateCreated: 2026-11-19T00:00:00.000Z
 | `AI_AGENT_GLOBAL` | `bool` | `false` | 合局AI智能体 |
 | `AI_AGENT_HIDE_ENTRY` | `bool` | `false` | 是否隐藏前端全局智能体入口 |
 | `AI_AGENT_JOB_INTERVAL` | `int` | `0` | AI智能体定时任务检查间隔（小时），0为不启用 |
+| `AI_AGENT_KNOWLEDGE_ENABLE` | `bool` | `true` | 是否允许 Agent 使用 MoviePilot Server 的中心知识工具 |
 | `AI_AGENT_OUTPUT_LANGUAGE` | `str` | `"zh-CN"` | 内置智能助手输出语言，默认使用简体中文 |
 | `AI_AGENT_PET` | `str` | 空字符串 | 默认助手形象，格式为 插件ID:形象key，留空使用内置机器人；用户个人选择优先 |
 | `AI_AGENT_RETRY_TRANSFER` | `bool` | `false` | AI智能体自动重试整理失败记录开关 |
@@ -435,7 +441,7 @@ dateCreated: 2026-11-19T00:00:00.000Z
 | `LLM_MAX_TOOLS` | `int` | `0` | LLM工具选择中间件最大工具数量，0为不启用工具选择中间件 |
 | `LLM_MEMORY_RETENTION_DAYS` | `int` | `1` | 内存记忆保留天数 |
 | `LLM_MODEL` | `str` | `"deepseek-v4-flash"` | LLM模型名称 |
-| `LLM_PROVIDER` | `str` | `"deepseek"` | LLM提供商（支持内置 provider，以及从 models.dev 动态补充的平台） |
+| `LLM_PROVIDER` | `str` | `"deepseek"` | LLM提供商（支持内置主流厂商及通用 OpenAI / Anthropic 兼容入口） |
 | `LLM_SUPPORT_AUDIO_INPUT` | `bool` | `false` | 是否启用音频输入，开启后用户语音会先转写为文本再进入 Agent |
 | `LLM_SUPPORT_AUDIO_OUTPUT` | `bool` | `false` | 是否启用音频输出，开启后 Agent 可在支持渠道发送语音回复 |
 | `LLM_SUPPORT_IMAGE_INPUT` | `bool` | `true` | LLM是否支持图片输入，开启后消息图片会按多模态输入发送给模型 |
@@ -520,6 +526,6 @@ dateCreated: 2026-11-19T00:00:00.000Z
 
 | 源文件 | SHA-256 |
 | --- | --- |
-| `app/application/settings/resources/system_settings_catalog.json` | `510065353a9717f66cbbb0018700e458a57ad1edecc90f2965708734baffa447` |
-| `app/runtime/config.py` | `8b8e9faeb8e3a56d73ab3c1cebfdf0a9f7f507c09a07174390e6c0ba51012189` |
+| `app/application/settings/resources/system_settings_catalog.json` | `197689301bee8e4f4621fd925504a22e378c7dd12fa90a24eabfda2c05863e10` |
+| `app/runtime/config.py` | `24fd0d2f985656d789480915a34619a79813154e0681b26666e40bb014e76434` |
 | `app/runtime/log.py` | `3ce169afd4a29f264ec638cd9faa47b3a3c30a33879733715a9cf8335159935c` |
