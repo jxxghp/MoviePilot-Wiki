@@ -2,7 +2,7 @@
 title: 开发入门
 description: 后端、前端、插件、资源、Rust、App 与外围服务的开发文档入口
 published: 1
-date: 2026-11-19T06:47:21.684Z
+date: 2026-11-27T06:18:00.000Z
 tags: 开发, 贡献
 editor: markdown
 dateCreated: 2026-11-19T00:00:00.000Z
@@ -47,7 +47,7 @@ uv sync --locked
 
 新插件面向 V3，优先使用 `app.sdk` 稳定合同；插件实现、索引、版本与依赖声明必须同步。入口见[插件开发](/plugindev)。
 
-插件的完整教程、生命周期、数据库访问、事件、通知、存储、工作流、Agent 与前端扩展统一在[插件开发指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Plugin_Development.md)及[FAQ](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/FAQ.md)维护。
+插件的完整教程、生命周期、数据库访问、事件、通知、存储、工作流、Agent、桌面小组件扩展与前端远程组件统一在[插件开发指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Plugin_Development.md)及[FAQ](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/FAQ.md)维护；涉及移动端 App 原生桥接、三端桌面小组件定制或原生后台音频时，配合参阅 [App 插件开发指南](https://github.com/jxxghp/MoviePilot-App/blob/v2/docs/plugin-development-guide.md)与[原生音频与播控指南](https://github.com/jxxghp/MoviePilot-App/blob/v2/docs/plugin-audio-and-status-bar-guide.md)。
 
 # 站点、认证与资源
 

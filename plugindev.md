@@ -2,7 +2,7 @@
 title: 插件开发
 description: 开发插件为MoviePilot添加功能
 published: 1
-date: 2026-08-15T08:45:08.000Z
+date: 2026-11-27T06:18:00.000Z
 tags:
 editor: markdown
 dateCreated: 2024-05-30T09:48:59.557Z
@@ -27,6 +27,12 @@ MoviePilot 当前插件开发目标是 V3。完整开发合同统一维护在
   [仓库与发布指南](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/Repository_Guide.md)
 - 消息、定时服务、缓存、工作流、Agent、存储等具体能力：
   [插件常见问题](https://github.com/jxxghp/MoviePilot-Plugins/blob/main/docs/FAQ.md)
+- Vue 模块联邦远程组件与前端宿主 SDK：
+  [模块联邦指南](https://github.com/jxxghp/MoviePilot-Frontend/blob/v3/docs/module-federation-guide.md)、[插件前端 SDK](https://github.com/jxxghp/MoviePilot-Frontend/blob/v3/docs/plugin-frontend-sdk.md)
+- 移动端 App 插件容器、最小化悬浮胶囊、三端桌面小组件（预设形态与声明式自定义布局）及原生设备能力：
+  [App 插件开发指南](https://github.com/jxxghp/MoviePilot-App/blob/v2/docs/plugin-development-guide.md)、[后端小组件协议说明](https://github.com/jxxghp/MoviePilot/blob/v3/docs/widgets.md)
+- Vue 插件原生后台音频、实时频谱分析与状态栏/锁屏/正在播放小组件联动：
+  [App 原生音频与状态栏播控指南](https://github.com/jxxghp/MoviePilot-App/blob/v2/docs/plugin-audio-and-status-bar-guide.md)
 
 旧 `app.core.*`、`app.helper.*`、`app.utils.*` 等已登记导入在 V3 中仍可兼容；
 Debug 模式会提示稳定 SDK 迁移路径。不要为消除警告复制宿主实现，具体处理按迁移
